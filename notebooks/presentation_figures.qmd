@@ -1,7 +1,7 @@
 ---
 title: Vancouver Island
 author: Evan Muise
-bibliography: references.bib
+bibliography: .\references.bib
 ---
 
 # setup always run
@@ -215,7 +215,7 @@ Make the study area map Caption: Location of Vancouver Island's protected areas 
 vi_ext <- ext(vi_mainland)
 
 # download vectors of NA coutnries for the inset map
-cad <- geodata::gadm("Canada", level = 1, path = "scratch")
+cad <- geodata::gadm("Canada", level = 1, path = scratch)
 
 world <- geodata::world(path = "scratch") %>%
   project("epsg:3347")

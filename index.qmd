@@ -67,7 +67,6 @@ abstract: ABSTRACT
 key-points:   
   - KP
 date: last-modified 
-# bibliography: references.bib
 bibliography: [references.bib, packages.bib]
 container-title: Conservation Biology 
 number-sections: true 

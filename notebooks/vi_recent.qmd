@@ -1,7 +1,6 @@
 ---
 title: Vancouver Island
 author: Evan Muise
-bibliography: references.bib
 ---
 
 # setup always run

@@ -1,5 +1,7 @@
 project:
   type: manuscript
+  render: 
+    - index.qmd
 
 execute:
   freeze: auto
@@ -12,6 +14,7 @@ format:
   docx: default
   jats: default
   agu-pdf: default
+
 
 
 
