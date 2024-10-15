@@ -672,7 +672,7 @@ ABSTRACT
     method. * indicates a Tukey HSD p-value &lt; 0.05. ** indicates a
     Tukey HSD p-value &lt; 0.01. *** indicates a Tukey HSD p-value &lt;
     0.001. **** indicates a Tukey HSD p-value &lt; 0.0001.</p></caption>
-    <graphic mimetype="image" mime-subtype="png" xlink:href="strathcona/figures/mahal_boxplot_sig.png" />
+    <graphic mimetype="image" mime-subtype="png" xlink:href="strathcona/figures/indiv_boxplots.png" />
   </fig>
 </sec>
 <sec id="discussion">
@@ -702,7 +702,7 @@ ABSTRACT
   impacted by medium to high levelsof anthropogenic pressure, while
   productivity metrics were not influenced by cumulative anthropogenic
   pressures in this region
-  <xref alt="Figure 3" rid="fig-boxplot-overall">Figure 3</xref>. In
+  (<xref alt="Figure 3" rid="fig-boxplot-overall">Figure 3</xref>). In
   tropical forests, Bourgoin et al.
   (<xref alt="2024" rid="ref-bourgoin2024" ref-type="bibr">2024</xref>)
   found that anthropogenic forest degradation influenced aboveground
@@ -720,7 +720,7 @@ ABSTRACT
   footprint). We further this research by assessing individual pressures
   on a multivariate metric of structural similarity to a high-quality
   reference state
-  <xref alt="Figure 4" rid="fig-boxplot-individual">Figure 4</xref>.</p>
+  (<xref alt="Figure 4" rid="fig-boxplot-individual">Figure 4</xref>).</p>
   <p>Anthropogenic effects on forest function are rarely examined. Here,
   we also examine how anthropogenic pressures influence similarity to
   high available energy and high energy variation forests, both
@@ -2391,7 +2391,7 @@ ABSTRACT
 </ref-list>
 </back>
 
-<sub-article article-type="notebook" id="nb-4-nb-article">
+<sub-article article-type="notebook" id="nb-2-nb-article">
 <front-stub>
 <title-group>
 <article-title>Cumulative and individual impacts of the human footprint
@@ -3038,7 +3038,7 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
   dissimilarity to ecosystems with high variation in energy
   availability.</p>
   <sec id="cell-fig-boxplot-individual-nb-article" specific-use="notebook-content">
-  <code language="r script">knitr::include_graphics(&quot;E:/Sync/Masters/04_vi_pristine/strathcona/figures/mahal_boxplot_sig.png&quot;)</code>
+  <code language="r script">knitr::include_graphics(&quot;E:/Sync/Masters/04_vi_pristine/strathcona/figures/indiv_boxplots.png&quot;)</code>
   <fig id="fig-boxplot-individual-nb-article">
     <caption><p>Figure 4: Boxplots of sigma similarity to the reference
     state in Strathcona Provincial Park by individual anthropogenic
@@ -3046,7 +3046,7 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
     method. * indicates a Tukey HSD p-value &lt; 0.05. ** indicates a
     Tukey HSD p-value &lt; 0.01. *** indicates a Tukey HSD p-value &lt;
     0.001. **** indicates a Tukey HSD p-value &lt; 0.0001.</p></caption>
-    <graphic mimetype="image" mime-subtype="png" xlink:href="strathcona/figures/mahal_boxplot_sig.png" />
+    <graphic mimetype="image" mime-subtype="png" xlink:href="strathcona/figures/indiv_boxplots.png" />
   </fig>
   </sec>
 </sec>
@@ -3077,7 +3077,7 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
   impacted by medium to high levelsof anthropogenic pressure, while
   productivity metrics were not influenced by cumulative anthropogenic
   pressures in this region
-  <xref alt="Figure 3" rid="fig-boxplot-overall-nb-article">Figure 3</xref>. In
+  (<xref alt="Figure 3" rid="fig-boxplot-overall-nb-article">Figure 3</xref>). In
   tropical forests, Bourgoin et al.
   (<xref alt="2024" rid="ref-bourgoin2024-nb-article" ref-type="bibr">2024</xref>)
   found that anthropogenic forest degradation influenced aboveground
@@ -3095,7 +3095,7 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
   footprint). We further this research by assessing individual pressures
   on a multivariate metric of structural similarity to a high-quality
   reference state
-  <xref alt="Figure 4" rid="fig-boxplot-individual-nb-article">Figure 4</xref>.</p>
+  (<xref alt="Figure 4" rid="fig-boxplot-individual-nb-article">Figure 4</xref>).</p>
   <p>Anthropogenic effects on forest function are rarely examined. Here,
   we also examine how anthropogenic pressures influence similarity to
   high available energy and high energy variation forests, both

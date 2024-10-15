@@ -78,17 +78,15 @@
 \makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
-\newsavebox\pandoc@box
-\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
-  \sbox\pandoc@box{#1}%
-  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
-  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
-  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
-  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
-  \else\usebox{\pandoc@box}%
-  \fi%
-}
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 % Set default figure placement to htbp
+\makeatletter
 \def\fps@figure{htbp}
 \makeatother
 % definitions for citeproc citations
@@ -172,6 +170,9 @@
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
 
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
 \usepackage{bookmark}
 
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
@@ -366,7 +367,7 @@ Vancouver Island, while fires are historically rare and low severity
 
 \centering{
 
-\includegraphics[width=6in,height=\textheight,keepaspectratio]{strathcona/figures/study_area.png}
+\includegraphics[width=6in,height=\textheight]{strathcona/figures/study_area.png}
 
 }
 
@@ -488,7 +489,7 @@ that strata in our analysis.
 
 \centering{
 
-\includegraphics[width=5.25in,height=\textheight,keepaspectratio]{figures/flow.drawio.png}
+\includegraphics[width=5.25in,height=\textheight]{figures/flow.drawio.png}
 
 }
 
@@ -563,7 +564,7 @@ anthropogenic pressures.
 
 \centering{
 
-\includegraphics[width=12in,height=\textheight,keepaspectratio]{strathcona/figures/mahal_boxplot_sig.png}
+\includegraphics[width=12in,height=\textheight]{strathcona/figures/mahal_boxplot_sig.png}
 
 }
 
@@ -592,7 +593,7 @@ variation in energy availability.
 
 \centering{
 
-\includegraphics[width=12in,height=\textheight,keepaspectratio]{strathcona/figures/mahal_boxplot_sig.png}
+\includegraphics[width=12in,height=\textheight]{strathcona/figures/indiv_boxplots.png}
 
 }
 
@@ -628,7 +629,7 @@ medium to high levels of anthropogenic pressures. Structural similarity
 to tall forests is also impacted by medium to high levelsof
 anthropogenic pressure, while productivity metrics were not influenced
 by cumulative anthropogenic pressures in this region
-Figure~\ref{fig-boxplot-overall}. In tropical forests, Bourgoin et al.
+(Figure~\ref{fig-boxplot-overall}). In tropical forests, Bourgoin et al.
 (2024) found that anthropogenic forest degradation influenced
 aboveground biomass and canopy height, however, they focus on edge
 effects, fire, and selective logging, rather than cumulative and
@@ -641,7 +642,7 @@ integrity index to identify forest stands of high ecological value (high
 structural quality; low anthropogenic footprint). We further this
 research by assessing individual pressures on a multivariate metric of
 structural similarity to a high-quality reference state
-Figure~\ref{fig-boxplot-individual}.
+(Figure~\ref{fig-boxplot-individual}).
 
 Anthropogenic effects on forest function are rarely examined. Here, we
 also examine how anthropogenic pressures influence similarity to high
