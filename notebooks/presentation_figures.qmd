@@ -1,0 +1,478 @@
+---
+title: Vancouver Island
+author: Evan Muise
+bibliography: references.bib
+---
+
+# setup always run
+
+Load Packages
+
+```{r}
+library(tidyverse)
+library(terra)
+library(sf)
+library(glue)
+library(tidyterra)
+library(polars)
+library(arrow)
+library(wdpar)
+library(patchwork)
+library(furrr)
+library(data.table)
+library(ggforce)
+library(sgsR)
+library(budR)
+```
+
+Set up folder structure
+
+```{r}
+base_data_loc <- here::here("strathcona")
+dir.create(base_data_loc, showWarnings = F)
+
+input_loc <- here::here("data", "rasters", "inputs")
+dir.create(input_loc, showWarnings = F)
+tab_loc <- here::here(base_data_loc, "data", "tabs")
+dir.create(tab_loc, showWarnings = F, recursive = T)
+
+scratch <- here::here("data", "scratch")
+dir.create(scratch, showWarnings = F)
+
+split_loc <- here::here(tab_loc, "split_strata")
+dir.create(split_loc, showWarnings = F)
+
+treat_loc <- here::here(tab_loc, "treatment_strata")
+dir.create(treat_loc, showWarnings = F)
+
+mahal_tab_loc <- here::here(tab_loc, "mahal")
+dir.create(mahal_tab_loc, showWarnings = F)
+
+mahal_ras_loc <- here::here(base_data_loc, "data", "rasters", "mahal")
+dir.create(mahal_ras_loc, showWarnings = F, recursive = T)
+
+nn_save_loc <- here::here(base_data_loc, "data", "rasters", "nn_dist")
+dir.create(nn_save_loc, showWarnings = F)
+
+shapefile_loc <- here::here(base_data_loc, "data", "shapefiles")
+dir.create(shapefile_loc, showWarnings = F)
+
+figure_loc <- here::here(base_data_loc, "figures")
+dir.create(figure_loc, showWarnings = F)
+```
+
+Map and plot themes
+
+```{r}
+map_theme <- theme_grey() + 
+  theme(panel.background = element_rect(fill = "white", colour = "black"),
+    panel.grid = element_line(colour = "#ebebeb"),
+    legend.position = "inside",
+    legend.position.inside = c(0.8, 0.8))
+
+plot_theme <- theme_bw() +
+  theme(panel.grid = element_blank())
+```
+
+
+```{r}
+all_df <- read_parquet("E:/Sync/Masters/04_vi_pristine/strathcona/data_backup_mindhi_included/tabs/all_data.parquet")
+
+strata_oi <- function(confound_correlation_filter = T) {
+  if (confound_correlation_filter) {
+    c("clim_MAP_bin", "DEM_bin", "slope_bin")
+  } else {
+    c(ends_with("bin"))
+  }
+} 
+
+
+forested_strata <- all_df %>%
+  filter(!is.na(forests)) %>%
+  unite(col = "strata", strata_oi(F), sep = "-")
+
+rm(all_df)
+```
+
+# histogram plot
+
+```{r}
+
+data <- forested_strata %>%
+  select(CumDHI:total_biomass) %>%
+  select(-MinDHI) %>%
+  slice_sample(n = 1000) %>%
+  pivot_longer(everything()) %>%
+  left_join(keys$continuous %>%
+              select(name = variable,
+                     label)) %>%
+  select(-name)
+
+quantiles <- data %>%
+  group_by(label) %>%
+  summarise(q90 = quantile(value, 0.90))
+
+quantil_hist <- data %>%
+  ggplot() +
+  geom_histogram(aes(x = value, y = after_stat(ncount))) +
+  facet_wrap(~fct_reorder(label, str_detect(label, "DHI")), scales = "free", ncol = 1) +
+  plot_theme +
+  geom_vline(data = quantiles, aes(xintercept = q90, colour = "90th Percentile"), lty = "dashed") +
+  theme(legend.position = "bottom") +
+  labs(x = "Value",
+       col = NULL,
+       y = "Percent") +
+  scale_y_continuous(labels = scales::label_percent())
+
+ggsave(here::here(figure_loc, "hist_quantiles.png"), plot = quantil_hist, height = 8, width = 6, dpi = 300)
+```
+
+# INSET MAP
+
+```{r}
+forests <- "E:/Sync/Masters/analysis_03_decay/data/rasters/forests.dat" %>%
+  rast()
+
+bcb_hres <- bcmaps::bc_bound_hres() %>%
+  vect()
+
+vi_mainland <- bcb_hres %>%
+  disagg() %>%
+  mutate(Shape_Area = expanse(.)) %>%
+  arrange(desc(Shape_Area)) %>%
+  filter(row_number() == 2)
+```
+
+```{r}
+forests_vi <- forests %>%
+  crop(vi_mainland, mask = T)
+
+names(forests_vi) <- "forests"
+
+vi_rast <- vi_mainland %>%
+  rasterize(forests_vi, field = 1, touches = T) %>%
+  trim()
+```
+
+```{r}
+pa_filt_loc <- here::here(shapefile_loc, "pa_filt.shp")
+
+if (!file.exists(pa_filt_loc)) {
+  cad_pa <- wdpa_fetch("CAN", download_dir = scratch)
+  
+  vi_pa <- cad_pa %>%
+    filter(st_geometry_type(.) != "MULTIPOINT") %>% # get rid of point PAs
+    vect() %>%
+    project(vi_mainland) %>%
+    crop(vi_mainland) %>%
+    janitor::clean_names() %>%
+    mutate(area = expanse(., unit = "ha"))
+  
+  pa_filt <- vi_pa  %>%
+    mutate(included = (iucn_cat %in% c("Ia", "Ib", "II", "IV") &
+                         area >= 100))
+  
+  # this filters it to just strathcona to test it
+  pa_filt <- vi_pa %>%
+    filter(str_detect(name, "Strath")) %>%
+    mutate(included = T)
+  
+  writeVector(pa_filt, pa_filt_loc, overwrite = T)
+}
+pa_filt <- vect(pa_filt_loc)
+  
+pa_rast <- pa_filt %>%
+  rasterize(vi_rast)
+
+names(pa_rast) <- "pa"
+```
+
+Download great lakes data
+
+```{r}
+url <- "https://www.sciencebase.gov/catalog/file/get/530f8a0ee4b0e7e46bd300dd"
+
+dest <- here::here(scratch, "great_lakes.zip")
+
+if (!file.exists(dest)) {
+  download.file(url, destfile = dest, mode = "wb")
+}
+
+unzip_dir <- here::here(scratch, "great_lakes")
+
+unzip(dest, exdir = unzip_dir)
+
+great_lakes <- list.files(unzip_dir, pattern = "hydro.*\\.shp$", recursive = T, full.names = T) %>%
+  map(vect) %>%
+  map(aggregate) %>%
+  vect() %>%
+  project("epsg:3347")
+```
+
+Make the study area map Caption: Location of Vancouver Island's protected areas that meet the inclusion criteria (IUCN categories Ia, Ib, II, and IV; \> 100 ha in size) for our study.
+
+```{r}
+vi_ext <- ext(vi_mainland)
+
+# download vectors of NA coutnries for the inset map
+cad <- geodata::gadm("Canada", level = 1, path = "scratch")
+
+world <- geodata::world(path = "scratch") %>%
+  project("epsg:3347")
+
+cad_ext <- cad %>%
+  project("epsg:3347") %>% 
+  ext()
+
+vi_box <- vi_ext %>% 
+  vect(crs = "epsg:3005") %>%
+  project("epsg:4437")
+  
+inset <- ggplot() +
+  geom_spatvector(data = world, fill = "#7f7f7f") +
+  geom_spatvector(data = cad %>% project("epsg:3347"), fill = "#b3b3b3") +
+  geom_spatvector(data = great_lakes, fill = "lightblue") +
+  geom_spatvector(data = bcb_hres, fill = "#e5e5e5") +
+  geom_spatvector(data = vi_box, col = "red", fill = "#00000000", linewidth = 1) +
+  #geom_spatvector(data = vi_mainland, col = "red") +
+  coord_sf(xlim = c(cad_ext$xmin, cad_ext$xmax),
+           ylim = c(cad_ext$ymin, cad_ext$ymax)) +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "white"),
+        axis.ticks = element_blank(),
+        axis.text = element_blank(),
+        plot.background = element_blank())
+
+
+```
+
+# variable maps
+
+```{r}
+hf <- "E:/Sync/Masters/04_vi_pristine/data/rasters/inputs/human_footprint.dat" %>%
+  rast()
+
+
+hf_vi <- ggplot() +
+  geom_spatraster(data = hf) +
+  scico::scale_fill_scico(palette = "bamako", na.value = "transparent") +
+  labs(fill = "Human Footprint") +
+  map_theme +
+  inset_element(
+    inset,
+    0,
+    0,
+    0.4,
+    0.4
+  )
+
+ggsave(here::here(figure_loc, "hf_vi.png"),
+       plot = hf_vi,
+       height = 6, width = 6,
+       dpi = 300)
+```
+
+```{r}
+dem <- "E:/Sync/Masters/04_vi_pristine/data/rasters/inputs/DEM.dat" %>%
+  rast()
+
+dem_vi <- ggplot() +
+  geom_spatraster(data = dem) +
+  #scico::scale_fill_scico(palette = "batlowK", na.value = "transparent") +
+  scale_fill_whitebox_c(na.value = "transparent") +
+  labs(fill = "Elevation (m)") +
+  map_theme
+
+dem_vi_inset <- dem_vi +
+  inset_element(
+    inset,
+    0,
+    0,
+    0.4,
+    0.4
+  )
+
+ggsave(here::here(figure_loc, "dem_vi.png"),
+       plot = dem_vi_inset,
+       height = 6, width = 6,
+       dpi = 300)
+```
+
+```{r}
+clim <- "E:/Sync/Masters/04_vi_pristine/data/rasters/inputs/clim_MAP.dat" %>%
+  rast()
+
+dem_vi <- ggplot() +
+  geom_spatraster(data = clim) +
+  scico::scale_fill_scico(palette = "batlowK", na.value = "transparent") +
+  labs(fill = "Mean Annual\nPrecipitation (mm)") +
+  map_theme +
+  inset_element(
+    inset,
+    0,
+    0,
+    0.4,
+    0.4
+  )
+
+ggsave(here::here(figure_loc, "map_vi.png"),
+       plot = dem_vi,
+       height = 6, width = 6,
+       dpi = 300)
+```
+
+# mahalanobis plots for presentation
+
+```{r}
+pca_on_cols <- function(group_name, cols) {
+  for_pca <- forested_strata %>% select({{cols}})
+  
+  pca_vi <- prcomp(for_pca, center = T, scale = T)
+  
+  vars <- apply(pca_vi$x, 2, var)
+  
+  props <- vars / sum(vars)
+  
+  n_comps <- (props > 0.01) %>% sum()
+  
+  pca_vi_scores <- pca_vi$x %>% as_tibble() %>%
+    .[, 1:n_comps]
+  
+  names(pca_vi_scores) <- glue("{group_name}_{1:n_comps}")
+  
+  pca_vi_scores
+}
+
+pca_str <- pca_on_cols("str",
+                       c(
+                         elev_p95,
+                         percentage_first_returns_above_2m,
+                         total_biomass,
+                         elev_cv
+                       ))
+
+str_pca <- bind_cols(forested_strata, pca_str) %>%
+  select(strata,
+         forests,
+         elev_cv:total_biomass,
+         starts_with("str"),
+         disturbance,
+         pa)
+```
+
+```{r}
+subset <- str_pca %>%
+  filter(strata == "4-3-3-4-2-1", forests == "coniferous") %>%
+  mutate(q90 = elev_p95 >= quantile(elev_p95, 0.90),
+         treat_q90 = q90 & pa == 1)
+
+(
+  notransform <- subset %>%
+    #slice_sample(n = 10000) %>%
+    ggplot(
+      aes(x = elev_p95, y = percentage_first_returns_above_2m, col = treat_q90)
+    ) +
+    geom_jitter(height = 5, width = 5) +
+    plot_theme +
+    scale_colour_manual(values = c("#00000025", "red"), name = "Reference State") +
+    labs(x = "Canopy Height", y = "Canopy Cover") +
+    theme(legend.position = "bottom")
+)
+
+
+ggsave(
+  here::here(figure_loc, "mahal_notransform.png"),
+  plot = notransform,
+  height = 6,
+  width = 6,
+  dpi = 300
+)
+
+treat <- subset %>%
+  filter(treat_q90)
+
+
+treat_centre <- treat %>%
+  select(str_1, str_2) %>%
+  summarize(across(everything(), mean))
+
+treat_sds <- treat %>%
+  select(str_1, str_2) %>%
+  summarize(across(everything(), sd))
+
+set.seed(69420)
+
+
+transform <- subset %>%
+  ggplot(aes(x = str_1, y = str_2)) +
+  geom_jitter(aes(col = treat_q90), height = 0.5, width = 0.5) +
+  plot_theme +
+  labs(x = "Structure PCA 1", y = "Structure PCA 2") +
+  scale_colour_manual(values = c("#00000025", "red"), name = "Reference State") +
+  theme(legend.position = "bottom")
+
+ggsave(here::here(figure_loc, "mahal_transform.png"),
+       plot = transform,
+       height = 6,
+       width = 6,
+       dpi = 300)
+
+
+set.seed(69420)
+transform_sd <- transform +
+  geom_point(
+    data = treat_centre,
+    col = "red",
+    fill = "red",
+    size = 5,
+    shape = 25
+  ) +
+  geom_ellipse(
+    aes(
+      x0 = treat_centre %>% pull(str_1),
+      y0 = treat_centre %>% pull(str_2),
+      a = treat_sds %>% pull(str_1),
+      b = treat_sds %>% pull(str_2),
+      angle = 0
+    ),
+    alpha = 0.5,
+    lty = "dashed",
+    col = "red"
+  ) +
+  geom_ellipse(
+    aes(
+      x0 = treat_centre %>% pull(str_1),
+      y0 = treat_centre %>% pull(str_2),
+      a = treat_sds %>% pull(str_1) * 2,
+      b = treat_sds %>% pull(str_2) * 2,
+      angle = 0
+    ),
+    alpha = 0.5,
+    lty = "dashed",
+    col = "red"
+  ) +
+  geom_text(
+    data = tibble(egg = 1),
+    aes(
+      x = treat_centre %>% pull(str_1),
+      y = treat_centre %>% pull(str_2) + treat_sds %>% pull(str_2) + 0.2,
+      label = "1SD"
+    )
+  ) +
+  geom_text(
+    data = tibble(egg = 1),
+    aes(
+      x = treat_centre %>% pull(str_1),
+      y = treat_centre %>% pull(str_2) + treat_sds %>% pull(str_2) * 2 + 0.2,
+      label = "2SD"
+    )
+  )
+
+ggsave(here::here(figure_loc, "mahal_transform_sd.png"),
+       plot = transform_sd,
+       height = 6,
+       width = 6,
+       dpi = 300)
+
+```
+
