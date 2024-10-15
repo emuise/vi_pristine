@@ -55,7 +55,7 @@ author:
       - Interpretation
       - Revision
     affiliations:       
-      - BC Parks, Government of British Columbia, Victoria, British COlumbia, Canada   
+      - BC Parks, Government of British Columbia, Victoria, British Columbia, Canada   
 keywords:   
   - Protected areas   
   - Coarsened exact matching   

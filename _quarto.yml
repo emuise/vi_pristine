@@ -12,5 +12,9 @@ format:
     comments:
       hypothesis: true
   docx: default
+  jats: default
+  agu-pdf: default
+
+
 
 
