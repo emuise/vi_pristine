@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Evan Muise">
+<meta name="author" content="Nicholas Coops">
+<meta name="author" content="Txomin Hermosilla">
+<meta name="author" content="Chris Mulverhill">
+<meta name="author" content="Cole Burton">
+<meta name="author" content="Stephen Ban">
+<meta name="dcterms.date" content="2024-10-15">
+<meta name="keywords" content="Protected areas, Coarsened exact matching, Reference states, Remote sensing, Ecosystem structure, Ecosystem function">
+
+<title>Cumulative and individual impacts of the human footprint on similarity to reference high ecological integrity reference states.</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-018089954d508eae8a473f0b7f0491f0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-7a6c7608d79196830f248dfc2336d5b1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script async="" src="https://hypothes.is/embed.js"></script>
+<script>
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    document.body.classList.add('hypothesis-enabled');
+  });
+</script>
+
+
+<meta name="citation_title" content="Cumulative and individual impacts of the human footprint on similarity to reference high ecological integrity reference states.">
+<meta name="citation_abstract" content="ABSTRACT">
+<meta name="citation_keywords" content="Protected areas,Coarsened exact matching,Reference states,Remote sensing,Ecosystem structure,Ecosystem function">
+<meta name="citation_author" content="Evan Muise">
+<meta name="citation_author" content="Nicholas Coops">
+<meta name="citation_author" content="Txomin Hermosilla">
+<meta name="citation_author" content="Chris Mulverhill">
+<meta name="citation_author" content="Cole Burton">
+<meta name="citation_author" content="Stephen Ban">
+<meta name="citation_publication_date" content="2024-10-15">
+<meta name="citation_cover_date" content="2024-10-15">
+<meta name="citation_year" content="2024">
+<meta name="citation_online_date" content="2024-10-15">
+<meta name="citation_language" content="en">
+<meta name="citation_reference" content="citation_title=Strategies for the development of volcanic hazard maps in monogenetic volcanic fields: The example of La Palma (Canary Islands);,citation_author=José Marrero;,citation_author=Alicia García;,citation_author=Manuel Berrocoso;,citation_author=Ángeles Llinares;,citation_author=Antonio Rodríguez-Losada;,citation_author=R. Ortiz;,citation_publication_date=2019-07;,citation_cover_date=2019-07;,citation_year=2019;,citation_doi=10.1186/s13617-019-0085-5;,citation_volume=8;,citation_journal_title=Journal of Applied Volcanology;">
+<meta name="citation_reference" content="citation_title=On the generalized distance in statistics;,citation_author=Prasanta Chandra Mahalanobis;,citation_publication_date=1936;,citation_cover_date=1936;,citation_year=1936;,citation_volume=2;,citation_journal_title=Proceedings of the National Institute of Sciences (Calcutta);">
+<meta name="citation_reference" content="citation_title=Causal Inference without Balance Checking: Coarsened Exact Matching;,citation_author=Stefano M. Iacus;,citation_author=Gary King;,citation_author=Giuseppe Porro;,citation_publication_date=2012;,citation_cover_date=2012;,citation_year=2012;,citation_fulltext_html_url=https://www.cambridge.org/core/product/identifier/S1047198700012985/type/journal_article;,citation_issue=1;,citation_doi=10.1093/pan/mpr013;,citation_volume=20;,citation_language=en;,citation_journal_title=Political Analysis;">
+<meta name="citation_reference" content="citation_title=High and Far: Biases in the Location of Protected Areas;,citation_author=Lucas N. Joppa;,citation_author=Alexander Pfaff;,citation_publication_date=2009-12-14;,citation_cover_date=2009-12-14;,citation_year=2009;,citation_fulltext_html_url=https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0008273;,citation_issue=12;,citation_doi=10.1371/journal.pone.0008273;,citation_volume=4;,citation_language=en;,citation_journal_title=PLOS ONE;">
+<meta name="citation_reference" content="citation_title=Assessing representation of remote sensing derived forest structure and land cover across a network of protected areas;,citation_author=Evan R. Muise;,citation_author=Nicholas C. Coops;,citation_author=Txomin Hermosilla;,citation_author=Stephen S. Ban;,citation_publication_date=2022;,citation_cover_date=2022;,citation_year=2022;,citation_fulltext_html_url=https://onlinelibrary.wiley.com/doi/abs/10.1002/eap.2603;,citation_issue=5;,citation_doi=10.1002/eap.2603;,citation_volume=32;,citation_language=en;,citation_journal_title=Ecological Applications;">
+<meta name="citation_reference" content="citation_title=Forest naturalness in northern Europe: perspectives on processes, structures and species diversity;,citation_author=Guntis Brumelis;,citation_author=Bengt Gunnar Jonsson;,citation_author=Jari Kouki;,citation_author=Timo Kuuluvainen;,citation_author=Ekaterina Shorohova;,citation_publication_date=2011-12-31;,citation_cover_date=2011-12-31;,citation_year=2011;,citation_fulltext_html_url=https://www.silvafennica.fi/article/446;,citation_issue=5;,citation_volume=45;,citation_language=en;,citation_journal_title=Silva Fennica;">
+<meta name="citation_reference" content="citation_title=The role of protected areas as ecological baselines;,citation_author=Peter Arcese;,citation_author=A. R. E. Sinclair;,citation_publication_date=1997;,citation_cover_date=1997;,citation_year=1997;,citation_fulltext_html_url=https://www.jstor.org/stable/3802167;,citation_issue=3;,citation_doi=10.2307/3802167;,citation_volume=61;,citation_journal_title=The Journal of Wildlife Management;">
+<meta name="citation_reference" content="citation_title=Counterfactual thinking and impact evaluation in environmental policy;,citation_author=Paul J. Ferraro;,citation_publication_date=2009;,citation_cover_date=2009;,citation_year=2009;,citation_fulltext_html_url=https://onlinelibrary.wiley.com/doi/abs/10.1002/ev.297;,citation_issue=122;,citation_doi=10.1002/ev.297;,citation_volume=2009;,citation_language=en;,citation_journal_title=New Directions for Evaluation;">
+<meta name="citation_reference" content="citation_title=Global State of Biodiversity and Loss;,citation_author=Rodolfo Dirzo;,citation_author=Peter H. Raven;,citation_publication_date=2003-11-01;,citation_cover_date=2003-11-01;,citation_year=2003;,citation_fulltext_html_url=https://www.annualreviews.org/content/journals/10.1146/annurev.energy.28.050302.105532;,citation_issue=Volume 28, 2003;,citation_doi=10.1146/annurev.energy.28.050302.105532;,citation_volume=28;,citation_language=en;,citation_journal_title=Annual Review of Environment and Resources;">
+<meta name="citation_reference" content="citation_title=Extinction risk from climate change;,citation_author=Chris D Thomas;,citation_author=Alison Cameron;,citation_author=Rhys E Green;,citation_author=Michel Bakkenes;,citation_author=Linda J Beaumont;,citation_author=Yvonne C Collingham;,citation_author=Barend F N Erasmus;,citation_author=Marinez Ferreira Siqueira;,citation_author=Alan Grainger;,citation_author=Lee Hannah;,citation_author=Lesley Hughes;,citation_author=Brian Huntley;,citation_author=Albert S Jaarsveld;,citation_author=Guy F Midgley;,citation_author=Lera Miles;,citation_author=Miguel A Ortega-Huerta;,citation_author=A Townsend Peterson;,citation_author=Oliver L Phillips;,citation_author=Stephen E Williams;,citation_publication_date=2004;,citation_cover_date=2004;,citation_year=2004;,citation_volume=427;,citation_language=en;,citation_journal_title=Nature;">
+<meta name="citation_reference" content="citation_title=Accelerating extinction risk from climate change;,citation_author=Mark C. Urban;,citation_publication_date=2015-05-01;,citation_cover_date=2015-05-01;,citation_year=2015;,citation_fulltext_html_url=https://www.science.org/doi/10.1126/science.aaa4984;,citation_issue=6234;,citation_doi=10.1126/science.aaa4984;,citation_volume=348;,citation_journal_title=Science;">
+<meta name="citation_reference" content="citation_title=Fifteen forms of biodiversity trend in the Anthropocene;,citation_author=Brian J. McGill;,citation_author=Maria Dornelas;,citation_author=Nicholas J. Gotelli;,citation_author=Anne E. Magurran;,citation_publication_date=2015-02-01;,citation_cover_date=2015-02-01;,citation_year=2015;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0169534714002456;,citation_issue=2;,citation_doi=10.1016/j.tree.2014.11.006;,citation_volume=30;,citation_language=en;,citation_journal_title=Trends in Ecology &amp;amp;amp; Evolution;">
+<meta name="citation_reference" content="citation_title=Report of the conference of the parties to the Convention on Biological Diversity on the second part of its fifteenth meeting;,citation_abstract=The Conference of the Parties to the Convention on Biological Diversity held the second part of its fifteenth meeting in Montreal, Canada, from 7 to 19 December 2022, and in Nairobi, on 19 and 20 October 2023. It adopted 35 decisions (see sect. I), including, in particular, on the Kunming-Montreal Global Biodiversity Framework. The account of the proceedings of the meeting is contained in section II, while the annex contains the list of the organizations represented at the meeting.;,citation_author=Convention on Biological Diversity;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_language=en-US;,citation_technical_report_number=CBD/COP/15/17;">
+<meta name="citation_reference" content="citation_title=Threatened biotas: &amp;amp;amp;quot;Hot spots&amp;quot; in tropical forests;,citation_author=Norman Myers;,citation_publication_date=1988-09-01;,citation_cover_date=1988-09-01;,citation_year=1988;,citation_fulltext_html_url=https://doi.org/10.1007/BF02240252;,citation_issue=3;,citation_doi=10.1007/BF02240252;,citation_volume=8;,citation_language=en;,citation_journal_title=Environmentalist;">
+<meta name="citation_reference" content="citation_title=Extinction by numbers;,citation_author=Stuart L. Pimm;,citation_author=Peter Raven;,citation_publication_date=2000-02;,citation_cover_date=2000-02;,citation_year=2000;,citation_fulltext_html_url=https://www.nature.com/articles/35002708;,citation_issue=6772;,citation_doi=10.1038/35002708;,citation_volume=403;,citation_language=en;,citation_journal_title=Nature;">
+<meta name="citation_reference" content="citation_title=Biodiversity loss and its impact on humanity;,citation_author=Bradley J. Cardinale;,citation_author=J. Emmett Duffy;,citation_author=Andrew Gonzalez;,citation_author=David U. Hooper;,citation_author=Charles Perrings;,citation_author=Patrick Venail;,citation_author=Anita Narwani;,citation_author=Georgina M. Mace;,citation_author=David Tilman;,citation_author=David A. Wardle;,citation_author=Ann P. Kinzig;,citation_author=Gretchen C. Daily;,citation_author=Michel Loreau;,citation_author=James B. Grace;,citation_author=Anne Larigauderie;,citation_author=Diane S. Srivastava;,citation_author=Shahid Naeem;,citation_publication_date=2012-06;,citation_cover_date=2012-06;,citation_year=2012;,citation_fulltext_html_url=https://www.nature.com/articles/nature11148;,citation_issue=7401;,citation_doi=10.1038/nature11148;,citation_volume=486;,citation_language=en;,citation_journal_title=Nature;">
+<meta name="citation_reference" content="citation_title=Forest resilience, biodiversity, and climate change: a synthesis of the biodiversity / resiliende / stability relationship in forest ecosystems;,citation_author=Ian D. Thompson;,citation_author=Brendan Mackey;,citation_author=Steven McNulty;,citation_author=Alex Mosseler;,citation_publication_date=2009;,citation_cover_date=2009;,citation_year=2009;,citation_language=en;,citation_series_title=CBD technical series;">
+<meta name="citation_reference" content="citation_title=Mapping forest condition in europe: Methodological developments in support to forest biodiversity assessments;,citation_author=Ana Isabel Marín;,citation_author=Dania Abdul Malak;,citation_author=Annemarie Bastrup-Birk;,citation_author=Gherardo Chirici;,citation_author=Anna Barbati;,citation_author=Stefan Kleeschulte;,citation_publication_date=2021-09-01;,citation_cover_date=2021-09-01;,citation_year=2021;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S1470160X21005045;,citation_doi=10.1016/j.ecolind.2021.107839;,citation_volume=128;,citation_journal_title=Ecological Indicators;">
+<meta name="citation_reference" content="citation_title=Priority list of biodiversity metrics to observe from space;,citation_author=Andrew K. Skidmore;,citation_author=Nicholas C. Coops;,citation_author=Elnaz Neinavaz;,citation_author=Abebe Ali;,citation_author=Michael E. Schaepman;,citation_author=Marc Paganini;,citation_author=W. Daniel Kissling;,citation_author=Petteri Vihervaara;,citation_author=Roshanak Darvishzadeh;,citation_author=Hannes Feilhauer;,citation_author=Miguel Fernandez;,citation_author=Néstor Fernández;,citation_author=Noel Gorelick;,citation_author=Ilse Geijzendorffer;,citation_author=Uta Heiden;,citation_author=Marco Heurich;,citation_author=Donald Hobern;,citation_author=Stefanie Holzwarth;,citation_author=Frank E. Muller-Karger;,citation_author=Ruben Van De Kerchove;,citation_author=Angela Lausch;,citation_author=Pedro J. Leitão;,citation_author=Marcelle C. Lock;,citation_author=Caspar A. Mücher;,citation_author=Brian O’Connor;,citation_author=Duccio Rocchini;,citation_author=Woody Turner;,citation_author=Jan Kees Vis;,citation_author=Tiejun Wang;,citation_author=Martin Wegmann;,citation_author=Vladimir Wingate;,citation_publication_date=2021-05-13;,citation_cover_date=2021-05-13;,citation_year=2021;,citation_fulltext_html_url=http://www.nature.com/articles/s41559-021-01451-x;,citation_doi=10.1038/s41559-021-01451-x;,citation_language=en;,citation_journal_title=Nature Ecology &amp;amp;amp; Evolution;">
+<meta name="citation_reference" content="citation_title=Essential Biodiversity Variables;,citation_author=H. M. Pereira;,citation_author=S. Ferrier;,citation_author=M. Walters;,citation_author=G. N. Geller;,citation_author=R. H. G. Jongman;,citation_author=R. J. Scholes;,citation_author=M. W. Bruford;,citation_author=N. Brummitt;,citation_author=S. H. M. Butchart;,citation_author=A. C. Cardoso;,citation_author=N. C. Coops;,citation_author=E. Dulloo;,citation_author=D. P. Faith;,citation_author=J. Freyhof;,citation_author=R. D. Gregory;,citation_author=C. Heip;,citation_author=R. Hoft;,citation_author=G. Hurtt;,citation_author=W. Jetz;,citation_author=D. S. Karp;,citation_author=M. A. McGeoch;,citation_author=D. Obura;,citation_author=Y. Onoda;,citation_author=N. Pettorelli;,citation_author=B. Reyers;,citation_author=R. Sayre;,citation_author=J. P. W. Scharlemann;,citation_author=S. N. Stuart;,citation_author=E. Turak;,citation_author=M. Walpole;,citation_author=M. Wegmann;,citation_publication_date=2013-01-18;,citation_cover_date=2013-01-18;,citation_year=2013;,citation_fulltext_html_url=https://www.sciencemag.org/lookup/doi/10.1126/science.1229931;,citation_issue=6117;,citation_doi=10.1126/science.1229931;,citation_volume=339;,citation_language=en;,citation_journal_title=Science;">
+<meta name="citation_reference" content="citation_title=Need and vision for global medium-resolution landsat and sentinel-2 data products;,citation_author=Volker C. Radeloff;,citation_author=David P. Roy;,citation_author=Michael A. Wulder;,citation_author=Martha Anderson;,citation_author=Bruce Cook;,citation_author=Christopher J. Crawford;,citation_author=Mark Friedl;,citation_author=Feng Gao;,citation_author=Noel Gorelick;,citation_author=Matthew Hansen;,citation_author=Sean Healey;,citation_author=Patrick Hostert;,citation_author=Glynn Hulley;,citation_author=Justin L. Huntington;,citation_author=David M. Johnson;,citation_author=Chris Neigh;,citation_author=Alexei Lyapustin;,citation_author=Leo Lymburner;,citation_author=Nima Pahlevan;,citation_author=Jean-Francois Pekel;,citation_author=Theodore A. Scambos;,citation_author=Crystal Schaaf;,citation_author=Peter Strobl;,citation_author=Curtis E. Woodcock;,citation_author=Hankui K. Zhang;,citation_author=Zhe Zhu;,citation_publication_date=2024-01-01;,citation_cover_date=2024-01-01;,citation_year=2024;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0034425723004704;,citation_doi=10.1016/j.rse.2023.113918;,citation_volume=300;,citation_journal_title=Remote Sensing of Environment;">
+<meta name="citation_reference" content="citation_title=Three decades of forest structural dynamics over canada’s forested ecosystems using landsat time-series and lidar plots;,citation_author=Giona Matasci;,citation_author=Txomin Hermosilla;,citation_author=Michael A. Wulder;,citation_author=Joanne C. White;,citation_author=Nicholas C. Coops;,citation_author=Geordie W. Hobart;,citation_author=Douglas K. Bolton;,citation_author=Piotr Tompalski;,citation_author=Christopher W. Bater;,citation_publication_date=2018-10;,citation_cover_date=2018-10;,citation_year=2018;,citation_fulltext_html_url=https://linkinghub.elsevier.com/retrieve/pii/S0034425718303572;,citation_doi=10.1016/j.rse.2018.07.024;,citation_volume=216;,citation_journal_title=Remote Sensing of Environment;">
+<meta name="citation_reference" content="citation_title=Country-wide retrieval of forest structure from optical and SAR satellite imagery with deep ensembles;,citation_author=Alexander Becker;,citation_author=Stefania Russo;,citation_author=Stefano Puliti;,citation_author=Nico Lang;,citation_author=Konrad Schindler;,citation_author=Jan Dirk Wegner;,citation_publication_date=2023-01-01;,citation_cover_date=2023-01-01;,citation_year=2023;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0924271622003045;,citation_doi=10.1016/j.isprsjprs.2022.11.011;,citation_volume=195;,citation_journal_title=ISPRS Journal of Photogrammetry and Remote Sensing;">
+<meta name="citation_reference" content="citation_title=Large-area mapping of Canadian boreal forest cover, height, biomass and other structural attributes using Landsat composites and lidar plots;,citation_author=Giona Matasci;,citation_author=Txomin Hermosilla;,citation_author=Michael A. Wulder;,citation_author=Joanne C. White;,citation_author=Nicholas C. Coops;,citation_author=Geordie W. Hobart;,citation_author=Harold S. J. Zald;,citation_publication_date=2018-05-01;,citation_cover_date=2018-05-01;,citation_year=2018;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0034425717305953;,citation_doi=10.1016/j.rse.2017.12.020;,citation_volume=209;,citation_language=en;,citation_journal_title=Remote Sensing of Environment;">
+<meta name="citation_reference" content="citation_title=Identification of &amp;amp;amp;lt;i&amp;gt;de facto&amp;lt;/i&amp;gt; protected areas in boreal canada;,citation_author=Margaret E. Andrew;,citation_author=Michael A. Wulder;,citation_author=Nicholas C. Coops;,citation_publication_date=2012-02-01;,citation_cover_date=2012-02-01;,citation_year=2012;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0006320711004587;,citation_issue=1;,citation_doi=10.1016/j.biocon.2011.11.029;,citation_volume=146;,citation_journal_title=Biological Conservation;">
+<meta name="citation_reference" content="citation_title=Using the satellite-derived NDVI to assess ecological responses to environmental change;,citation_author=Nathalie Pettorelli;,citation_author=Jon Olav Vik;,citation_author=Atle Mysterud;,citation_author=Jean-Michel Gaillard;,citation_author=Compton J. Tucker;,citation_author=Nils Chr. Stenseth;,citation_publication_date=2005-09-01;,citation_cover_date=2005-09-01;,citation_year=2005;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S016953470500162X;,citation_issue=9;,citation_doi=10.1016/j.tree.2005.05.011;,citation_volume=20;,citation_language=en;,citation_journal_title=Trends in Ecology &amp;amp;amp; Evolution;">
+<meta name="citation_reference" content="citation_title=Satellite remote sensing of ecosystem functions: opportunities, challenges and way forward;,citation_author=Nathalie Pettorelli;,citation_author=Henrike Schulte to Bühne;,citation_author=Ayesha Tulloch;,citation_author=Grégoire Dubois;,citation_author=Cate Macinnis-Ng;,citation_author=Ana M. Queirós;,citation_author=David A. Keith;,citation_author=Martin Wegmann;,citation_author=Franziska Schrodt;,citation_author=Marion Stellmes;,citation_author=Ruth Sonnenschein;,citation_author=Gary N. Geller;,citation_author=Shovonlal Roy;,citation_author=Ben Somers;,citation_author=Nicholas Murray;,citation_author=Lucie Bland;,citation_author=Ilse Geijzendorffer;,citation_author=Jeremy T. Kerr;,citation_author=Stefanie Broszeit;,citation_author=Pedro J. Leitão;,citation_author=Clare Duncan;,citation_author=Ghada El Serafy;,citation_author=Kate S. He;,citation_author=Julia L. Blanchard;,citation_author=Richard Lucas;,citation_author=Paola Mairota;,citation_author=Thomas J. Webb;,citation_author=Emily Nicholson;,citation_publication_date=2018;,citation_cover_date=2018;,citation_year=2018;,citation_fulltext_html_url=https://onlinelibrary.wiley.com/doi/abs/10.1002/rse2.59;,citation_issue=2;,citation_doi=10.1002/rse2.59;,citation_volume=4;,citation_language=en;,citation_journal_title=Remote Sensing in Ecology and Conservation;">
+<meta name="citation_reference" content="citation_title=The Dynamic Habitat Indices (DHIs) from MODIS and global biodiversity;,citation_author=V. C. Radeloff;,citation_author=M. Dubinin;,citation_author=N. C. Coops;,citation_author=A. M. Allen;,citation_author=T. M. Brooks;,citation_author=M. K. Clayton;,citation_author=G. C. Costa;,citation_author=C. H. Graham;,citation_author=D. P. Helmers;,citation_author=A. R. Ives;,citation_author=D. Kolesov;,citation_author=A. M. Pidgeon;,citation_author=G. Rapacciuolo;,citation_author=E. Razenkova;,citation_author=N. Suttidate;,citation_author=B. E. Young;,citation_author=L. Zhu;,citation_author=M. L. Hobi;,citation_publication_date=2019-03-01;,citation_cover_date=2019-03-01;,citation_year=2019;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0034425718305625;,citation_doi=10.1016/j.rse.2018.12.009;,citation_volume=222;,citation_language=en;,citation_journal_title=Remote Sensing of Environment;">
+<meta name="citation_reference" content="citation_title=Medium-resolution dynamic habitat indices from landsat satellite imagery;,citation_author=Elena Razenkova;,citation_author=Katarzyna E Lewińska;,citation_author=He Yin;,citation_author=Laura S Farwell;,citation_author=Anna M Pidgeon;,citation_author=Patrick Hostert;,citation_author=Nicholas C Coops;,citation_author=Volker C. Radeloff;,citation_journal_title=Remote Sensing of Environment;">
+<meta name="citation_reference" content="citation_title=Indicators for Monitoring Biodiversity: A Hierarchical Approach;,citation_author=Reed F. Noss;,citation_publication_date=1990;,citation_cover_date=1990;,citation_year=1990;,citation_fulltext_html_url=https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1523-1739.1990.tb00309.x;,citation_issue=4;,citation_doi=10.1111/j.1523-1739.1990.tb00309.x;,citation_volume=4;,citation_language=en;,citation_journal_title=Conservation Biology;">
+<meta name="citation_reference" content="citation_title=A new method to estimate species and biodiversity intactness using empirically derived reference conditions;,citation_author=S. E. Nielsen;,citation_author=E. M. Bayne;,citation_author=J. Schieck;,citation_author=J. Herbers;,citation_author=S. Boutin;,citation_publication_date=2007-07;,citation_cover_date=2007-07;,citation_year=2007;,citation_fulltext_html_url=https://linkinghub.elsevier.com/retrieve/pii/S0006320707000912;,citation_issue=3;,citation_doi=10.1016/j.biocon.2007.02.024;,citation_volume=137;,citation_language=en;,citation_journal_title=Biological Conservation;">
+<meta name="citation_reference" content="citation_title=Forest naturalness assessment as a component of biodiversity monitoring and conservation management;,citation_author=S. Winter;,citation_publication_date=2012-04-01;,citation_cover_date=2012-04-01;,citation_year=2012;,citation_fulltext_html_url=https://academic.oup.com/forestry/article-lookup/doi/10.1093/forestry/cps004;,citation_issue=2;,citation_doi=10.1093/forestry/cps004;,citation_volume=85;,citation_language=en;,citation_journal_title=Forestry;">
+<meta name="citation_reference" content="citation_title=The ‘shifting baseline’ phenomenon: a global perspective;,citation_author=John K. Pinnegar;,citation_author=Georg H. Engelhard;,citation_publication_date=2008-02;,citation_cover_date=2008-02;,citation_year=2008;,citation_fulltext_html_url=https://link.springer.com/10.1007/s11160-007-9058-6;,citation_issue=1;,citation_doi=10.1007/s11160-007-9058-6;,citation_volume=18;,citation_language=en;,citation_journal_title=Reviews in Fish Biology and Fisheries;">
+<meta name="citation_reference" content="citation_title=The historical reference in restoration ecology: Re-defining a cornerstone concept;,citation_author=Luis Balaguer;,citation_author=Adrián Escudero;,citation_author=José F. Martín-Duque;,citation_author=Ignacio Mola;,citation_author=James Aronson;,citation_publication_date=2014-08-01;,citation_cover_date=2014-08-01;,citation_year=2014;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0006320714001955;,citation_doi=10.1016/j.biocon.2014.05.007;,citation_volume=176;,citation_journal_title=Biological Conservation;">
+<meta name="citation_reference" content="citation_title=A closer look at novel climates: new methods and insights at continental to landscape scales;,citation_author=Colin R. Mahony;,citation_author=Alex J. Cannon;,citation_author=Tongli Wang;,citation_author=Sally N. Aitken;,citation_publication_date=2017;,citation_cover_date=2017;,citation_year=2017;,citation_fulltext_html_url=https://onlinelibrary.wiley.com/doi/abs/10.1111/gcb.13645;,citation_issue=9;,citation_doi=10.1111/gcb.13645;,citation_volume=23;,citation_language=en;,citation_journal_title=Global Change Biology;">
+<meta name="citation_reference" content="citation_title=Plant spectral diversity integrates functional and phylogenetic components of biodiversity and predicts ecosystem function;,citation_author=Anna K. Schweiger;,citation_author=Jeannine Cavender-Bares;,citation_author=Philip A. Townsend;,citation_author=Sarah E. Hobbie;,citation_author=Michael D. Madritch;,citation_author=Ran Wang;,citation_author=David Tilman;,citation_author=John A. Gamon;,citation_publication_date=2018-06;,citation_cover_date=2018-06;,citation_year=2018;,citation_fulltext_html_url=https://www.nature.com/articles/s41559-018-0551-1;,citation_issue=6;,citation_doi=10.1038/s41559-018-0551-1;,citation_volume=2;,citation_language=en;,citation_journal_title=Nature Ecology &amp;amp;amp; Evolution;">
+<meta name="citation_reference" content="citation_title=Reference state and benchmark concepts for better biodiversity conservation in contemporary ecosystems;,citation_author=Megan J. McNellie;,citation_author=Ian Oliver;,citation_author=Josh Dorrough;,citation_author=Simon Ferrier;,citation_author=Graeme Newell;,citation_author=Philip Gibbons;,citation_publication_date=2020;,citation_cover_date=2020;,citation_year=2020;,citation_fulltext_html_url=https://onlinelibrary.wiley.com/doi/abs/10.1111/gcb.15383;,citation_issue=12;,citation_doi=10.1111/gcb.15383;,citation_volume=26;,citation_language=en;,citation_journal_title=Global Change Biology;">
+<meta name="citation_reference" content="citation_title=Managing the whole landscape: historical, hybrid, and novel ecosystems;,citation_author=Richard J Hobbs;,citation_author=Eric Higgs;,citation_author=Carol M Hall;,citation_author=Peter Bridgewater;,citation_author=F Stuart Chapin III;,citation_author=Erle C Ellis;,citation_author=John J Ewel;,citation_author=Lauren M Hallett;,citation_author=James Harris;,citation_author=Kristen B Hulvey;,citation_author=Stephen T Jackson;,citation_author=Patricia L Kennedy;,citation_author=Christoph Kueffer;,citation_author=Lori Lach;,citation_author=Trevor C Lantz;,citation_author=Ariel E Lugo;,citation_author=Joseph Mascaro;,citation_author=Stephen D Murphy;,citation_author=Cara R Nelson;,citation_author=Michael P Perring;,citation_author=David M Richardson;,citation_author=Timothy R Seastedt;,citation_author=Rachel J Standish;,citation_author=Brian M Starzomski;,citation_author=Katherine N Suding;,citation_author=Pedro M Tognetti;,citation_author=Laith Yakob;,citation_author=Laurie Yung;,citation_publication_date=2014;,citation_cover_date=2014;,citation_year=2014;,citation_fulltext_html_url=https://onlinelibrary.wiley.com/doi/abs/10.1890/130300;,citation_issue=10;,citation_doi=10.1890/130300;,citation_volume=12;,citation_language=en;,citation_journal_title=Frontiers in Ecology and the Environment;">
+<meta name="citation_reference" content="citation_title=Restoration, reintroduction, and rewilding in a changing world;,citation_author=Richard T. Corlett;,citation_publication_date=2016-06-01;,citation_cover_date=2016-06-01;,citation_year=2016;,citation_fulltext_html_url=https://www.cell.com/trends/ecology-evolution/abstract/S0169-5347(16)00062-8;,citation_issue=6;,citation_doi=10.1016/j.tree.2016.02.017;,citation_volume=31;,citation_language=en-US;,citation_journal_title=Trends in Ecology &amp;amp;amp; Evolution;">
+<meta name="citation_reference" content="citation_title=Phenospectral similarity as an index of ecological integrity;,citation_author=Patrick Osei Darko;,citation_author=Etienne Laliberté;,citation_author=Margaret Kalacska;,citation_author=J. Pablo Arroyo-Mora;,citation_author=Andrew Gonzalez;,citation_author=Juan Zuloaga;,citation_publication_date=2024-05-27;,citation_cover_date=2024-05-27;,citation_year=2024;,citation_fulltext_html_url=https://www.frontiersin.org/journals/environmental-science/articles/10.3389/fenvs.2024.1333762/full;,citation_doi=10.3389/fenvs.2024.1333762;,citation_volume=12;,citation_language=en-US;,citation_journal_title=Frontiers in Environmental Science;">
+<meta name="citation_reference" content="citation_title=Vegetation structural complexity and biodiversity in the Great Smoky Mountains;,citation_author=Jonathan A. Walter;,citation_author=Atticus E. L. Stovall;,citation_author=Jeff W. Atkins;,citation_publication_date=2021;,citation_cover_date=2021;,citation_year=2021;,citation_fulltext_html_url=https://onlinelibrary.wiley.com/doi/abs/10.1002/ecs2.3390;,citation_issue=3;,citation_doi=10.1002/ecs2.3390;,citation_volume=12;,citation_language=en;,citation_journal_title=Ecosphere;">
+<meta name="citation_reference" content="citation_title=On bird species-diversity;,citation_author=R. Macarthur;,citation_author=Jw Macarthur;,citation_publication_date=1961;,citation_cover_date=1961;,citation_year=1961;,citation_fulltext_html_url=https://www.webofscience.com/api/gateway?GWVersion=2&amp;amp;amp;SrcAuth=DOISource&amp;SrcApp=WOS&amp;KeyAID=10.2307%2F1932254&amp;DestApp=DOI&amp;SrcAppSID=USW2EC0FB0f86g21rqa8mTRWHZ2vU&amp;SrcJTitle=ECOLOGY&amp;DestDOIRegistrantName=JSTOR;,citation_issue=3;,citation_doi=10.2307/1932254;,citation_volume=42;,citation_language=en-US;,citation_journal_title=Ecology;">
+<meta name="citation_reference" content="citation_title=Human degradation of tropical moist forests is greater than previously estimated;,citation_author=C. Bourgoin;,citation_author=G. Ceccherini;,citation_author=M. Girardello;,citation_author=C. Vancutsem;,citation_author=V. Avitabile;,citation_author=P. S. A. Beck;,citation_author=R. Beuchle;,citation_author=L. Blanc;,citation_author=G. Duveiller;,citation_author=M. Migliavacca;,citation_author=G. Vieilledent;,citation_author=A. Cescatti;,citation_author=F. Achard;,citation_publication_date=2024-07;,citation_cover_date=2024-07;,citation_year=2024;,citation_fulltext_html_url=https://www.nature.com/articles/s41586-024-07629-0;,citation_issue=8021;,citation_doi=10.1038/s41586-024-07629-0;,citation_volume=631;,citation_language=en;,citation_journal_title=Nature;">
+<meta name="citation_reference" content="citation_title=Human fingerprint on structural density of forests globally;,citation_author=Wang Li;,citation_author=Wen-Yong Guo;,citation_author=Maya Pasgaard;,citation_author=Zheng Niu;,citation_author=Li Wang;,citation_author=Fang Chen;,citation_author=Yuchu Qin;,citation_author=Jens-Christian Svenning;,citation_publication_date=2023-04;,citation_cover_date=2023-04;,citation_year=2023;,citation_fulltext_html_url=https://www.nature.com/articles/s41893-022-01020-5;,citation_issue=4;,citation_doi=10.1038/s41893-022-01020-5;,citation_volume=6;,citation_language=en;,citation_journal_title=Nature Sustainability;">
+<meta name="citation_reference" content="citation_title=The Global Ecosystem Dynamics Investigation: High-resolution laser ranging of the Earth’s forests and topography;,citation_author=Ralph Dubayah;,citation_author=James Bryan Blair;,citation_author=Scott Goetz;,citation_author=Lola Fatoyinbo;,citation_author=Matthew Hansen;,citation_author=Sean Healey;,citation_author=Michelle Hofton;,citation_author=George Hurtt;,citation_author=James Kellner;,citation_author=Scott Luthcke;,citation_author=John Armston;,citation_author=Hao Tang;,citation_author=Laura Duncanson;,citation_author=Steven Hancock;,citation_author=Patrick Jantz;,citation_author=Suzanne Marselis;,citation_author=Paul L. Patterson;,citation_author=Wenlu Qi;,citation_author=Carlos Silva;,citation_publication_date=2020-06-01;,citation_cover_date=2020-06-01;,citation_year=2020;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S2666017220300018;,citation_doi=10.1016/j.srs.2020.100002;,citation_volume=1;,citation_language=en;,citation_journal_title=Science of Remote Sensing;">
+<meta name="citation_reference" content="citation_title=The Ice, Cloud, and Land Elevation Satellite  2 mission: A global geolocated photon product derived from the Advanced Topographic Laser Altimeter System;,citation_author=Thomas A. Neumann;,citation_author=Anthony J. Martino;,citation_author=Thorsten Markus;,citation_author=Sungkoo Bae;,citation_author=Megan R. Bock;,citation_author=Anita C. Brenner;,citation_author=Kelly M. Brunt;,citation_author=John Cavanaugh;,citation_author=Stanley T. Fernandes;,citation_author=David W. Hancock;,citation_author=Kaitlin Harbeck;,citation_author=Jeffrey Lee;,citation_author=Nathan T. Kurtz;,citation_author=Philip J. Luers;,citation_author=Scott B. Luthcke;,citation_author=Lori Magruder;,citation_author=Teresa A. Pennington;,citation_author=Luis Ramos-Izquierdo;,citation_author=Timothy Rebold;,citation_author=Jonah Skoog;,citation_author=Taylor C. Thomas;,citation_publication_date=2019-11-01;,citation_cover_date=2019-11-01;,citation_year=2019;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S003442571930344X;,citation_doi=10.1016/j.rse.2019.111325;,citation_volume=233;,citation_language=en;,citation_journal_title=Remote Sensing of Environment;">
+<meta name="citation_reference" content="citation_title=2021 IEEE international geoscience and remote sensing symposium IGARSS;,citation_author=Laura Duncanson;,citation_author=Amy Neuenschwander;,citation_author=Carlos Alberto Silva;,citation_author=Paul Montesano;,citation_author=Eric Guenther;,citation_author=Nathan Thomas;,citation_author=Steven Hancock;,citation_author=David Minor;,citation_author=Joanne White;,citation_author=Mike Wulder;,citation_author=John Armston;,citation_publication_date=2021-07;,citation_cover_date=2021-07;,citation_year=2021;,citation_fulltext_html_url=https://ieeexplore.ieee.org/document/9553209/?arnumber=9553209;,citation_doi=10.1109/IGARSS47720.2021.9553209;">
+<meta name="citation_reference" content="citation_title=Accuracy, uncertainty, and biases in cumulative pressure mapping;,citation_author=Miguel Arias-Patino;,citation_author=Chris J. Johnson;,citation_author=Richard Schuster;,citation_author=Roger D. Wheate;,citation_author=Oscar Venter;,citation_publication_date=2024-09-01;,citation_cover_date=2024-09-01;,citation_year=2024;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S1470160X24008641;,citation_doi=10.1016/j.ecolind.2024.112407;,citation_volume=166;,citation_journal_title=Ecological Indicators;">
+<meta name="citation_reference" content="citation_title=A policy-driven framework for conserving the best of Earth’s remaining moist tropical forests;,citation_author=Andrew J. Hansen;,citation_author=Patrick Burns;,citation_author=Jamison Ervin;,citation_author=Scott J. Goetz;,citation_author=Matthew Hansen;,citation_author=Oscar Venter;,citation_author=James E. M. Watson;,citation_author=Patrick A. Jantz;,citation_author=Anne L. S. Virnig;,citation_author=Kevin Barnett;,citation_author=Rajeev Pillay;,citation_author=Scott Atkinson;,citation_author=Christina Supples;,citation_author=Susana Rodríguez-Buritica;,citation_author=Dolors Armenteras;,citation_publication_date=2020-10;,citation_cover_date=2020-10;,citation_year=2020;,citation_fulltext_html_url=https://www.nature.com/articles/s41559-020-1274-7;,citation_issue=10;,citation_doi=10.1038/s41559-020-1274-7;,citation_volume=4;,citation_language=en;,citation_journal_title=Nature Ecology &amp;amp;amp; Evolution;">
+<meta name="citation_reference" content="citation_title=Explaining bird richness with the dynamic habitat indices across the conterminous US;,citation_author=Elena Razenkova;,citation_author=Laura S. Farwell;,citation_author=Paul Elsen;,citation_author=Kathleen Anne Carroll;,citation_author=Anna Michle Pidgeon;,citation_author=Volker Radeloff;,citation_publication_date=2022-12-01;,citation_cover_date=2022-12-01;,citation_year=2022;,citation_fulltext_html_url=https://ui.adsabs.harvard.edu/abs/2022AGUFM.B15A..05R;,citation_volume=2022;">
+<meta name="citation_reference" content="citation_title=Disentangling linkages between satellite-derived indicators of forest structure and productivity for ecosystem monitoring;,citation_author=Evan R. Muise;,citation_author=Margaret E. Andrew;,citation_author=Nicholas C. Coops;,citation_author=Txomin Hermosilla;,citation_author=A. Cole Burton;,citation_author=Stephen S. Ban;,citation_publication_date=2024-06-14;,citation_cover_date=2024-06-14;,citation_year=2024;,citation_fulltext_html_url=https://www.nature.com/articles/s41598-024-64615-2;,citation_issue=1;,citation_doi=10.1038/s41598-024-64615-2;,citation_volume=14;,citation_language=en;,citation_journal_title=Scientific Reports;">
+<meta name="citation_reference" content="citation_title=Biogeoclimatic ecosystem classification in British Columbia;,citation_author=J. Pojar;,citation_author=K. Klinka;,citation_author=D. V. Meidinger;,citation_publication_date=1987-12;,citation_cover_date=1987-12;,citation_year=1987;,citation_fulltext_html_url=https://linkinghub.elsevier.com/retrieve/pii/0378112787901009;,citation_issue=1-2;,citation_doi=10.1016/0378-1127(87)90100-9;,citation_volume=22;,citation_language=en;,citation_journal_title=Forest Ecology and Management;">
+<meta name="citation_reference" content="citation_title=Silvics of North America;,citation_author=Russell M. Burns;,citation_publication_date=1990;,citation_cover_date=1990;,citation_year=1990;,citation_language=en;">
+<meta name="citation_reference" content="citation_title=Disturbance regimes in coastal British Columbia;,citation_author=Lori D. Daniels;,citation_author=Robert W. Gray;,citation_publication_date=2006-07-13;,citation_cover_date=2006-07-13;,citation_year=2006;,citation_fulltext_html_url=https://jem-online.org/index.php/jem/article/view/542;,citation_issue=2;,citation_doi=10.22230/jem.2006v7n2a542;,citation_volume=7;,citation_language=en;,citation_journal_title=Journal of Ecosystems and Management;">
+<meta name="citation_reference" content="citation_title=Park Act;,citation_fulltext_html_url=https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96344_01;,citation_volume=RSBC 1996, c 344;">
+<meta name="citation_reference" content="citation_title=Canada’s human footprint reveals large intact areas juxtaposed against areas under immense anthropogenic pressure;,citation_author=Kristen Hirsh-Pearson;,citation_author=Chris J. Johnson;,citation_author=Richard Schuster;,citation_author=Roger D. Wheate;,citation_author=Oscar Venter;,citation_publication_date=2022-01;,citation_cover_date=2022-01;,citation_year=2022;,citation_fulltext_html_url=https://www.facetsjournal.com/doi/10.1139/facets-2021-0063;,citation_doi=10.1139/facets-2021-0063;,citation_volume=7;,citation_journal_title=FACETS;">
+<meta name="citation_reference" content="citation_title=The Canadian Human Footprint;,citation_author=Kristen Hirsh-Pearson;,citation_author=Chris Johnson;,citation_author=Richard Schuster;,citation_author=Roger Wheate;,citation_author=Oscar Venter;,citation_doi=10.5683/SP2/EVKAVL;,citation_language=en;">
+<meta name="citation_reference" content="citation_title=The forest structure and ecosystem quality in conditions of anthropogenic disturbance along productivity gradient;,citation_author=Jaan Liira;,citation_author=Toivo Sepp;,citation_author=Oliver Parrest;,citation_publication_date=2007-10-15;,citation_cover_date=2007-10-15;,citation_year=2007;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0378112707002174;,citation_issue=1;,citation_doi=10.1016/j.foreco.2007.03.007;,citation_volume=250;,citation_journal_title=Forest Ecology and Management;,citation_series_title=Disturbances at multiple scales as the basis of forest ecosystem restoration and management;">
+<meta name="citation_reference" content="citation_title=Global humid tropics forest structural condition and forest structural integrity maps;,citation_author=Andrew Hansen;,citation_author=Kevin Barnett;,citation_author=Patrick Jantz;,citation_author=Linda Phillips;,citation_author=Scott J. Goetz;,citation_author=Matt Hansen;,citation_author=Oscar Venter;,citation_author=James E. M. Watson;,citation_author=Patrick Burns;,citation_author=Scott Atkinson;,citation_author=Susana Rodríguez-Buritica;,citation_author=Jamison Ervin;,citation_author=Anne Virnig;,citation_author=Christina Supples;,citation_author=Rafael De Camargo;,citation_publication_date=2019-10-25;,citation_cover_date=2019-10-25;,citation_year=2019;,citation_fulltext_html_url=https://www.nature.com/articles/s41597-019-0214-3;,citation_issue=1;,citation_doi=10.1038/s41597-019-0214-3;,citation_volume=6;,citation_language=en;,citation_journal_title=Scientific Data;">
+<meta name="citation_reference" content="citation_title=Half a century of multiple anthropogenic stressors has altered northern forest understory plant communities;,citation_author=Per-Ola Hedwall;,citation_author=Lena Gustafsson;,citation_author=Jorg Brunet;,citation_author=Matts Lindbladh;,citation_author=Anna-Lena Axelsson;,citation_author=Joachim Strengbom;,citation_publication_date=2019-06;,citation_cover_date=2019-06;,citation_year=2019;,citation_fulltext_html_url=https://esajournals.onlinelibrary.wiley.com/doi/10.1002/eap.1874;,citation_issue=4;,citation_doi=10.1002/eap.1874;,citation_volume=29;,citation_language=en-US;,citation_journal_title=ECOLOGICAL APPLICATIONS;">
+<meta name="citation_reference" content="citation_title=Anthropogenic modification of forests means only 40;,citation_author=H. S. Grantham;,citation_author=A. Duncan;,citation_author=T. D. Evans;,citation_author=K. R. Jones;,citation_author=H. L. Beyer;,citation_author=R. Schuster;,citation_author=J. Walston;,citation_author=J. C. Ray;,citation_author=J. G. Robinson;,citation_author=M. Callow;,citation_author=T. Clements;,citation_author=H. M. Costa;,citation_author=A. DeGemmis;,citation_author=P. R. Elsen;,citation_author=J. Ervin;,citation_author=P. Franco;,citation_author=E. Goldman;,citation_author=S. Goetz;,citation_author=A. Hansen;,citation_author=E. Hofsvang;,citation_author=P. Jantz;,citation_author=S. Jupiter;,citation_author=A. Kang;,citation_author=P. Langhammer;,citation_author=W. F. Laurance;,citation_author=S. Lieberman;,citation_author=M. Linkie;,citation_author=Y. Malhi;,citation_author=S. Maxwell;,citation_author=M. Mendez;,citation_author=R. Mittermeier;,citation_author=N. J. Murray;,citation_author=H. Possingham;,citation_author=J. Radachowsky;,citation_author=S. Saatchi;,citation_author=C. Samper;,citation_author=J. Silverman;,citation_author=A. Shapiro;,citation_author=B. Strassburg;,citation_author=T. Stevens;,citation_author=E. Stokes;,citation_author=R. Taylor;,citation_author=T. Tear;,citation_author=R. Tizard;,citation_author=O. Venter;,citation_author=P. Visconti;,citation_author=S. Wang;,citation_author=J. E. M. Watson;,citation_publication_date=2020-12-08;,citation_cover_date=2020-12-08;,citation_year=2020;,citation_fulltext_html_url=https://www.nature.com/articles/s41467-020-19493-3;,citation_issue=1;,citation_doi=10.1038/s41467-020-19493-3;,citation_volume=11;,citation_language=en;,citation_journal_title=Nature Communications;">
+<meta name="citation_reference" content="citation_title=sgsR: A structurally guided sampling toolbox for LiDAR-based forest inventories;,citation_author=Tristan R H Goodbody;,citation_author=Nicholas C Coops;,citation_author=Martin Queinnec;,citation_author=Joanne C White;,citation_author=Piotr Tompalski;,citation_author=Andrew T Hudak;,citation_author=David Auty;,citation_author=Ruben Valbuena;,citation_author=Antoine LeBoeuf;,citation_author=Ian Sinclair;,citation_author=Grant McCartney;,citation_author=Jean-Francois Prieur;,citation_author=Murray E Woods;,citation_publication_date=2023-02-06;,citation_cover_date=2023-02-06;,citation_year=2023;,citation_fulltext_html_url=https://doi.org/10.1093/forestry/cpac055;,citation_doi=10.1093/forestry/cpac055;,citation_journal_title=Forestry: An International Journal of Forest Research;">
+<meta name="citation_reference" content="citation_title=Comparing airborne and spaceborne photon-counting LiDAR canopy structural estimates across different boreal forest types;,citation_author=Martin Queinnec;,citation_author=Joanne C. White;,citation_author=Nicholas C. Coops;,citation_publication_date=2021-09-01;,citation_cover_date=2021-09-01;,citation_year=2021;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0034425721002303;,citation_doi=10.1016/j.rse.2021.112510;,citation_volume=262;,citation_journal_title=Remote Sensing of Environment;">
+<meta name="citation_reference" content="citation_title=Object-based cloud and cloud shadow detection in Landsat imagery;,citation_author=Zhe Zhu;,citation_author=Curtis E. Woodcock;,citation_publication_date=2012-03-15;,citation_cover_date=2012-03-15;,citation_year=2012;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0034425711003853;,citation_doi=10.1016/j.rse.2011.10.028;,citation_volume=118;,citation_language=en;,citation_journal_title=Remote Sensing of Environment;">
+<meta name="citation_reference" content="citation_title=Bird diversity: A predictable function of satellite-derived estimates of seasonal variation in canopy light absorbance across the united states;,citation_author=Nicholas C. Coops;,citation_author=Richard H. Waring;,citation_author=Michael A. Wulder;,citation_author=Anna M. Pidgeon;,citation_author=Volker C. Radeloff;,citation_publication_date=2009-05;,citation_cover_date=2009-05;,citation_year=2009;,citation_issue=5;,citation_doi=10.1111/j.1365-2699.2008.02053.x;,citation_volume=36;,citation_journal_title=JOURNAL OF BIOGEOGRAPHY;">
+<meta name="citation_reference" content="citation_title=Untangling multiple species richness hypothesis globally using remote sensing habitat indices;,citation_author=Nicholas C. Coops;,citation_author=Douglas K. Bolton;,citation_author=Martina L. Hobi;,citation_author=Volker C. Radeloff;,citation_publication_date=2019-12;,citation_cover_date=2019-12;,citation_year=2019;,citation_doi=10.1016/j.ecolind.2019.105567;,citation_volume=107;,citation_journal_title=Ecological Indicators;">
+<meta name="citation_reference" content="citation_title=Estimating moose (alces alces) occurrence and abundance from remotely derived environmental indicators;,citation_author=Jean-Simon Michaud;,citation_author=Nicholas C. Coops;,citation_author=Margaret E. Andrew;,citation_author=Michael A. Wulder;,citation_author=Glen S. Brown;,citation_author=Gregory J. M. Rickbeil;,citation_publication_date=2014-09;,citation_cover_date=2014-09;,citation_year=2014;,citation_doi=10.1016/j.rse.2014.06.005;,citation_volume=152;,citation_journal_title=REMOTE SENSING OF ENVIRONMENT;">
+<meta name="citation_reference" content="citation_title=Habitat connectivity for endangered indochinese tigers in thailand;,citation_author=Naparat Suttidate;,citation_author=Robert Steinmetz;,citation_author=Antony J. Lynam;,citation_author=Ronglarp Sukmasuang;,citation_author=Dusit Ngoprasert;,citation_author=Wanlop Chutipong;,citation_author=Brooke L. Bateman;,citation_author=Kate E. Jenks;,citation_author=Megan Baker-Whatton;,citation_author=Shumpei Kitamura;,citation_author=Elzbieta Ziolkowska;,citation_author=Volker C. Radeloff;,citation_publication_date=2021-09;,citation_cover_date=2021-09;,citation_year=2021;,citation_doi=10.1016/j.gecco.2021.e01718;,citation_volume=29;,citation_journal_title=GLOBAL ECOLOGY AND CONSERVATION;">
+<meta name="citation_reference" content="citation_title=Google Earth Engine: Planetary-scale geospatial analysis for everyone;,citation_author=Noel Gorelick;,citation_author=Matt Hancher;,citation_author=Mike Dixon;,citation_author=Simon Ilyushchenko;,citation_author=David Thau;,citation_author=Rebecca Moore;,citation_publication_date=2017-12-01;,citation_cover_date=2017-12-01;,citation_year=2017;,citation_fulltext_html_url=https://www.sciencedirect.com/science/article/pii/S0034425717302900;,citation_doi=10.1016/j.rse.2017.06.031;,citation_volume=202;,citation_language=en;,citation_journal_title=Remote Sensing of Environment;,citation_series_title=Big Remotely Sensed Data: tools, applications and experiences;">
+<meta name="citation_reference" content="citation_title=An integrated landsat time series protocol for change detection and generation of annual gap-free surface reflectance composites;,citation_author=Txomin Hermosilla;,citation_author=Michael A. Wulder;,citation_author=Joanne C. White;,citation_author=Nicholas C. Coops;,citation_author=Geordie W. Hobart;,citation_publication_date=2015-03;,citation_cover_date=2015-03;,citation_year=2015;,citation_fulltext_html_url=https://linkinghub.elsevier.com/retrieve/pii/S0034425714004453;,citation_doi=10.1016/j.rse.2014.11.005;,citation_volume=158;,citation_journal_title=Remote Sensing of Environment;">
+<meta name="citation_reference" content="citation_title=Mass data processing of time series landsat imagery: Pixels to data products for forest monitoring;,citation_author=Txomin Hermosilla;,citation_author=Michael A. Wulder;,citation_author=Joanne C. White;,citation_author=Nicholas C. Coops;,citation_author=Geordie W. Hobart;,citation_author=Lorraine B. Campbell;,citation_publication_date=2016-11;,citation_cover_date=2016-11;,citation_year=2016;,citation_fulltext_html_url=https://www.tandfonline.com/doi/full/10.1080/17538947.2016.1187673;,citation_issue=11;,citation_doi=10.1080/17538947.2016.1187673;,citation_volume=9;,citation_journal_title=International Journal of Digital Earth;">
+<meta name="citation_reference" content="citation_title=ASTER global digital elevation model version 2 - summary of validation results;,citation_author=Tetushi Tachikawa;,citation_author=Manabu Kaku;,citation_author=Akira Iwasaki;,citation_author=Dean B. Gesch;,citation_author=Michael J. Oimoen;,citation_author=Z. Zhang;,citation_author=Jeffrey J. Danielson;,citation_author=Tabatha Krieger;,citation_author=Bill Curtis;,citation_author=Jeff Haase;,citation_author=Michael Abrams;,citation_author=C. Carabajal;,citation_publication_date=2011;,citation_cover_date=2011;,citation_year=2011;,citation_fulltext_html_url=http://pubs.er.usgs.gov/publication/70005960;">
+<meta name="citation_reference" content="citation_title=Pixel-based image compositing for large-area dense time series applications and science;,citation_author=Joanne. C. White;,citation_author=M. A. Wulder;,citation_author=G. W. Hobart;,citation_author=J. E. Luther;,citation_author=T. Hermosilla;,citation_author=P. Griffiths;,citation_author=N. C. Coops;,citation_author=R. J. Hall;,citation_author=P. Hostert;,citation_author=A. Dyk;,citation_author=L. Guindon;,citation_publication_date=2014-05;,citation_cover_date=2014-05;,citation_year=2014;,citation_fulltext_html_url=http://www.tandfonline.com/doi/full/10.1080/07038992.2014.945827;,citation_issue=3;,citation_doi=10.1080/07038992.2014.945827;,citation_volume=40;,citation_journal_title=Canadian Journal of Remote Sensing;">
+<meta name="citation_reference" content="citation_title=R: A language and environment for statistical computing;,citation_author=R Core Team;,citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_fulltext_html_url=https://www.R-project.org/;">
+<meta name="citation_reference" content="citation_title=Rstatix: Pipe-friendly framework for basic statistical tests;,citation_author=Alboukadel Kassambara;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_fulltext_html_url=https://rpkgs.datanovia.com/rstatix/;">
+<meta name="citation_reference" content="citation_title=Sf: Simple features for r;,citation_author=Edzer Pebesma;,citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_fulltext_html_url=https://r-spatial.github.io/sf/;">
+<meta name="citation_reference" content="citation_title=sgsR: Structurally guided sampling;,citation_author=Tristan RH Goodbody;,citation_author=Nicholas C Coops;,citation_author=Martin Queinnec;,citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_fulltext_html_url=https://github.com/tgoodbody/sgsR;">
+<meta name="citation_reference" content="citation_title=Terra: Spatial data analysis;,citation_author=Robert J. Hijmans;,citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_fulltext_html_url=https://rspatial.org/;">
+<meta name="citation_reference" content="citation_title=Spatial Data Science: With applications in R;,citation_author=Edzer Pebesma;,citation_author=Roger Bivand;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_fulltext_html_url=https://r-spatial.org/book/;,citation_doi=10.1201/9780429459016;">
+<meta name="citation_reference" content="citation_title=Simple Features for R: Standardized Support for Spatial Vector Data;,citation_author=Edzer Pebesma;,citation_publication_date=2018;,citation_cover_date=2018;,citation_year=2018;,citation_fulltext_html_url=https://doi.org/10.32614/RJ-2018-009;,citation_issue=1;,citation_doi=10.32614/RJ-2018-009;,citation_volume=10;,citation_journal_title=The R Journal;">
+<meta name="citation_reference" content="citation_title=sgsR: A structurally guided sampling toolbox for LiDAR-based forest inventories.;,citation_author=Tristan R. H. Goodbody;,citation_author=Nicholas C. Coops;,citation_author=Martin Queinnec;,citation_author=Joanne C. White;,citation_author=Piotr Tompalski;,citation_author=Andrew T. Hudak;,citation_author=David Auty;,citation_author=Ruben Valbuena;,citation_author=Antoine LeBoeuf;,citation_author=Ian Sinclair;,citation_author=Grant McCartney;,citation_author=Jean-Francois Prieur;,citation_author=Murray E. Woods;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_doi=10.1093/forestry/cpac055;,citation_book_title=Forestry: An International Journal of Forest Research;">
+</head>
+
+<body>
+
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Cumulative and individual impacts of the human footprint on similarity to reference high ecological integrity reference states.</h1>
+          </div>
+
+    
+    <div class="quarto-title-meta-container">
+      <div class="quarto-title-meta-column-start">
+            <div class="quarto-title-meta-author">
+          <div class="quarto-title-meta-heading">Authors</div>
+          <div class="quarto-title-meta-heading">Affiliations</div>
+          
+                <div class="quarto-title-meta-contents">
+            <p class="author">Evan Muise <a href="mailto:evanmuis@student.ubc.ca" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0003-3404-3220" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        Department of Forest Resource Management, University of British Columbia, Vancouver, British Columbia, Canada
+                      </p>
+                  </div>
+                      <div class="quarto-title-meta-contents">
+            <p class="author">Nicholas Coops <a href="https://orcid.org/0000-0002-7859-8394" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        Department of Forest Resource Management, University of British Columbia, Vancouver, British Columbia, Canada
+                      </p>
+                  </div>
+                      <div class="quarto-title-meta-contents">
+            <p class="author">Txomin Hermosilla <a href="https://orcid.org/0000-0002-5445-0360" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        Canadian Forest Service (Pacific Forestry Centre), Natural Resources Canada, Victoria, British Columbia, Canada
+                      </p>
+                  </div>
+                      <div class="quarto-title-meta-contents">
+            <p class="author">Chris Mulverhill <a href="https://orcid.org/0000-0002-2422-7432" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        Department of Forest Resource Management, University of British Columbia, Vancouver, British Columbia, Canada
+                      </p>
+                  </div>
+                      <div class="quarto-title-meta-contents">
+            <p class="author">Cole Burton <a href="https://orcid.org/0000-0002-8799-3847" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        Department of Forest Resource Management, University of British Columbia, Vancouver, British Columbia, Canada
+                      </p>
+                  </div>
+                      <div class="quarto-title-meta-contents">
+            <p class="author">Stephen Ban <a href="https://orcid.org/0000-0001-5033-3370" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        BC Parks, Government of British Columbia, Victoria, British Columbia, Canada
+                      </p>
+                  </div>
+                    </div>
+        
+        <div class="quarto-title-meta">
+
+                      
+                <div>
+            <div class="quarto-title-meta-heading">Published</div>
+            <div class="quarto-title-meta-contents">
+              <p class="date">October 15, 2024</p>
+            </div>
+          </div>
+          
+                
+              </div>
+      </div>
+      <div class="quarto-title-meta-column-end quarto-other-formats-target">
+      <div class="quarto-alternate-formats"><div class="quarto-title-meta-heading">Other Formats</div><div class="quarto-title-meta-contents"><p><a href="index.docx"><i class="bi bi-file-word"></i>MS Word</a></p></div><div class="quarto-title-meta-contents"><p><a href="index.pdf"><i class="bi bi-file-pdf"></i>PDF (agu)</a></p></div><div class="quarto-title-meta-contents"><p><a href="index-meca.zip" data-meca-link="true"><i class="bi bi-archive"></i>MECA Bundle</a></p></div></div></div>
+    </div>
+
+    <div>
+      <div class="abstract">
+        <div class="block-title">Abstract</div>
+        ABSTRACT
+      </div>
+    </div>
+
+    <div>
+      <div class="keywords">
+        <div class="block-title">Keywords</div>
+        <p>Protected areas, Coarsened exact matching, Reference states, Remote sensing, Ecosystem structure, Ecosystem function</p>
+      </div>
+    </div>
+
+    <div class="quarto-other-links-text-target">
+    </div>  </div>
+</header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article toc-left">
+<div id="quarto-sidebar-toc-left" class="sidebar toc-left">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">2</span> Methods</a>
+  <ul class="collapse">
+  <li><a href="#study-area" id="toc-study-area" class="nav-link" data-scroll-target="#study-area"><span class="header-section-number">2.1</span> Study Area</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">2.2</span> Data</a>
+  <ul class="collapse">
+  <li><a href="#reference-state" id="toc-reference-state" class="nav-link" data-scroll-target="#reference-state"><span class="header-section-number">2.2.1</span> Reference State</a></li>
+  <li><a href="#forest-structure" id="toc-forest-structure" class="nav-link" data-scroll-target="#forest-structure"><span class="header-section-number">2.2.2</span> Forest Structure</a></li>
+  <li><a href="#forest-function" id="toc-forest-function" class="nav-link" data-scroll-target="#forest-function"><span class="header-section-number">2.2.3</span> Forest Function</a></li>
+  <li><a href="#anthropogenic-pressures" id="toc-anthropogenic-pressures" class="nav-link" data-scroll-target="#anthropogenic-pressures"><span class="header-section-number">2.2.4</span> Anthropogenic Pressures</a></li>
+  <li><a href="#covariates" id="toc-covariates" class="nav-link" data-scroll-target="#covariates"><span class="header-section-number">2.2.5</span> Covariates</a></li>
+  </ul></li>
+  <li><a href="#sec-sim" id="toc-sec-sim" class="nav-link" data-scroll-target="#sec-sim"><span class="header-section-number">2.3</span> Calculating similarity</a></li>
+  <li><a href="#sampling" id="toc-sampling" class="nav-link" data-scroll-target="#sampling"><span class="header-section-number">2.4</span> Sampling</a></li>
+  <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis"><span class="header-section-number">2.5</span> Analysis</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">3</span> Results</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion"><span class="header-section-number">4</span> Discussion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+</div>
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+  
+
+
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>A global biodiversity crisis is currently underway, driven by anthropogenic changes <span class="citation" data-cites="dirzo2003">(<a href="#ref-dirzo2003" role="doc-biblioref">Dirzo and Raven, 2003</a>)</span>. Pressures such as climate change, land use change, and invasive species, are leading to species extinctions <span class="citation" data-cites="thomas2004 urban2015">(<a href="#ref-thomas2004" role="doc-biblioref">Thomas et al., 2004</a>; <a href="#ref-urban2015" role="doc-biblioref">Urban, 2015</a>)</span> and the homogenization of biological communities <span class="citation" data-cites="mcgill2015">(<a href="#ref-mcgill2015" role="doc-biblioref">McGill et al., 2015</a>)</span>. The Kunming-Montreal Global Biodiversity Framework (GBF) was adopted in December 2022 with the goal of restoring and safeguarding global biodiversity <span class="citation" data-cites="reporto2023">(<a href="#ref-reporto2023" role="doc-biblioref">Convention on Biological Diversity, 2023</a>)</span>. Targets within this framework include restoring 30% of all degraded ecosystems, protecting 30% of the Earth’s terrestrial, inland water, and marine areas, and achieving no loss of high biodiversity importance areas, including high ecological integrity ecosystems <span class="citation" data-cites="reporto2023">(<a href="#ref-reporto2023" role="doc-biblioref">Convention on Biological Diversity, 2023</a>)</span>. In the terrestrial environment, forest biomes have been shown to harbour the largest amount of biodiversity <span class="citation" data-cites="myers1988 pimm2000 cardinale2012">(<a href="#ref-cardinale2012" role="doc-biblioref">Cardinale et al., 2012</a>; <a href="#ref-myers1988" role="doc-biblioref">Myers, 1988</a>; <a href="#ref-pimm2000" role="doc-biblioref">Pimm and Raven, 2000</a>)</span>, and provide key ecosystem services <span class="citation" data-cites="thompson2009">(<a href="#ref-thompson2009" role="doc-biblioref">Thompson et al., 2009</a>)</span>. To provide these services, it is integral that these forest ecosystems are in good ecological condition, as represented by natural or near-natural levels of forest structure, function, and composition, often referred to as having high ecological integrity <span class="citation" data-cites="marín2021">(<a href="#ref-marín2021" role="doc-biblioref">Marín et al., 2021</a>)</span>.</p>
+<p>While understanding forest condition is a key aspect of understanding biodiversity and the provision of ecosystem services due to their inherent linkages <span class="citation" data-cites="marín2021 cardinale2012">(<a href="#ref-cardinale2012" role="doc-biblioref">Cardinale et al., 2012</a>; <a href="#ref-marín2021" role="doc-biblioref">Marín et al., 2021</a>)</span>, it is challenging to obtain suitable field-derived data across extensive land areas due to the significant financial and temporal costs associated with large-scale field campaigns. Remote sensing data, however, can provide a efficient and cost-effective alternative to field data, offering access to new spatially explicit and comprehensive datasets that can be linked to ecological condition, with additional metrics being proposed at a rapid pace <span class="citation" data-cites="skidmore2021 pereira2013 radeloff2024">(<a href="#ref-pereira2013" role="doc-biblioref">Pereira et al., 2013</a>; <a href="#ref-radeloff2024" role="doc-biblioref">Radeloff et al., 2024</a>; <a href="#ref-skidmore2021" role="doc-biblioref">Skidmore et al., 2021</a>)</span>. Advances in lidar technologies and modelling methods are enabling the generation of wall-to-wall estimates of forest stand structure to be generated across entire countries <span class="citation" data-cites="matasci2018 becker2023 matasci2018a">(<a href="#ref-becker2023" role="doc-biblioref">Becker et al., 2023</a>; <a href="#ref-matasci2018" role="doc-biblioref">Matasci et al., 2018a</a>; <a href="#ref-matasci2018a" role="doc-biblioref">Matasci et al., 2018b</a>)</span>, which serve as a more detailed indicator of ecosystem structure than the often previously used landscape fragmentation metrics <span class="citation" data-cites="andrew2012">(<a href="#ref-andrew2012" role="doc-biblioref">Andrew et al., 2012</a>)</span>. Productivity metrics have been employed as a proxy for ecosystem function for many years <span class="citation" data-cites="pettorelli2005 pettorelli2018">(<a href="#ref-pettorelli2018" role="doc-biblioref">Pettorelli et al., 2018</a>, <a href="#ref-pettorelli2005" role="doc-biblioref">2005</a>)</span>, with new Landsat-derived datasets providing integrative annual estimates of energy availability at a 30 m spatial resolution <span class="citation" data-cites="radeloff2024 radeloff2019 razenkova">(<a href="#ref-radeloff2024" role="doc-biblioref">Radeloff et al., 2024</a>; <a href="#ref-radeloff2019" role="doc-biblioref">Radeloff et al., 2019</a>; <a href="#ref-razenkova" role="doc-biblioref">Razenkova et al., n.d.</a>)</span>. Remote sensing is quickly providing access to a vast array of datasets suitable for monitoring the various facets of biodiversity and ecological condition <span class="citation" data-cites="noss1990">(<a href="#ref-noss1990" role="doc-biblioref">Noss, 1990</a>)</span>. The integration of these datasets with information pertaining to the location of known high-ecological-integrity forests enables researchers to identify high-quality forest reference states across entire jurisdictions, even in the presence of anthropogenic pressures.</p>
+<p>Ecological reference states represent baseline conditions of ecosystems, serving as a benchmark for assessing ecological health and guiding restoration efforts <span class="citation" data-cites="nielsen2007">(<a href="#ref-nielsen2007" role="doc-biblioref">Nielsen et al., 2007</a>)</span>. The application of counterfactual thinking, which entails considering the potenital state of an ecosystem in the absence of anthropogenic pressures <span class="citation" data-cites="ferraro2009">(<a href="#ref-ferraro2009" role="doc-biblioref">Ferraro, 2009</a>)</span> can be instrumental for mapping high-integrity forests. Approaches such as coarsened exact matching <span class="citation" data-cites="iacus2012">(<a href="#ref-iacus2012" role="doc-biblioref">Iacus et al., 2012</a>)</span>, can be used to facilitate comparisons between forest stands and their hypothetical reference states. These methods account for confounding environmental variables, thereby ensuring that all forests are compared to an appropriate reference state. Identifying a suitable reference state can be difficult, however there are methods which can be used to approximate high-integrity reference conditions. Historical reference states can be used when an ecosystem has a large depth of temporal data to compare to, however, it is not always guaranteed that an ecosystem can be restored to these historical norms due to changing climates <span class="citation" data-cites="balaguer2014 mcnellie2020">(<a href="#ref-balaguer2014" role="doc-biblioref">Balaguer et al., 2014</a>; <a href="#ref-mcnellie2020" role="doc-biblioref">McNellie et al., 2020</a>)</span>. Other proposed methods for delineating baseline conditions include protected areas <span class="citation" data-cites="arcese1997">(<a href="#ref-arcese1997" role="doc-biblioref">Arcese and Sinclair, 1997</a>)</span>, and empirical estimates of the reference state generated by modelling outcomes (oftentimes species abundances and occurrence) in the absence of anthropogenic disturbance <span class="citation" data-cites="nielsen2007">(<a href="#ref-nielsen2007" role="doc-biblioref">Nielsen et al., 2007</a>)</span>.</p>
+<p>Protected areas, specifically designed for biodiversity conservation, are frequently faced with lower levels anthropogenic pressure as a result of biases in their placement <span class="citation" data-cites="joppa2009 muise2022">(<a href="#ref-joppa2009" role="doc-biblioref">Joppa and Pfaff, 2009</a>; <a href="#ref-muise2022" role="doc-biblioref">Muise et al., 2022</a>)</span>. In forested ecosystems, over time this leads to undisturbed high-integrity forests remaining within protected areas due to their natural disturbance regimes and a lack of anthropogenic pressures <span class="citation" data-cites="brumelis2011">(<a href="#ref-brumelis2011" role="doc-biblioref">Brumelis et al., 2011</a>)</span>. These high-integrity forests, situated within protected areas, can serve as effective ecological baselines <span class="citation" data-cites="arcese1997">(<a href="#ref-arcese1997" role="doc-biblioref">Arcese and Sinclair, 1997</a>)</span>. When suitably matched to unprotected areas, they can be used as a reference state to assess the differences between all forests and their high-integrity counterparts <span class="citation" data-cites="ferraro2009">(<a href="#ref-ferraro2009" role="doc-biblioref">Ferraro, 2009</a>)</span>. Further, protected areas and undisturbed ecosystems such as intact forest landscapes have been shown to have increased structural densities when compared to other ecosystems <span class="citation" data-cites="li2023 muise2022">(<a href="#ref-li2023" role="doc-biblioref">Li et al., 2023</a>; <a href="#ref-muise2022" role="doc-biblioref">Muise et al., 2022</a>)</span>.</p>
+<p>Anthropogenic pressure such as increased road densities <span class="citation" data-cites="nielsen2007">(<a href="#ref-nielsen2007" role="doc-biblioref">Nielsen et al., 2007</a>)</span>, harvesting leading to edge effects <span class="citation" data-cites="bourgoin2024">(<a href="#ref-bourgoin2024" role="doc-biblioref">Bourgoin et al., 2024</a>)</span>, and other human-induced disturbances <span class="citation" data-cites="liira2007">(<a href="#ref-liira2007" role="doc-biblioref">Liira et al., 2007</a>)</span> have been shown to influence forest structure. Novel datasets such as the Forest Structural Condition Index (FSCA) have been developed which integrate both structure and anthropogenic pressure into an index which identifies ecosystems of high conservation value, with high structural complexity and low anthropogenic pressure <span class="citation" data-cites="hansen2019">(<a href="#ref-hansen2019" role="doc-biblioref">Hansen et al., 2019</a>)</span>. The impacts of anthropocentric pressure on forest functioning and energy availability is less frequently assessed. <span class="citation" data-cites="hedwall2019">Hedwall et al. (<a href="#ref-hedwall2019" role="doc-biblioref">2019</a>)</span> assessed plant community shifts under anthropogenic pressures in the boreal forests of Sweden, and hypothesized that changed communities may affect forest functioning. <span class="citation" data-cites="grantham2020">Grantham et al. (<a href="#ref-grantham2020" role="doc-biblioref">2020</a>)</span> used forest extent and arrangement, alongside pressure datasets, to assess ecosystem integrity, with expectations that high-integrity ecosystems will retain high levels of ecosystem functioning. However, to our knowledge, direct impacts of anthropogenic pressures on forest ecosystem function have not been assessed at a landscape scale.</p>
+<p>We proposed a novel, data-driven, approach to identify high-integrity forests based on various satellite-derived metrics of ecosystem condition, and calculate the degree of similarity for regions of unknown integrity to high-integrity forests found on Vancouver Island, British Columbia, Canada. We use a strict matching approach to ensure ecological similarity, and choose the highest 10% of metric values across variables that are known to be correlated with ecological condition and biodiversity. We then calculate ecological similarity using sigma dissimilarity <span class="citation" data-cites="mahony2017">(<a href="#ref-mahony2017" role="doc-biblioref">Mahony et al., 2017</a>)</span> alongside human footprint layers developed by <span class="citation" data-cites="hirsh-pearson2022">Hirsh-Pearson et al. (<a href="#ref-hirsh-pearson2022" role="doc-biblioref">2022</a>)</span> to assess the influence of anthropogenic pressure of ecological integrity by cumulative and individual pressures. Further, we compare the similarity metrics between ecological structure and function to identify linkages between ecological similartiy of forest structure and forest functioning, while accounting for the presence of anthropogenic pressures.</p>
+</section>
+<section id="methods" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Methods</h1>
+<section id="study-area" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="study-area"><span class="header-section-number">2.1</span> Study Area</h2>
+<p>We focus on the forested areas of Vancouver Island, British Columbia, Canada. Vancouver island has approximately 31285 km<sup>2</sup> of land area, of which 79.5% is forested. The dominant forest species on Vancouver Island are Douglas-fir (<em>Pseudotsuga menziesii</em>), western red cedar (<em>Thuja plicata</em>), western hemlock (<em>Tsuga heterophylla</em>), yellow cedar (<em>Chamaecyparis nootkatensis</em>), and Sitka spruce (<em>Picea sitchensis</em>) <span class="citation" data-cites="burns1990">(<a href="#ref-burns1990" role="doc-biblioref">Burns, 1990</a>)</span>. British Columbia generally has at temperate maritime climate, with mild, wet winters, and cool, dry summers. There are four ecosystems on Vancouver Island as defined by British Columbia’s biogeoclimatic ecosystem classification (BEC) framework <span class="citation" data-cites="pojar1987">(<a href="#ref-pojar1987" role="doc-biblioref">Pojar et al., 1987</a>)</span>, Coastal Western Hemlock (CWH), Mountain Hemlock (MH), Coastal Douglas Fir (CDF), and Coastal Mountain-heather Alpine (CMA), which are broadly delineated based on soil, climate, and elevation. Forestry is an important industry on Vancouver Island, while fires are historically rare and low severity <span class="citation" data-cites="daniels2006">(<a href="#ref-daniels2006" role="doc-biblioref">Daniels and Gray, 2006</a>)</span>.</p>
+<div id="cell-fig-study" class="cell">
+<div class="cell-output-display">
+<div id="fig-study" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-study-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="strathcona/figures/study_area.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Study area on Vancouver Island, British Columbia, Canada, including the location of Strathcona Provincial Park."><img src="strathcona/figures/study_area.png" class="img-fluid figure-img" width="900"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-study-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Study area on Vancouver Island, British Columbia, Canada, including the location of Strathcona Provincial Park.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="data" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="data"><span class="header-section-number">2.2</span> Data</h2>
+<section id="reference-state" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="reference-state"><span class="header-section-number">2.2.1</span> Reference State</h3>
+<p>We defined our reference state as the forested area of Strathcona Park. We chose Strathcona Park as a temporal and protected area reference state, as the oldest and largest (2480 km<sup>2</sup>) protected area in British Columbia. Strathcona Park was established in 1911, and 80% of the park is preserved as wilderness area and designated as Nature Conservancy Areas under the <em>Park Act</em> <span class="citation" data-cites="parkact">(<a href="#ref-parkact" role="doc-biblioref"><span>“Park <span>Act</span>,”</span> n.d.</a>)</span>. The park contains three BEC zones, CWH, MH, and CMA, but does not include CDF, which is only found in the southern portion of the island. Due to this, we do not include CDF in our analysis.</p>
+</section>
+<section id="forest-structure" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="forest-structure"><span class="header-section-number">2.2.2</span> Forest Structure</h3>
+<p>Wall-to-wall, 30 m forest structure metrics (canopy height, canopy cover, structural complexity, and aboveground biomass) were generated by <span class="citation" data-cites="matasci2018">Matasci et al. (<a href="#ref-matasci2018" role="doc-biblioref">2018a</a>)</span> for 2015 across the forested landscape of British Columbia. This data was generated by using a random forest-kNN approach, imputing airborne laser scanning derived forest structural attributes across the entirety of Canada using Landsat-derived best-available-pixel (BAP) composites <span class="citation" data-cites="white2014 hermosilla2016">(<a href="#ref-hermosilla2016" role="doc-biblioref">Hermosilla et al., 2016</a>; <a href="#ref-white2014" role="doc-biblioref">White et al., 2014</a>)</span> and topographic information <span class="citation" data-cites="matasci2018 matasci2018a">(<a href="#ref-matasci2018" role="doc-biblioref">Matasci et al., 2018a</a>; <a href="#ref-matasci2018a" role="doc-biblioref">Matasci et al., 2018b</a>)</span>. The BAP composites were derived by selecting optical observations from the Landsat archive (including Landsat-5 Thematic Mapper, Landsat-7 Enhanced Thematic Mapper Plus, and Landsat-8 Operational Land Imager imagery) over the course of the growing season, considering atmospheric effects (haze, clouds, cloud shadows) and distance from the desired composite date (in this case, August 31st). Details on the pixel scoring method can be found in <span class="citation" data-cites="white2014">White et al. (<a href="#ref-white2014" role="doc-biblioref">2014</a>)</span>. The BAP composites were further refined by using a spectral trend analysis on the normalized burn ratio to remove noise, and missing pixels are infilled using temporally-interpolated values. This procedure results in gap-free, surface-reflectance image composites <span class="citation" data-cites="hermosilla2015">(<a href="#ref-hermosilla2015" role="doc-biblioref">Hermosilla et al., 2015</a>)</span>, which are used as the primary dataset to impute forest structural attributes <span class="citation" data-cites="matasci2018 matasci2018a">(<a href="#ref-matasci2018" role="doc-biblioref">Matasci et al., 2018a</a>; <a href="#ref-matasci2018a" role="doc-biblioref">Matasci et al., 2018b</a>)</span>.</p>
+</section>
+<section id="forest-function" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="forest-function"><span class="header-section-number">2.2.3</span> Forest Function</h3>
+<p>For our forest ecosystem function dataset, we calculated the Dynamic Habitat Indices <span class="citation" data-cites="radeloff2019">(<a href="#ref-radeloff2019" role="doc-biblioref">Radeloff et al., 2019</a>)</span> using Landsat data on Google Earth Engine <span class="citation" data-cites="gorelick2017">(<a href="#ref-gorelick2017" role="doc-biblioref">Gorelick et al., 2017</a>)</span>, following the methodology of <span class="citation" data-cites="razenkova">Razenkova et al. (<a href="#ref-razenkova" role="doc-biblioref">n.d.</a>)</span>. Briefly, we created a synthetic year of NDVI composites using all available Landsat imagery from 2011-2020 (centred on 2015). We used the Landsat QA band derived from the fmask algorithm <span class="citation" data-cites="zhu2012">(<a href="#ref-zhu2012" role="doc-biblioref">Zhu and Woodcock, 2012</a>)</span> to filter out erroneous pixels, such as clouds and cloud shadows. Monthly NDVI values were calculated by taking the median of each month’s NDVI observations, ignoring the year the image was acquired. This allows us to generate the DHIs at spatial resolution of 30 m, while accounting for the lower temporal resolution of the Landsat series when compared to the more commonly used MODIS satellites <span class="citation" data-cites="razenkova">(<a href="#ref-razenkova" role="doc-biblioref">Razenkova et al., n.d.</a>)</span>. The DHIs are calculated as the sum (Cumulative DHI), minimum (Minimum DHI), and coefficient of variation (Variation DHI) of these monthly observations. The three DHIs have been shown to be indicative of biodiversity overa range of scales <span class="citation" data-cites="radeloff2019 razenkova2022">(<a href="#ref-radeloff2019" role="doc-biblioref">Radeloff et al., 2019</a>; <a href="#ref-razenkova2022" role="doc-biblioref">Razenkova et al., 2022</a>)</span> and extents <span class="citation" data-cites="WOS:000265076300011 coops2019">(<a href="#ref-coops2019" role="doc-biblioref">Coops et al., 2019</a>, <a href="#ref-WOS:000265076300011" role="doc-biblioref">2009</a>)</span> for a variety of clades <span class="citation" data-cites="razenkovaMoose suttidateConn">(<a href="#ref-razenkovaMoose" role="doc-biblioref">Michaud et al., 2014</a>; <a href="#ref-suttidateConn" role="doc-biblioref">Suttidate et al., 2021</a>)</span>.</p>
+</section>
+<section id="anthropogenic-pressures" class="level3" data-number="2.2.4">
+<h3 data-number="2.2.4" class="anchored" data-anchor-id="anthropogenic-pressures"><span class="header-section-number">2.2.4</span> Anthropogenic Pressures</h3>
+<p>We use the Canadian Human Footprint as developed by <span class="citation" data-cites="hirsh-pearson2022">Hirsh-Pearson et al. (<a href="#ref-hirsh-pearson2022" role="doc-biblioref">2022</a>)</span>. The Canadian Human Footprint is an additive pressure map generated by summing the 12 different anthropogenic pressures (built environments, crop land, pasture land, population density, nighttime lights, railways, roads, navigable waterways, dams and associated reservoirs, mining activity, oil and gas, and forestry), which ranges from zero to 55 for any cell across Canada. This cumulative dataset is also distributed with Canada-wide individual pressure values <span class="citation" data-cites="hirsh-pearson">(<a href="#ref-hirsh-pearson" role="doc-biblioref">Hirsh-Pearson et al., n.d.</a>)</span>. Here, we focus on the overall cumulative pressure map and four individual pressures: population density, built environments, roads, and forestry.</p>
+</section>
+<section id="covariates" class="level3" data-number="2.2.5">
+<h3 data-number="2.2.5" class="anchored" data-anchor-id="covariates"><span class="header-section-number">2.2.5</span> Covariates</h3>
+<p>In our matching procedure (see <a href="#sec-sim" class="quarto-xref">Section&nbsp;2.3</a>) we use two core datasets as our matching covariates. Firstly, we use a 30 m digital elevation model and derived slope dataset from the Advanced Spaceborne Thermal Emission and Reflection Radiometer (ASTER) Version 2 GDEM product <span class="citation" data-cites="tachikawa2011">(<a href="#ref-tachikawa2011" role="doc-biblioref">Tachikawa et al., 2011</a>)</span>. We also match on four climate variables; mean annual precipitation (MAP), mean annual temperature (MAT), mean warmest month temperature (MWMT), and mean coldest month temperature (MCMT) calculated from 1990-2020 climate normals using the ClimateNA software package at a 1 km spatial resolution, and downsampled to 30 m using cubic spline resampling in the <strong>terra</strong> (version 1.7-71) R package <span class="citation" data-cites="R-terra">(<a href="#ref-R-terra" role="doc-biblioref">Hijmans, 2024</a>)</span> in R <span class="citation" data-cites="R-base">(<a href="#ref-R-base" role="doc-biblioref">R Core Team, 2024</a> version 4.4.1)</span>.</p>
+</section>
+</section>
+<section id="sec-sim" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="sec-sim"><span class="header-section-number">2.3</span> Calculating similarity</h2>
+<p>We calculate the sigma dissimilarity <span class="citation" data-cites="mahony2017">(<a href="#ref-mahony2017" role="doc-biblioref">Mahony et al., 2017</a>)</span> of forested pixels across British Columbia by using an expanded coarsened exact matching (CEM) technique , <a href="#fig-flow" class="quarto-xref">Figure&nbsp;2</a>. This methodology enables us to evaluate the degree of similarity between all forested pixels in the province and natural forests, while accounting for potential confounding variables such as climate and topography. Briefly, the CEM technique creates comparable groups of observations among covariates by initially coarsening the covariates. In this instance, all six covariates were coarsened into five quintiles hereafter referred to as bins. CEM then performs exact matching on the bins, with each pixel matched to a climatically and topographically similar group of pixels within Strathcona Park, hereafter referred to as strata. In the case where there is not enough matched pixels found in Strathcona Park, we calculate the nearest neighbours in bin space for all strata, and sample up to 1000 pixels while minimizing the nearest neighbour distance. If the nearest neighbour distance is on average above 2, we do not consider that strata in our analysis.</p>
+<div id="cell-fig-flow" class="cell">
+<div class="cell-output-display">
+<div id="fig-flow" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="figures/flow.drawio.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Conceptual flow diagram of the study."><img src="figures/flow.drawio.png" class="img-fluid figure-img" width="788"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Conceptual flow diagram of the study.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Following the matching procedure, we identify data driven reference states in both structural and functional attributes by selecting the top 10% of protected observations for each structural (canopy height, cover, and structural complexity) and functional (cumulative and variation DHIs) attribute, separately. We then determine the similarity of all pixels, in both structural and functional attributes, to the reference states by calculating the sigma dissimilarity metric. Sigma dissimilarity standardizes the Mahalanobian distance <span class="citation" data-cites="mahalanobis1936generalized">(<a href="#ref-mahalanobis1936generalized" role="doc-biblioref">Mahalanobis, 1936</a>)</span> by rescaling it into percentiles of the chi distribution <span class="citation" data-cites="mahony2017">(<a href="#ref-mahony2017" role="doc-biblioref">Mahony et al., 2017</a>)</span>. This effectively accounts for the effect of dimensionality when creating a multivariate similarity metric <span class="citation" data-cites="mahony2017">(<a href="#ref-mahony2017" role="doc-biblioref">Mahony et al., 2017</a>)</span>. We calculate sigma dissimilarity for every strata with a suitable reference state, for each of the 6</p>
+</section>
+<section id="sampling" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="sampling"><span class="header-section-number">2.4</span> Sampling</h2>
+<p>We reclassify the Canadian Human Footprint <span class="citation" data-cites="hirsh-pearson hirsh-pearson2022">(<a href="#ref-hirsh-pearson" role="doc-biblioref">Hirsh-Pearson et al., n.d.</a>; <a href="#ref-hirsh-pearson2022" role="doc-biblioref">Hirsh-Pearson et al., 2022</a>)</span> into categorical data following <span class="citation" data-cites="hirsh-pearson2022">Hirsh-Pearson et al. (<a href="#ref-hirsh-pearson2022" role="doc-biblioref">2022</a>)</span> and <span class="citation" data-cites="arias-patino2024">Arias-Patino et al. (<a href="#ref-arias-patino2024" role="doc-biblioref">2024</a>)</span> : a value of zero has no anthropogenic pressure, zero to four has low anthropogenic pressure, four to eight has medium anthropogenic pressure, and &gt; eight has high anthropogenic pressure. To assess the cumulative impact of anthropogenic pressure on ecological similarity, we implement stratified sampling on all suitable strata, sampling 100 samples from each anthropogenic pressure class. For our individual pressures, we follow the same reclassification steps on each pressure layer, and sample an additional hundred samples for each pressure class. Sampling was performed using the <strong>sgsR</strong> (version 1.4.5) R package <span class="citation" data-cites="goodbody2023">(<a href="#ref-goodbody2023" role="doc-biblioref">Goodbody et al., 2023</a>)</span> with the Quiennec method <span class="citation" data-cites="queinnec2021">(<a href="#ref-queinnec2021" role="doc-biblioref">Queinnec et al., 2021</a>)</span>.</p>
+</section>
+<section id="analysis" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="analysis"><span class="header-section-number">2.5</span> Analysis</h2>
+<p>We used a one-way analysis of variance (ANOVA) with a critical value of 0.05 to identify differences in the mean similarity values across cumulative anthropogenic pressure classes. We account for family-wise error rate for our ANOVAs using the Holm-Bonferroni method, only continuing the analysis for similarity variables with significant ANOVAs at the adjusted critical value. As ANOVAs only identify if there is a difference in means, but does not identify which means are different, we used a Tukey HSD post-hoc test to identify which means are different from the control group (no anthropogenic pressure), which also controls for the family-wise error rate.</p>
+<p>We follow the same protocol to identify the difference in means for each anthropogenic pressure of interest (roads, population density, forestry, and built environment). We compare each pressure to the same ‘no pressure’ values sampled in the cumulative pressure analysis. All statistical analysis were conducted using the <strong>rstatix</strong> (version 0.7.2) R package <span class="citation" data-cites="R-rstatix">(<a href="#ref-R-rstatix" role="doc-biblioref">Kassambara, 2023</a>)</span>.</p>
+</section>
+</section>
+<section id="results" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Results</h1>
+<p>We found that similarity to high structural complexity (Anova: p = 0.007) and high canopy height (Anova: p = 0.003) reference states was influenced by medium to high levels of cumulative anthropogenic pressure (<a href="#fig-boxplot-overall" class="quarto-xref">Figure&nbsp;3</a>). Similarity to high biomass (Anova: p = 0.142) and canopy cover (Anova: p = 0.855) regions were not significantly influenced by cumulative anthropogenic pressures. Productivity metrics were also not influenced by cumulative anthropogenic pressures.</p>
+<div id="cell-fig-boxplot-overall" class="cell">
+<div class="cell-output-display">
+<div id="fig-boxplot-overall" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-boxplot-overall-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="strathcona/figures/mahal_boxplot_sig.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Boxplots of sigma similarity to the reference state in Strathcona Provincial Park by cumulative human footprint category. Anova p-values corrected using the Holm-Bonferroni method. * indicates a Tukey HSD p-value < 0.05. ** indicates a Tukey HSD p-value < 0.01."><img src="strathcona/figures/mahal_boxplot_sig.png" class="img-fluid figure-img" width="1800"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-overall-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Boxplots of sigma similarity to the reference state in Strathcona Provincial Park by cumulative human footprint category. Anova p-values corrected using the Holm-Bonferroni method. * indicates a Tukey HSD p-value &lt; 0.05. ** indicates a Tukey HSD p-value &lt; 0.01.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Increases in all individual anthropogenic pressures led to increased dissimilarity when compared to most structural reference states (<a href="#fig-boxplot-individual" class="quarto-xref">Figure&nbsp;4</a>). Increases in pressures from roads and built environment did not increase or reduce similarity to structural reference states with high canopy cover. Medium and high pressures from population density and forestry/harvesting increased dissimilarity to all structural reference states. Anthropogenic pressures generally did not influence the similarity to reference states based on productivity metrics, however, increases in pressures from population density decreased dissimilarity to ecosystems with high variation in energy availability.</p>
+<div id="cell-fig-boxplot-individual" class="cell">
+<div class="cell-output-display">
+<div id="fig-boxplot-individual" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-boxplot-individual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="strathcona/figures/mahal_boxplot_sig.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Boxplots of sigma similarity to the reference state in Strathcona Provincial Park by individual anthropogenic pressures. Anova p-values corrected using the Holm-Bonferroni method. * indicates a Tukey HSD p-value < 0.05. ** indicates a Tukey HSD p-value < 0.01. *** indicates a Tukey HSD p-value < 0.001. **** indicates a Tukey HSD p-value < 0.0001."><img src="strathcona/figures/mahal_boxplot_sig.png" class="img-fluid figure-img" width="1800"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-boxplot-individual-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Boxplots of sigma similarity to the reference state in Strathcona Provincial Park by individual anthropogenic pressures. Anova p-values corrected using the Holm-Bonferroni method. * indicates a Tukey HSD p-value &lt; 0.05. ** indicates a Tukey HSD p-value &lt; 0.01. *** indicates a Tukey HSD p-value &lt; 0.001. **** indicates a Tukey HSD p-value &lt; 0.0001.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="discussion" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Discussion</h1>
+<p>In this paper, we use medium-resolution remote sensing metrics of ecosystem structure and function to assess similarity to high-integrity forests across Vancouver Island, British Columbia. We validate our approach by assessing the influence of the human footprint on these reference states, finding that ecosystem structure in the form of forest structural attributes is influenced by increased anthropogenic pressures on a cumulative and individual level (<a href="#fig-boxplot-overall" class="quarto-xref">Figure&nbsp;3</a>; <a href="#fig-boxplot-individual" class="quarto-xref">Figure&nbsp;4</a>). Forest ecosystem function, as represented by the DHIs, is generally not significantly influenced by anthropogenic pressures, although population density increased similarity to ecosystems with high variation in energy availability (<a href="#fig-boxplot-individual" class="quarto-xref">Figure&nbsp;4</a>).</p>
+<p>We find that similarity to high structural complexity forests, which are often high in biodiversity due to increased niche availability <span class="citation" data-cites="walter2021 macarthur1961">(<a href="#ref-macarthur1961" role="doc-biblioref">Macarthur and Macarthur, 1961</a>; <a href="#ref-walter2021" role="doc-biblioref">Walter et al., 2021</a>)</span>, is impacted by medium to high levels of anthropogenic pressures. Structural similarity to tall forests is also impacted by medium to high levelsof anthropogenic pressure, while productivity metrics were not influenced by cumulative anthropogenic pressures in this region <a href="#fig-boxplot-overall" class="quarto-xref">Figure&nbsp;3</a>. In tropical forests, <span class="citation" data-cites="bourgoin2024">Bourgoin et al. (<a href="#ref-bourgoin2024" role="doc-biblioref">2024</a>)</span> found that anthropogenic forest degradation influenced aboveground biomass and canopy height, however, they focus on edge effects, fire, and selective logging, rather than cumulative and individual anthropogenic pressures. <span class="citation" data-cites="li2023">Li et al. (<a href="#ref-li2023" role="doc-biblioref">2023</a>)</span> also found a global impact of anthropogenic pressures on forest structural density, however, they do not explore which facets of anthropogenic pressure are the strongest driver of forest degradation. <span class="citation" data-cites="hansen2020">Hansen et al. (<a href="#ref-hansen2020" role="doc-biblioref">2020</a>)</span> integrate forest structure and anthropogenic pressure into the forest structural integrity index to identify forest stands of high ecological value (high structural quality; low anthropogenic footprint). We further this research by assessing individual pressures on a multivariate metric of structural similarity to a high-quality reference state <a href="#fig-boxplot-individual" class="quarto-xref">Figure&nbsp;4</a>.</p>
+<p>Anthropogenic effects on forest function are rarely examined. Here, we also examine how anthropogenic pressures influence similarity to high available energy and high energy variation forests, both hypothesized to indicate high levels of biodiversity in a number of guilds and clades <span class="citation" data-cites="radeloff2019 razenkova2022">(<a href="#ref-radeloff2019" role="doc-biblioref">Radeloff et al., 2019</a>; <a href="#ref-razenkova2022" role="doc-biblioref">Razenkova et al., 2022</a>)</span>. We do not find a strong influence of cumulative anthropogenic pressure on our forest functioning metrics, however, we did find that dissimilarity to forest stands with high annual energy variability was reduced under high anthropogenic pressure (<a href="#fig-boxplot-individual" class="quarto-xref">Figure&nbsp;4</a>).</p>
+<p>Assessing individual pressure influences on the environment is also relevant to questions of how cumulative anthropogenic pressure maps are calculate. There is currently a debate between additive and antagonistic anthropogenic pressure mapping methods, as there is little information on mechanistic interactions between pressures <span class="citation" data-cites="arias-patino2024">(<a href="#ref-arias-patino2024" role="doc-biblioref">Arias-Patino et al., 2024</a>)</span>. We assess individual pressures on structural and functional similarity in forests across Vancouver Island, Canada, an advancement upon the current standard of using a single value of cumulative anthropogenic pressure <span class="citation" data-cites="li2023 bourgoin2024">(<a href="#ref-bourgoin2024" role="doc-biblioref">Bourgoin et al., 2024</a>; <a href="#ref-li2023" role="doc-biblioref">Li et al., 2023</a>)</span>. Similar methods could be used to examine mechanistic pressure interactions across large scales.</p>
+<p>We apply the Sigma Dissimilarity metric developed by <span class="citation" data-cites="mahony2017">Mahony et al. (<a href="#ref-mahony2017" role="doc-biblioref">2017</a>)</span> to determine similarity to high-integrity ecosystems, and use a matching approach to account for environmental covariates. This method accounts for the multidimesnionality of the structure and function datasets, and standardizes them so they are comparable. This is especially relevant in our case as we use four forest structural attributes and two forest function metrics. These methods are similar to other similarity metrics commonly applied in remote sensing for multivariate similarity such as spectral similarity <span class="citation" data-cites="schweiger2018">(<a href="#ref-schweiger2018" role="doc-biblioref">Schweiger et al., 2018</a>)</span>, and phenospectral similarity <span class="citation" data-cites="oseidarko2024">(<a href="#ref-oseidarko2024" role="doc-biblioref">Osei Darko et al., 2024</a>)</span>.</p>
+<p>While we are limited in number of structural variables due to the imputation of the lidar-derived dataset across the study area <span class="citation" data-cites="matasci2018 matasci2018a">(<a href="#ref-matasci2018" role="doc-biblioref">Matasci et al., 2018a</a>; <a href="#ref-matasci2018a" role="doc-biblioref">Matasci et al., 2018b</a>)</span>, future studies could directly use raw lidar datasets to create a multitude of metrics, and apply the sigma similarity method to those. This could capture additional facets of similarity which are missed when using a Canada-wide dataset with limited forest structural attributes at 30 m. New spaceborne lidar missions such as GEDI <span class="citation" data-cites="dubayah2020">(<a href="#ref-dubayah2020" role="doc-biblioref">Dubayah et al., 2020</a>)</span> and IceSAT-II <span class="citation" data-cites="neumann2019">(<a href="#ref-neumann2019" role="doc-biblioref">Neumann et al., 2019</a>)</span> are also providing estimates of forest structure across the globe. However, these satellites are sample based missions, and do not provide wall-to-wall coverage <span class="citation" data-cites="duncanson2021">(<a href="#ref-duncanson2021" role="doc-biblioref">Duncanson et al., 2021</a>)</span>.</p>
+<p>We assess multiple definitions of high quality forest across a large region using a data-driven approach. Often, it is common for reference states to be unavailable due to a lack of data on regions of high ecological integrity, especially across large regions <span class="citation" data-cites="mcnellie2020">(<a href="#ref-mcnellie2020" role="doc-biblioref">McNellie et al., 2020</a>)</span>. We attempt to circumvent this by using a large, long-established protected area (Strathcona Provincial Park; <a href="#fig-study" class="quarto-xref">Figure&nbsp;1</a>), and a matching technique that preserves ecological similarity between reference states and their counterparts. The long-established, large protected area ensures that little anthropogenic pressures or modification have been made to the landscape, while also guaranteeing that the reference state is attainable for a given topography and climate <span class="citation" data-cites="hobbs2014 corlett2016">(<a href="#ref-corlett2016" role="doc-biblioref">Corlett, 2016</a>; <a href="#ref-hobbs2014" role="doc-biblioref">Hobbs et al., 2014</a>)</span> due to contemporary nature of the reference state. Our matching technique (coarsened exact matching, combined with an kNN approach when no exact match is available) allows us to generate reference states in a near wall-to-wall fashion, which esnures similarity between reference state and compared pixels.</p>
+<p>Our techniques move beyond traditional impact evaluation techniques <span class="citation" data-cites="ferraro2009">(<a href="#ref-ferraro2009" role="doc-biblioref">Ferraro, 2009</a>)</span> commonly used in protected area effectiveness assessments by allowing spatial reconstruction of conservation outcomes, and generating a multivariate, rather than univariate, assessment of similarity to high ecological integrity forests. While our methods in this paper use a data-driven approach to derive reference states, if an individual or organization is interested in a specific species or ecosystem, and has known locations of high quality ecosystems associated with that species or ecosystem, these methods can be applied to assess similarity to those high quality ecosystems across large regions.</p>
+<p>Could also be a paragraph about urban forestry and canopy cover. Since urban foreters want to preserve high amounts of cover and greenspace that could be why the roads/built environments dont see strong differences to the reference state. This issue is also compounded by the canopy cover on the island just being consistently high across the board. I’m fine not discussing this, but could be something interesting to note</p>
+</section>
+<section id="references" class="level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-andrew2012" class="csl-entry" role="listitem">
+Andrew, M.E., Wulder, M.A., Coops, N.C., 2012. Identification of <span><em>de facto</em></span> protected areas in boreal canada. Biological Conservation 146, 97–107. <a href="https://doi.org/10.1016/j.biocon.2011.11.029">https://doi.org/10.1016/j.biocon.2011.11.029</a>
+</div>
+<div id="ref-arcese1997" class="csl-entry" role="listitem">
+Arcese, P., Sinclair, A.R.E., 1997. The role of protected areas as ecological baselines. The Journal of Wildlife Management 61, 587–602. <a href="https://doi.org/10.2307/3802167">https://doi.org/10.2307/3802167</a>
+</div>
+<div id="ref-arias-patino2024" class="csl-entry" role="listitem">
+Arias-Patino, M., Johnson, C.J., Schuster, R., Wheate, R.D., Venter, O., 2024. Accuracy, uncertainty, and biases in cumulative pressure mapping. Ecological Indicators 166, 112407. <a href="https://doi.org/10.1016/j.ecolind.2024.112407">https://doi.org/10.1016/j.ecolind.2024.112407</a>
+</div>
+<div id="ref-balaguer2014" class="csl-entry" role="listitem">
+Balaguer, L., Escudero, A., Martín-Duque, J.F., Mola, I., Aronson, J., 2014. The historical reference in restoration ecology: Re-defining a cornerstone concept. Biological Conservation 176, 12–20. <a href="https://doi.org/10.1016/j.biocon.2014.05.007">https://doi.org/10.1016/j.biocon.2014.05.007</a>
+</div>
+<div id="ref-becker2023" class="csl-entry" role="listitem">
+Becker, A., Russo, S., Puliti, S., Lang, N., Schindler, K., Wegner, J.D., 2023. Country-wide retrieval of forest structure from optical and SAR satellite imagery with deep ensembles. ISPRS Journal of Photogrammetry and Remote Sensing 195, 269–286. <a href="https://doi.org/10.1016/j.isprsjprs.2022.11.011">https://doi.org/10.1016/j.isprsjprs.2022.11.011</a>
+</div>
+<div id="ref-bourgoin2024" class="csl-entry" role="listitem">
+Bourgoin, C., Ceccherini, G., Girardello, M., Vancutsem, C., Avitabile, V., Beck, P.S.A., Beuchle, R., Blanc, L., Duveiller, G., Migliavacca, M., Vieilledent, G., Cescatti, A., Achard, F., 2024. Human degradation of tropical moist forests is greater than previously estimated. Nature 631, 570–576. <a href="https://doi.org/10.1038/s41586-024-07629-0">https://doi.org/10.1038/s41586-024-07629-0</a>
+</div>
+<div id="ref-brumelis2011" class="csl-entry" role="listitem">
+Brumelis, G., Jonsson, B.G., Kouki, J., Kuuluvainen, T., Shorohova, E., 2011. <a href="https://www.silvafennica.fi/article/446">Forest naturalness in northern Europe: perspectives on processes, structures and species diversity</a>. Silva Fennica 45.
+</div>
+<div id="ref-burns1990" class="csl-entry" role="listitem">
+Burns, R.M., 1990. Silvics of North America. U.S. Department of Agriculture, Forest Service.
+</div>
+<div id="ref-cardinale2012" class="csl-entry" role="listitem">
+Cardinale, B.J., Duffy, J.E., Gonzalez, A., Hooper, D.U., Perrings, C., Venail, P., Narwani, A., Mace, G.M., Tilman, D., Wardle, D.A., Kinzig, A.P., Daily, G.C., Loreau, M., Grace, J.B., Larigauderie, A., Srivastava, D.S., Naeem, S., 2012. Biodiversity loss and its impact on humanity. Nature 486, 59–67. <a href="https://doi.org/10.1038/nature11148">https://doi.org/10.1038/nature11148</a>
+</div>
+<div id="ref-reporto2023" class="csl-entry" role="listitem">
+Convention on Biological Diversity, 2023. Report of the conference of the parties to the <span>Convention</span> on <span>Biological Diversity</span> on the second part of its fifteenth meeting (No. CBD/COP/15/17).
+</div>
+<div id="ref-coops2019" class="csl-entry" role="listitem">
+Coops, N.C., Bolton, D.K., Hobi, M.L., Radeloff, V.C., 2019. Untangling multiple species richness hypothesis globally using remote sensing habitat indices. Ecological Indicators 107. <a href="https://doi.org/10.1016/j.ecolind.2019.105567">https://doi.org/10.1016/j.ecolind.2019.105567</a>
+</div>
+<div id="ref-WOS:000265076300011" class="csl-entry" role="listitem">
+Coops, N.C., Waring, R.H., Wulder, M.A., Pidgeon, A.M., Radeloff, V.C., 2009. Bird diversity: A predictable function of satellite-derived estimates of seasonal variation in canopy light absorbance across the united states. JOURNAL OF BIOGEOGRAPHY 36, 905–918. <a href="https://doi.org/10.1111/j.1365-2699.2008.02053.x">https://doi.org/10.1111/j.1365-2699.2008.02053.x</a>
+</div>
+<div id="ref-corlett2016" class="csl-entry" role="listitem">
+Corlett, R.T., 2016. Restoration, reintroduction, and rewilding in a changing world. Trends in Ecology &amp; Evolution 31, 453–462. <a href="https://doi.org/10.1016/j.tree.2016.02.017">https://doi.org/10.1016/j.tree.2016.02.017</a>
+</div>
+<div id="ref-daniels2006" class="csl-entry" role="listitem">
+Daniels, L.D., Gray, R.W., 2006. Disturbance regimes in coastal British Columbia. Journal of Ecosystems and Management 7. <a href="https://doi.org/10.22230/jem.2006v7n2a542">https://doi.org/10.22230/jem.2006v7n2a542</a>
+</div>
+<div id="ref-dirzo2003" class="csl-entry" role="listitem">
+Dirzo, R., Raven, P.H., 2003. Global State of Biodiversity and Loss. Annual Review of Environment and Resources 28, 137–167. <a href="https://doi.org/10.1146/annurev.energy.28.050302.105532">https://doi.org/10.1146/annurev.energy.28.050302.105532</a>
+</div>
+<div id="ref-dubayah2020" class="csl-entry" role="listitem">
+Dubayah, R., Blair, J.B., Goetz, S., Fatoyinbo, L., Hansen, M., Healey, S., Hofton, M., Hurtt, G., Kellner, J., Luthcke, S., Armston, J., Tang, H., Duncanson, L., Hancock, S., Jantz, P., Marselis, S., Patterson, P.L., Qi, W., Silva, C., 2020. The Global Ecosystem Dynamics Investigation: High-resolution laser ranging of the Earth<span>’</span>s forests and topography. Science of Remote Sensing 1, 100002. <a href="https://doi.org/10.1016/j.srs.2020.100002">https://doi.org/10.1016/j.srs.2020.100002</a>
+</div>
+<div id="ref-duncanson2021" class="csl-entry" role="listitem">
+Duncanson, L., Neuenschwander, A., Silva, C.A., Montesano, P., Guenther, E., Thomas, N., Hancock, S., Minor, D., White, J., Wulder, M., Armston, J., 2021. 2021 IEEE international geoscience and remote sensing symposium IGARSS. pp. 670–672. <a href="https://doi.org/10.1109/IGARSS47720.2021.9553209">https://doi.org/10.1109/IGARSS47720.2021.9553209</a>
+</div>
+<div id="ref-ferraro2009" class="csl-entry" role="listitem">
+Ferraro, P.J., 2009. Counterfactual thinking and impact evaluation in environmental policy. New Directions for Evaluation 2009, 75–84. <a href="https://doi.org/10.1002/ev.297">https://doi.org/10.1002/ev.297</a>
+</div>
+<div id="ref-goodbody2023" class="csl-entry" role="listitem">
+Goodbody, T.R.H., Coops, N.C., Queinnec, M., White, J.C., Tompalski, P., Hudak, A.T., Auty, D., Valbuena, R., LeBoeuf, A., Sinclair, I., McCartney, G., Prieur, J.-F., Woods, M.E., 2023. sgsR: A structurally guided sampling toolbox for LiDAR-based forest inventories. Forestry: An International Journal of Forest Research cpac055. <a href="https://doi.org/10.1093/forestry/cpac055">https://doi.org/10.1093/forestry/cpac055</a>
+</div>
+<div id="ref-gorelick2017" class="csl-entry" role="listitem">
+Gorelick, N., Hancher, M., Dixon, M., Ilyushchenko, S., Thau, D., Moore, R., 2017. Google Earth Engine: Planetary-scale geospatial analysis for everyone. Remote Sensing of Environment, Big Remotely Sensed Data: tools, applications and experiences 202, 18–27. <a href="https://doi.org/10.1016/j.rse.2017.06.031">https://doi.org/10.1016/j.rse.2017.06.031</a>
+</div>
+<div id="ref-grantham2020" class="csl-entry" role="listitem">
+Grantham, H.S., Duncan, A., Evans, T.D., Jones, K.R., Beyer, H.L., Schuster, R., Walston, J., Ray, J.C., Robinson, J.G., Callow, M., Clements, T., Costa, H.M., DeGemmis, A., Elsen, P.R., Ervin, J., Franco, P., Goldman, E., Goetz, S., Hansen, A., Hofsvang, E., Jantz, P., Jupiter, S., Kang, A., Langhammer, P., Laurance, W.F., Lieberman, S., Linkie, M., Malhi, Y., Maxwell, S., Mendez, M., Mittermeier, R., Murray, N.J., Possingham, H., Radachowsky, J., Saatchi, S., Samper, C., Silverman, J., Shapiro, A., Strassburg, B., Stevens, T., Stokes, E., Taylor, R., Tear, T., Tizard, R., Venter, O., Visconti, P., Wang, S., Watson, J.E.M., 2020. Anthropogenic modification of forests means only 40. Nature Communications 11, 5978. <a href="https://doi.org/10.1038/s41467-020-19493-3">https://doi.org/10.1038/s41467-020-19493-3</a>
+</div>
+<div id="ref-hansen2019" class="csl-entry" role="listitem">
+Hansen, A., Barnett, K., Jantz, P., Phillips, L., Goetz, S.J., Hansen, M., Venter, O., Watson, J.E.M., Burns, P., Atkinson, S., Rodríguez-Buritica, S., Ervin, J., Virnig, A., Supples, C., De Camargo, R., 2019. Global humid tropics forest structural condition and forest structural integrity maps. Scientific Data 6, 232. <a href="https://doi.org/10.1038/s41597-019-0214-3">https://doi.org/10.1038/s41597-019-0214-3</a>
+</div>
+<div id="ref-hansen2020" class="csl-entry" role="listitem">
+Hansen, A.J., Burns, P., Ervin, J., Goetz, S.J., Hansen, M., Venter, O., Watson, J.E.M., Jantz, P.A., Virnig, A.L.S., Barnett, K., Pillay, R., Atkinson, S., Supples, C., Rodríguez-Buritica, S., Armenteras, D., 2020. A policy-driven framework for conserving the best of Earth<span>’</span>s remaining moist tropical forests. Nature Ecology &amp; Evolution 4, 1377–1384. <a href="https://doi.org/10.1038/s41559-020-1274-7">https://doi.org/10.1038/s41559-020-1274-7</a>
+</div>
+<div id="ref-hedwall2019" class="csl-entry" role="listitem">
+Hedwall, P.-O., Gustafsson, L., Brunet, J., Lindbladh, M., Axelsson, A.-L., Strengbom, J., 2019. Half a century of multiple anthropogenic stressors has altered northern forest understory plant communities. ECOLOGICAL APPLICATIONS 29, e01874. <a href="https://doi.org/10.1002/eap.1874">https://doi.org/10.1002/eap.1874</a>
+</div>
+<div id="ref-hermosilla2015" class="csl-entry" role="listitem">
+Hermosilla, T., Wulder, M.A., White, J.C., Coops, N.C., Hobart, G.W., 2015. An integrated landsat time series protocol for change detection and generation of annual gap-free surface reflectance composites. Remote Sensing of Environment 158, 220234. <a href="https://doi.org/10.1016/j.rse.2014.11.005">https://doi.org/10.1016/j.rse.2014.11.005</a>
+</div>
+<div id="ref-hermosilla2016" class="csl-entry" role="listitem">
+Hermosilla, T., Wulder, M.A., White, J.C., Coops, N.C., Hobart, G.W., Campbell, L.B., 2016. Mass data processing of time series landsat imagery: Pixels to data products for forest monitoring. International Journal of Digital Earth 9, 10351054. <a href="https://doi.org/10.1080/17538947.2016.1187673">https://doi.org/10.1080/17538947.2016.1187673</a>
+</div>
+<div id="ref-R-terra" class="csl-entry" role="listitem">
+Hijmans, R.J., 2024. <a href="https://rspatial.org/">Terra: Spatial data analysis</a>.
+</div>
+<div id="ref-hirsh-pearson2022" class="csl-entry" role="listitem">
+Hirsh-Pearson, K., Johnson, C.J., Schuster, R., Wheate, R.D., Venter, O., 2022. Canada<span>’</span>s human footprint reveals large intact areas juxtaposed against areas under immense anthropogenic pressure. FACETS 7, 398–419. <a href="https://doi.org/10.1139/facets-2021-0063">https://doi.org/10.1139/facets-2021-0063</a>
+</div>
+<div id="ref-hirsh-pearson" class="csl-entry" role="listitem">
+Hirsh-Pearson, K., Johnson, C., Schuster, R., Wheate, R., Venter, O., n.d. The Canadian Human Footprint. <a href="https://doi.org/10.5683/SP2/EVKAVL">https://doi.org/10.5683/SP2/EVKAVL</a>
+</div>
+<div id="ref-hobbs2014" class="csl-entry" role="listitem">
+Hobbs, R.J., Higgs, E., Hall, C.M., Bridgewater, P., Chapin III, F.S., Ellis, E.C., Ewel, J.J., Hallett, L.M., Harris, J., Hulvey, K.B., Jackson, S.T., Kennedy, P.L., Kueffer, C., Lach, L., Lantz, T.C., Lugo, A.E., Mascaro, J., Murphy, S.D., Nelson, C.R., Perring, M.P., Richardson, D.M., Seastedt, T.R., Standish, R.J., Starzomski, B.M., Suding, K.N., Tognetti, P.M., Yakob, L., Yung, L., 2014. Managing the whole landscape: historical, hybrid, and novel ecosystems. Frontiers in Ecology and the Environment 12, 557–564. <a href="https://doi.org/10.1890/130300">https://doi.org/10.1890/130300</a>
+</div>
+<div id="ref-iacus2012" class="csl-entry" role="listitem">
+Iacus, S.M., King, G., Porro, G., 2012. Causal Inference without Balance Checking: Coarsened Exact Matching. Political Analysis 20, 1–24. <a href="https://doi.org/10.1093/pan/mpr013">https://doi.org/10.1093/pan/mpr013</a>
+</div>
+<div id="ref-joppa2009" class="csl-entry" role="listitem">
+Joppa, L.N., Pfaff, A., 2009. High and Far: Biases in the Location of Protected Areas. PLOS ONE 4, e8273. <a href="https://doi.org/10.1371/journal.pone.0008273">https://doi.org/10.1371/journal.pone.0008273</a>
+</div>
+<div id="ref-R-rstatix" class="csl-entry" role="listitem">
+Kassambara, A., 2023. <a href="https://rpkgs.datanovia.com/rstatix/">Rstatix: Pipe-friendly framework for basic statistical tests</a>.
+</div>
+<div id="ref-li2023" class="csl-entry" role="listitem">
+Li, W., Guo, W.-Y., Pasgaard, M., Niu, Z., Wang, L., Chen, F., Qin, Y., Svenning, J.-C., 2023. Human fingerprint on structural density of forests globally. Nature Sustainability 6, 368–379. <a href="https://doi.org/10.1038/s41893-022-01020-5">https://doi.org/10.1038/s41893-022-01020-5</a>
+</div>
+<div id="ref-liira2007" class="csl-entry" role="listitem">
+Liira, J., Sepp, T., Parrest, O., 2007. The forest structure and ecosystem quality in conditions of anthropogenic disturbance along productivity gradient. Forest Ecology and Management, Disturbances at multiple scales as the basis of forest ecosystem restoration and management 250, 34–46. <a href="https://doi.org/10.1016/j.foreco.2007.03.007">https://doi.org/10.1016/j.foreco.2007.03.007</a>
+</div>
+<div id="ref-macarthur1961" class="csl-entry" role="listitem">
+Macarthur, R., Macarthur, J., 1961. On bird species-diversity. Ecology 42, 594– &amp;. <a href="https://doi.org/10.2307/1932254">https://doi.org/10.2307/1932254</a>
+</div>
+<div id="ref-mahalanobis1936generalized" class="csl-entry" role="listitem">
+Mahalanobis, P.C., 1936. On the generalized distance in statistics. Proceedings of the National Institute of Sciences (Calcutta) 2, 4955.
+</div>
+<div id="ref-mahony2017" class="csl-entry" role="listitem">
+Mahony, C.R., Cannon, A.J., Wang, T., Aitken, S.N., 2017. A closer look at novel climates: new methods and insights at continental to landscape scales. Global Change Biology 23, 3934–3955. <a href="https://doi.org/10.1111/gcb.13645">https://doi.org/10.1111/gcb.13645</a>
+</div>
+<div id="ref-marín2021" class="csl-entry" role="listitem">
+Marín, A.I., Abdul Malak, D., Bastrup-Birk, A., Chirici, G., Barbati, A., Kleeschulte, S., 2021. Mapping forest condition in europe: Methodological developments in support to forest biodiversity assessments. Ecological Indicators 128, 107839. <a href="https://doi.org/10.1016/j.ecolind.2021.107839">https://doi.org/10.1016/j.ecolind.2021.107839</a>
+</div>
+<div id="ref-matasci2018" class="csl-entry" role="listitem">
+Matasci, G., Hermosilla, T., Wulder, M.A., White, J.C., Coops, N.C., Hobart, G.W., Bolton, D.K., Tompalski, P., Bater, C.W., 2018a. Three decades of forest structural dynamics over canada’s forested ecosystems using landsat time-series and lidar plots. Remote Sensing of Environment 216, 697714. <a href="https://doi.org/10.1016/j.rse.2018.07.024">https://doi.org/10.1016/j.rse.2018.07.024</a>
+</div>
+<div id="ref-matasci2018a" class="csl-entry" role="listitem">
+Matasci, G., Hermosilla, T., Wulder, M.A., White, J.C., Coops, N.C., Hobart, G.W., Zald, H.S.J., 2018b. Large-area mapping of Canadian boreal forest cover, height, biomass and other structural attributes using Landsat composites and lidar plots. Remote Sensing of Environment 209, 90–106. <a href="https://doi.org/10.1016/j.rse.2017.12.020">https://doi.org/10.1016/j.rse.2017.12.020</a>
+</div>
+<div id="ref-mcgill2015" class="csl-entry" role="listitem">
+McGill, B.J., Dornelas, M., Gotelli, N.J., Magurran, A.E., 2015. Fifteen forms of biodiversity trend in the Anthropocene. Trends in Ecology &amp; Evolution 30, 104–113. <a href="https://doi.org/10.1016/j.tree.2014.11.006">https://doi.org/10.1016/j.tree.2014.11.006</a>
+</div>
+<div id="ref-mcnellie2020" class="csl-entry" role="listitem">
+McNellie, M.J., Oliver, I., Dorrough, J., Ferrier, S., Newell, G., Gibbons, P., 2020. Reference state and benchmark concepts for better biodiversity conservation in contemporary ecosystems. Global Change Biology 26, 6702–6714. <a href="https://doi.org/10.1111/gcb.15383">https://doi.org/10.1111/gcb.15383</a>
+</div>
+<div id="ref-razenkovaMoose" class="csl-entry" role="listitem">
+Michaud, J.-S., Coops, N.C., Andrew, M.E., Wulder, M.A., Brown, G.S., Rickbeil, G.J.M., 2014. Estimating moose (alces alces) occurrence and abundance from remotely derived environmental indicators. REMOTE SENSING OF ENVIRONMENT 152, 190–201. <a href="https://doi.org/10.1016/j.rse.2014.06.005">https://doi.org/10.1016/j.rse.2014.06.005</a>
+</div>
+<div id="ref-muise2022" class="csl-entry" role="listitem">
+Muise, E.R., Coops, N.C., Hermosilla, T., Ban, S.S., 2022. Assessing representation of remote sensing derived forest structure and land cover across a network of protected areas. Ecological Applications 32, e2603. <a href="https://doi.org/10.1002/eap.2603">https://doi.org/10.1002/eap.2603</a>
+</div>
+<div id="ref-myers1988" class="csl-entry" role="listitem">
+Myers, N., 1988. Threatened biotas: <span>"</span>Hot spots<span>"</span> in tropical forests. Environmentalist 8, 187–208. <a href="https://doi.org/10.1007/BF02240252">https://doi.org/10.1007/BF02240252</a>
+</div>
+<div id="ref-neumann2019" class="csl-entry" role="listitem">
+Neumann, T.A., Martino, A.J., Markus, T., Bae, S., Bock, M.R., Brenner, A.C., Brunt, K.M., Cavanaugh, J., Fernandes, S.T., Hancock, D.W., Harbeck, K., Lee, J., Kurtz, N.T., Luers, P.J., Luthcke, S.B., Magruder, L., Pennington, T.A., Ramos-Izquierdo, L., Rebold, T., Skoog, J., Thomas, T.C., 2019. The Ice, Cloud, and Land Elevation Satellite <span></span> 2 mission: A global geolocated photon product derived from the Advanced Topographic Laser Altimeter System. Remote Sensing of Environment 233, 111325. <a href="https://doi.org/10.1016/j.rse.2019.111325">https://doi.org/10.1016/j.rse.2019.111325</a>
+</div>
+<div id="ref-nielsen2007" class="csl-entry" role="listitem">
+Nielsen, S.E., Bayne, E.M., Schieck, J., Herbers, J., Boutin, S., 2007. A new method to estimate species and biodiversity intactness using empirically derived reference conditions. Biological Conservation 137, 403–414. <a href="https://doi.org/10.1016/j.biocon.2007.02.024">https://doi.org/10.1016/j.biocon.2007.02.024</a>
+</div>
+<div id="ref-noss1990" class="csl-entry" role="listitem">
+Noss, R.F., 1990. Indicators for Monitoring Biodiversity: A Hierarchical Approach. Conservation Biology 4, 355–364. <a href="https://doi.org/10.1111/j.1523-1739.1990.tb00309.x">https://doi.org/10.1111/j.1523-1739.1990.tb00309.x</a>
+</div>
+<div id="ref-oseidarko2024" class="csl-entry" role="listitem">
+Osei Darko, P., Laliberté, E., Kalacska, M., Arroyo-Mora, J.P., Gonzalez, A., Zuloaga, J., 2024. Phenospectral similarity as an index of ecological integrity. Frontiers in Environmental Science 12. <a href="https://doi.org/10.3389/fenvs.2024.1333762">https://doi.org/10.3389/fenvs.2024.1333762</a>
+</div>
+<div id="ref-parkact" class="csl-entry" role="listitem">
+<a href="https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96344_01">Park <span>Act</span></a>, n.d. RSBC 1996, c 344.
+</div>
+<div id="ref-pereira2013" class="csl-entry" role="listitem">
+Pereira, H.M., Ferrier, S., Walters, M., Geller, G.N., Jongman, R.H.G., Scholes, R.J., Bruford, M.W., Brummitt, N., Butchart, S.H.M., Cardoso, A.C., Coops, N.C., Dulloo, E., Faith, D.P., Freyhof, J., Gregory, R.D., Heip, C., Hoft, R., Hurtt, G., Jetz, W., Karp, D.S., McGeoch, M.A., Obura, D., Onoda, Y., Pettorelli, N., Reyers, B., Sayre, R., Scharlemann, J.P.W., Stuart, S.N., Turak, E., Walpole, M., Wegmann, M., 2013. Essential Biodiversity Variables. Science 339, 277–278. <a href="https://doi.org/10.1126/science.1229931">https://doi.org/10.1126/science.1229931</a>
+</div>
+<div id="ref-pettorelli2018" class="csl-entry" role="listitem">
+Pettorelli, N., Schulte to Bühne, H., Tulloch, A., Dubois, G., Macinnis-Ng, C., Queirós, A.M., Keith, D.A., Wegmann, M., Schrodt, F., Stellmes, M., Sonnenschein, R., Geller, G.N., Roy, S., Somers, B., Murray, N., Bland, L., Geijzendorffer, I., Kerr, J.T., Broszeit, S., Leitão, P.J., Duncan, C., El Serafy, G., He, K.S., Blanchard, J.L., Lucas, R., Mairota, P., Webb, T.J., Nicholson, E., 2018. Satellite remote sensing of ecosystem functions: opportunities, challenges and way forward. Remote Sensing in Ecology and Conservation 4, 71–93. <a href="https://doi.org/10.1002/rse2.59">https://doi.org/10.1002/rse2.59</a>
+</div>
+<div id="ref-pettorelli2005" class="csl-entry" role="listitem">
+Pettorelli, N., Vik, J.O., Mysterud, A., Gaillard, J.-M., Tucker, C.J., Stenseth, N.Chr., 2005. Using the satellite-derived NDVI to assess ecological responses to environmental change. Trends in Ecology &amp; Evolution 20, 503–510. <a href="https://doi.org/10.1016/j.tree.2005.05.011">https://doi.org/10.1016/j.tree.2005.05.011</a>
+</div>
+<div id="ref-pimm2000" class="csl-entry" role="listitem">
+Pimm, S.L., Raven, P., 2000. Extinction by numbers. Nature 403, 843–845. <a href="https://doi.org/10.1038/35002708">https://doi.org/10.1038/35002708</a>
+</div>
+<div id="ref-pojar1987" class="csl-entry" role="listitem">
+Pojar, J., Klinka, K., Meidinger, D.V., 1987. Biogeoclimatic ecosystem classification in British Columbia. Forest Ecology and Management 22, 119–154. <a href="https://doi.org/10.1016/0378-1127(87)90100-9">https://doi.org/10.1016/0378-1127(87)90100-9</a>
+</div>
+<div id="ref-queinnec2021" class="csl-entry" role="listitem">
+Queinnec, M., White, J.C., Coops, N.C., 2021. Comparing airborne and spaceborne photon-counting LiDAR canopy structural estimates across different boreal forest types. Remote Sensing of Environment 262, 112510. <a href="https://doi.org/10.1016/j.rse.2021.112510">https://doi.org/10.1016/j.rse.2021.112510</a>
+</div>
+<div id="ref-R-base" class="csl-entry" role="listitem">
+R Core Team, 2024. <a href="https://www.R-project.org/">R: A language and environment for statistical computing</a>. R Foundation for Statistical Computing, Vienna, Austria.
+</div>
+<div id="ref-radeloff2019" class="csl-entry" role="listitem">
+Radeloff, V.C., Dubinin, M., Coops, N.C., Allen, A.M., Brooks, T.M., Clayton, M.K., Costa, G.C., Graham, C.H., Helmers, D.P., Ives, A.R., Kolesov, D., Pidgeon, A.M., Rapacciuolo, G., Razenkova, E., Suttidate, N., Young, B.E., Zhu, L., Hobi, M.L., 2019. The Dynamic Habitat Indices (DHIs) from MODIS and global biodiversity. Remote Sensing of Environment 222, 204–214. <a href="https://doi.org/10.1016/j.rse.2018.12.009">https://doi.org/10.1016/j.rse.2018.12.009</a>
+</div>
+<div id="ref-radeloff2024" class="csl-entry" role="listitem">
+Radeloff, V.C., Roy, D.P., Wulder, M.A., Anderson, M., Cook, B., Crawford, C.J., Friedl, M., Gao, F., Gorelick, N., Hansen, M., Healey, S., Hostert, P., Hulley, G., Huntington, J.L., Johnson, D.M., Neigh, C., Lyapustin, A., Lymburner, L., Pahlevan, N., Pekel, J.-F., Scambos, T.A., Schaaf, C., Strobl, P., Woodcock, C.E., Zhang, H.K., Zhu, Z., 2024. Need and vision for global medium-resolution landsat and sentinel-2 data products. Remote Sensing of Environment 300, 113918. <a href="https://doi.org/10.1016/j.rse.2023.113918">https://doi.org/10.1016/j.rse.2023.113918</a>
+</div>
+<div id="ref-razenkova2022" class="csl-entry" role="listitem">
+Razenkova, E., Farwell, L.S., Elsen, P., Carroll, K.A., Pidgeon, A.M., Radeloff, V., 2022. <a href="https://ui.adsabs.harvard.edu/abs/2022AGUFM.B15A..05R">Explaining bird richness with the dynamic habitat indices across the conterminous US</a> 2022, B15A–05.
+</div>
+<div id="ref-razenkova" class="csl-entry" role="listitem">
+Razenkova, E., Lewińska, K.E., Yin, H., Farwell, L.S., Pidgeon, A.M., Hostert, P., Coops, N.C., Radeloff, V.C., n.d. Medium-resolution dynamic habitat indices from landsat satellite imagery. Remote Sensing of Environment.
+</div>
+<div id="ref-schweiger2018" class="csl-entry" role="listitem">
+Schweiger, A.K., Cavender-Bares, J., Townsend, P.A., Hobbie, S.E., Madritch, M.D., Wang, R., Tilman, D., Gamon, J.A., 2018. Plant spectral diversity integrates functional and phylogenetic components of biodiversity and predicts ecosystem function. Nature Ecology &amp; Evolution 2, 976–982. <a href="https://doi.org/10.1038/s41559-018-0551-1">https://doi.org/10.1038/s41559-018-0551-1</a>
+</div>
+<div id="ref-skidmore2021" class="csl-entry" role="listitem">
+Skidmore, A.K., Coops, N.C., Neinavaz, E., Ali, A., Schaepman, M.E., Paganini, M., Kissling, W.D., Vihervaara, P., Darvishzadeh, R., Feilhauer, H., Fernandez, M., Fernández, N., Gorelick, N., Geijzendorffer, I., Heiden, U., Heurich, M., Hobern, D., Holzwarth, S., Muller-Karger, F.E., Van De Kerchove, R., Lausch, A., Leitão, P.J., Lock, M.C., Mücher, C.A., O’Connor, B., Rocchini, D., Turner, W., Vis, J.K., Wang, T., Wegmann, M., Wingate, V., 2021. Priority list of biodiversity metrics to observe from space. Nature Ecology &amp; Evolution. <a href="https://doi.org/10.1038/s41559-021-01451-x">https://doi.org/10.1038/s41559-021-01451-x</a>
+</div>
+<div id="ref-suttidateConn" class="csl-entry" role="listitem">
+Suttidate, N., Steinmetz, R., Lynam, A.J., Sukmasuang, R., Ngoprasert, D., Chutipong, W., Bateman, B.L., Jenks, K.E., Baker-Whatton, M., Kitamura, S., Ziolkowska, E., Radeloff, V.C., 2021. Habitat connectivity for endangered indochinese tigers in thailand. GLOBAL ECOLOGY AND CONSERVATION 29. <a href="https://doi.org/10.1016/j.gecco.2021.e01718">https://doi.org/10.1016/j.gecco.2021.e01718</a>
+</div>
+<div id="ref-tachikawa2011" class="csl-entry" role="listitem">
+Tachikawa, T., Kaku, M., Iwasaki, A., Gesch, D.B., Oimoen, M.J., Zhang, Z., Danielson, J.J., Krieger, T., Curtis, B., Haase, J., Abrams, M., Carabajal, C., 2011. <a href="http://pubs.er.usgs.gov/publication/70005960">ASTER global digital elevation model version 2 - summary of validation results</a>.
+</div>
+<div id="ref-thomas2004" class="csl-entry" role="listitem">
+Thomas, C.D., Cameron, A., Green, R.E., Bakkenes, M., Beaumont, L.J., Collingham, Y.C., Erasmus, B.F.N., Siqueira, M.F. de, Grainger, A., Hannah, L., Hughes, L., Huntley, B., Jaarsveld, A.S. van, Midgley, G.F., Miles, L., Ortega-Huerta, M.A., Peterson, A.T., Phillips, O.L., Williams, S.E., 2004. Extinction risk from climate change. Nature 427, 5.
+</div>
+<div id="ref-thompson2009" class="csl-entry" role="listitem">
+Thompson, I.D., Mackey, B., McNulty, S., Mosseler, A., 2009. Forest resilience, biodiversity, and climate change: a synthesis of the biodiversity / resiliende / stability relationship in forest ecosystems, CBD technical series. Secretariat of the Convention on Biological Diversity, Montreal.
+</div>
+<div id="ref-urban2015" class="csl-entry" role="listitem">
+Urban, M.C., 2015. Accelerating extinction risk from climate change. Science 348, 571–573. <a href="https://doi.org/10.1126/science.aaa4984">https://doi.org/10.1126/science.aaa4984</a>
+</div>
+<div id="ref-walter2021" class="csl-entry" role="listitem">
+Walter, J.A., Stovall, A.E.L., Atkins, J.W., 2021. Vegetation structural complexity and biodiversity in the Great Smoky Mountains. Ecosphere 12, e03390. <a href="https://doi.org/10.1002/ecs2.3390">https://doi.org/10.1002/ecs2.3390</a>
+</div>
+<div id="ref-white2014" class="csl-entry" role="listitem">
+White, Joanne.C., Wulder, M.A., Hobart, G.W., Luther, J.E., Hermosilla, T., Griffiths, P., Coops, N.C., Hall, R.J., Hostert, P., Dyk, A., Guindon, L., 2014. Pixel-based image compositing for large-area dense time series applications and science. Canadian Journal of Remote Sensing 40, 192212. <a href="https://doi.org/10.1080/07038992.2014.945827">https://doi.org/10.1080/07038992.2014.945827</a>
+</div>
+<div id="ref-zhu2012" class="csl-entry" role="listitem">
+Zhu, Z., Woodcock, C.E., 2012. Object-based cloud and cloud shadow detection in Landsat imagery. Remote Sensing of Environment 118, 83–94. <a href="https://doi.org/10.1016/j.rse.2011.10.028">https://doi.org/10.1016/j.rse.2011.10.028</a>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox","closeEffect":"zoom"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>
