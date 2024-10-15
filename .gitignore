@@ -10,5 +10,6 @@
 .httr-oauth
 .DS_Store
 data/
-strathcona/
+strathcona/*
+!strathcona/figures
 notebooks/defunct/*
