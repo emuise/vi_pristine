@@ -222,9 +222,9 @@ main <- ggplot() +
         legend.background = element_blank())
 
 # download vectors of NA coutnries for the inset map
-cad <- geodata::gadm("Canada", level = 1, path = "scratch")
+cad <- geodata::gadm("Canada", level = 1, path = scratch)
 
-world <- geodata::world(path = "scratch") %>%
+world <- geodata::world(path = scratch) %>%
   project("epsg:3347")
 
 cad_ext <- cad %>%
