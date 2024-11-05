@@ -664,11 +664,11 @@ anthropogenic pressures.
     et al., 2021</xref>). Geospatial data processing was performed using
     the <bold>terra</bold> (version 1.7-78)
     (<xref alt="Hijmans, 2024" rid="ref-R-terra" ref-type="bibr">Hijmans,
-    2024</xref>) sf (version 1.0-16)
+    2024</xref>), <bold>sf</bold> (version 1.0-16)
     (<xref alt="Pebesma, 2018" rid="ref-sf2018" ref-type="bibr">Pebesma,
     2018</xref>;
     <xref alt="Pebesma and Bivand, 2023" rid="ref-sf2023" ref-type="bibr">Pebesma
-    and Bivand, 2023</xref>) and <bold>tidyterra</bold> (version 0.6.1)
+    and Bivand, 2023</xref>), and <bold>tidyterra</bold> (version 0.6.1)
     (<xref alt="Hernangómez, 2023a" rid="ref-hernangómez2023" ref-type="bibr">Hernangómez,
     2023a</xref>,
     <xref alt="2023b" rid="ref-R-tidyterra" ref-type="bibr">2023b</xref>)
@@ -3433,11 +3433,11 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
     et al., 2021</xref>). Geospatial data processing was performed using
     the <bold>terra</bold> (version 1.7-78)
     (<xref alt="Hijmans, 2024" rid="ref-R-terra-nb-article" ref-type="bibr">Hijmans,
-    2024</xref>) sf (version 1.0-16)
+    2024</xref>), <bold>sf</bold> (version 1.0-16)
     (<xref alt="Pebesma, 2018" rid="ref-sf2018-nb-article" ref-type="bibr">Pebesma,
     2018</xref>;
     <xref alt="Pebesma and Bivand, 2023" rid="ref-sf2023-nb-article" ref-type="bibr">Pebesma
-    and Bivand, 2023</xref>) and <bold>tidyterra</bold> (version 0.6.1)
+    and Bivand, 2023</xref>), and <bold>tidyterra</bold> (version 0.6.1)
     (<xref alt="Hernangómez, 2023a" rid="ref-hernangómez2023-nb-article" ref-type="bibr">Hernangómez,
     2023a</xref>,
     <xref alt="2023b" rid="ref-R-tidyterra-nb-article" ref-type="bibr">2023b</xref>)
