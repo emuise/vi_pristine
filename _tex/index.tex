@@ -210,7 +210,36 @@ Victoria, British Columbia, Canada, }
 
 
 \begin{abstract}
-ABSTRACT
+Natural forests with high ecological integrity have natural or near
+natural ecosystem structure, function, and composition, and are home to
+large amounts of terrestrial biodiversity and provide integral ecosystem
+services. Anthropogenic pressures such as climate change,
+overexploitation, and invasive species are leading to the degradation or
+loss of high integrity forests. Due to this, it is important to be able
+to locate and assess the quality of forests stands across wide swaths of
+land. Remote sensing is rapidly providing more and more data capable of
+making these assessments, such as wall to wall metrics of forest
+structure and productivity. In this paper, we demonstrate a method to
+assess similarity to known high quality reference states using coarsened
+exact matching and the sigma dissimilarity metric. Using this
+dissimilarity metric, we can assess how far, in structural and
+functional space, every forest stand across Vancouver Island is to a
+comparable forest found in the oldest and largest protected area on the
+island, Strathcona Provincial Park. We further assess how cumulative and
+individual anthropogenic pressures are influencing ecological
+dissimilarity. We found that cumulative anthropogenic pressures
+influence the vertical layering of forests (canopy height and structural
+complexity), but do not influence forest energy availability or energy
+seasonality. Further individual pressures increase dissimilarity for the
+majority of forest structural attributes, and population density reduces
+similarity to highly seasonal forests. Our results demonstrate that
+applying strict matching procedures and the sigma dissimilarity metric
+can be used to assess ecosystem similarity, which could be especially
+useful when working with the location of rare ecosystems under large
+amounts of anthropogenic pressure. Further, we demonstrate that vertical
+forest structural attributes strongly related to biodiversity via niche
+availability and resource partitioning are influenced negatively by
+anthropogenic pressures.
 \end{abstract}
 
 
@@ -435,7 +464,9 @@ DHI), minimum (Minimum DHI), and coefficient of variation (Variation
 DHI) of these monthly observations. The three DHIs have been shown to be
 indicative of biodiversity overa range of scales (Radeloff et al., 2019;
 Razenkova et al., 2022) and extents (Coops et al., 2019, 2009) for a
-variety of clades (Michaud et al., 2014; Suttidate et al., 2021).
+variety of clades (Michaud et al., 2014; Suttidate et al., 2021). In
+this study, we focus on the Cumulative and Variation DHIs, as the
+minimum DHI is consistently 0 due to the presence of snow.
 
 \subsubsection{Anthropogenic Pressures}\label{anthropogenic-pressures}
 
@@ -466,7 +497,23 @@ temperature (MCMT) calculated from 1990-2020 climate normals using the
 ClimateNA software package at a 1 km spatial resolution, and downsampled
 to 30 m using cubic spline resampling in the \textbf{terra} (version
 1.7-71) R package (Hijmans, 2024) in R (R Core Team, 2024 version
-4.4.1).
+4.4.1). A visualization of one of each input dataset can be found in
+Figure Figure~\ref{fig-data}.
+
+\phantomsection\label{cell-fig-data}
+\begin{figure}[H]
+
+\centering{
+
+\includegraphics[width=12in,height=\textheight]{strathcona/figures/data_figure.png}
+
+}
+
+\caption{\label{fig-data}Visualization of the input datasets used in the
+study. Panel C shows the human footprint and the location of the samples
+used for our analysis.}
+
+\end{figure}%
 
 \subsection{Calculating similarity}\label{sec-sim}
 
@@ -485,15 +532,15 @@ within Strathcona Park, hereafter referred to as strata. In the case
 where there is not enough matched pixels found in Strathcona Park, we
 calculate the nearest neighbours in bin space for all strata, and sample
 up to 1000 pixels while minimizing the nearest neighbour distance. If
-the nearest neighbour distance is on average above 2, we do not consider
-that strata in our analysis.
+the nearest neighbour distance is on average above two, we do not
+consider that strata in our analysis.
 
 \phantomsection\label{cell-fig-flow}
 \begin{figure}[H]
 
 \centering{
 
-\includegraphics[width=5.25in,height=\textheight]{strathcona/figures/flow.drawio.png}
+\includegraphics[width=1.75in,height=\textheight]{strathcona/figures/flow.drawio.png}
 
 }
 
@@ -531,7 +578,10 @@ pressures, we follow the same reclassification steps on each pressure
 layer, and sample an additional hundred samples for each pressure class.
 Sampling was performed using the \textbf{sgsR} (version 1.4.5) R package
 (Goodbody et al., 2023) with the Quiennec method (Queinnec et al.,
-2021).
+2021). Geospatial data processing was performed using the \textbf{terra}
+(version 1.7-78) (Hijmans, 2024) sf (version 1.0-16) (Pebesma, 2018;
+Pebesma and Bivand, 2023) and \textbf{tidyterra} (version 0.6.1)
+(Hernangómez, 2023a, 2023b) R packages.
 
 \subsection{Analysis}\label{analysis}
 
@@ -555,6 +605,38 @@ statistical analysis were conducted using the \textbf{rstatix} (version
 
 \section{Results}\label{results}
 
+Our sigma dissimilarity processing workflow resulted in six island wide
+maps of structural and functional similarity to the reference state
+found in Strathcona Provincial Park (Figure~\ref{fig-regional}). We
+display three selected subsets of Vancouver Island to demonstrate
+variation in similarity and the anthorpogenic footprint layers. Subset A
+shows a region near Lake Cowichan where harvesting is a common
+anthropogenic pressure (Figure~\ref{fig-regional} A). Subset B shows a
+protected area near Campbell River with high population density
+(Figure~\ref{fig-regional} B). Subset C shows a region with generally
+low anthropogenic pressure (Figure~\ref{fig-regional} C). We see more
+variation in the similarity to high aboveground biomass and functional
+reference states, while the similarity to canopy cover, canopy height,
+and structural complexity is often lower across Vancouver Island.
+
+\phantomsection\label{cell-fig-regional}
+\begin{figure}[H]
+
+\centering{
+
+\includegraphics[width=10.75in,height=\textheight]{strathcona/figures/multi_panel_inset_wide_PS.png}
+
+}
+
+\caption{\label{fig-regional}Regional details of the human footprint and
+sigma dissimilarity across the sites on Vancouver Island. Subset A show
+Cowichan Lake, a heavily harvested region. Subset B shows Elk Falls
+Provincial Park, just outside Campbell River, a region with high
+population density. Subset C shows a region with generally low
+anthropogenic pressure.}
+
+\end{figure}%
+
 We found that similarity to high structural complexity (Anova: p =
 0.007) and tall canopy height (Anova: p = 0.003) reference states was
 influenced by medium to high levels of cumulative anthropogenic pressure
@@ -569,7 +651,7 @@ pressures.
 
 \centering{
 
-\includegraphics[width=12in,height=\textheight]{strathcona/figures/mahal_boxplot_sig.png}
+\includegraphics[width=8in,height=\textheight]{strathcona/figures/mahal_boxplot_sig.png}
 
 }
 
@@ -598,7 +680,7 @@ variation in energy availability.
 
 \centering{
 
-\includegraphics[width=12in,height=\textheight]{strathcona/figures/indiv_boxplots.png}
+\includegraphics[width=8in,height=\textheight]{strathcona/figures/indiv_boxplots.png}
 
 }
 
@@ -631,7 +713,7 @@ We find that similarity to high structural complexity forests, which are
 often high in biodiversity due to increased niche availability
 (Macarthur and Macarthur, 1961; Walter et al., 2021), is impacted by
 medium to high levels of anthropogenic pressures. Structural similarity
-to tall forests is also impacted by medium to high levelsof
+to tall forests is also impacted by medium to high levels of
 anthropogenic pressure, while productivity metrics were not influenced
 by cumulative anthropogenic pressures in this region
 (Figure~\ref{fig-boxplot-overall}). In tropical forests, Bourgoin et al.
@@ -649,15 +731,53 @@ research by assessing individual pressures on a multivariate metric of
 structural similarity to a high-quality reference state
 (Figure~\ref{fig-boxplot-individual}).
 
-Anthropogenic effects on forest function are rarely examined. Here, we
-also examine how anthropogenic pressures influence similarity to high
-available energy and high energy variation forests, both hypothesized to
-indicate high levels of biodiversity in a number of guilds and clades
-(Radeloff et al., 2019; Razenkova et al., 2022). We do not find a strong
-influence of cumulative anthropogenic pressure on our forest functioning
-metrics, however, we did find that dissimilarity to forest stands with
-high annual energy variability was reduced under high anthropogenic
-pressure (Figure~\ref{fig-boxplot-individual}).
+It is possible that we did not find a relationship between cumulative
+anthropogenic pressures and canopy cover/aboveground biomass as these
+forest structural attributes are typically high on Vancouver Island due
+to the regions mild climate and suitability for forest growth (Waring et
+al., 2006). Conversely, we did find a relationship between the vertical
+layering (canopy height and structural complexity) of trees and
+anthropogenic pressures (Figure~\ref{fig-boxplot-overall}). This is
+especially relevant as structurally complex forests are crucial for
+harbouring biodiversity and providing ecosystem functions and services.
+The lack of a relationship between canopy cover/aboveground biomass and
+the cumulative human footprint is potentially due to replanting efforts
+from the forestry industry following harvest, which are required in
+British Columbia and often lead to single species, single aged stands
+(Lieffers et al., 2020). Stands of this configuration are unlikely to be
+found in our reference state, Strathcona Provincial Park, as it has been
+a protected area for over 100 years, thus leading to higher
+dissimilarity values.
+
+Anthropogenic effects on forest function and energy availability have
+rarely been examined. Here, we also examine how anthropogenic pressures
+influence similarity to high available energy and high energy variation
+forests, both hypothesized to indicate high levels of biodiversity in a
+number of guilds and clades (Radeloff et al., 2019; Razenkova et al.,
+2022). We do not find a strong influence of cumulative anthropogenic
+pressure on our forest functioning metrics, however, we did find that
+similarity to forest stands with high annual energy variability was
+increased in high population density areas
+(Figure~\ref{fig-boxplot-individual}). This increase in similarity in
+high density areas is potentially driven by ornamental trees and the
+bias for North American urban forests to be primarily deciduous trees
+(Clapp et al., 2014; Roman et al., 2018), which would have a stronger
+variation DHI component due to annual leaf senescence and green-up.
+
+Further, the calculation of the DHIs is dependent on using a vegetation
+index or productivity estimate, in our case NDVI. Vegetation indices
+have been shown to saturate at high levels of canopy cover and leaf area
+index (Huete et al., 2002; Huete et al., 1997), which are common on
+Vancouver Island, and comparisons of unprotected areas to the highest
+10\% cover in reference states shows no significant difference
+(Figure~\ref{fig-boxplot-overall}). Recent research has shown that
+seasonality, here represented as the Variation DHI, drives functional
+diversity in avian assemblages, however, these results also strongly
+varied by region (Keyser et al., 2024). It is possible that examining
+anthropogenic pressure impacts in regions with more variation in canopy
+cover may lead to differing results depending on the amount of total
+variation present in canopy cover, which would in turn influence
+seasonality and energy availability.
 
 Assessing individual pressure influences on the environment is also
 relevant to questions of how cumulative anthropogenic pressure maps are
@@ -709,7 +829,7 @@ climate (Corlett, 2016; Hobbs et al., 2014) due to contemporary nature
 of the reference state. Our matching technique (coarsened exact
 matching, combined with an kNN approach when no exact match is
 available) allows us to generate reference states in a near wall-to-wall
-fashion, which esnures similarity between reference state and compared
+fashion, which ensures similarity between reference state and compared
 pixels.
 
 Our techniques move beyond traditional impact evaluation techniques
@@ -723,13 +843,21 @@ ecosystem, and has known locations of high quality ecosystems associated
 with that species or ecosystem, these methods can be applied to assess
 similarity to those high quality ecosystems across large regions.
 
-Could also be a paragraph about urban forestry and canopy cover. Since
-urban foreters want to preserve high amounts of cover and greenspace
-that could be why the roads/built environments dont see strong
-differences to the reference state. This issue is also compounded by the
-canopy cover on the island just being consistently high across the
-board. I'm fine not discussing this, but could be something interesting
-to note
+\section{Acknowledgements}\label{acknowledgements}
+
+This research was funded by NSERC support of Coops (RGPIN-2018-03851).
+Remote sensing data products used in this research are free and open and
+available for download at~\url{https://ca.nfis.org/maps_eng.html}. The
+authors thank Dr.~Michael A. Wulder and Dr.~Joanne C. White for
+development and early access to these National Terrestrial Ecosystem
+Mapping System (NTEMS) products. They thank Dr.~Elena Razenkova for
+early access to the Landsat-derived Dynamic Habitat Indices. ERM would
+like to thank the members of the IRSS for many helpful conversations
+throughout the preparation of this manuscript.
+
+\section{Ethics}\label{ethics}
+
+The authors declare no conflicts of interest.
 
 \section*{References}\label{references}
 \addcontentsline{toc}{section}{References}
@@ -791,6 +919,12 @@ Venail, P., Narwani, A., Mace, G.M., Tilman, D., Wardle, D.A., Kinzig,
 A.P., Daily, G.C., Loreau, M., Grace, J.B., Larigauderie, A.,
 Srivastava, D.S., Naeem, S., 2012. Biodiversity loss and its impact on
 humanity. Nature 486, 59--67. \url{https://doi.org/10.1038/nature11148}
+
+\bibitem[\citeproctext]{ref-clapp2014}
+Clapp, J.C., Ryan III, H.D.P., Harper, R.W., Bloniarz, D.V., 2014.
+Rationale for the increased use of conifers as functional green
+infrastructure: A literature review and synthesis. Arboricultural
+Journal 36, 161--178. \url{https://doi.org/10.1080/03071375.2014.950861}
 
 \bibitem[\citeproctext]{ref-reporto2023}
 Convention on Biological Diversity, 2023. Report of the conference of
@@ -919,6 +1053,16 @@ imagery: Pixels to data products for forest monitoring. International
 Journal of Digital Earth 9, 10351054.
 \url{https://doi.org/10.1080/17538947.2016.1187673}
 
+\bibitem[\citeproctext]{ref-hernanguxf3mez2023}
+Hernangómez, D., 2023a. Using the tidyverse with terra objects: the
+tidyterra package. Journal of Open Source Software 8, 5751.
+\url{https://doi.org/10.21105/joss.05751}
+
+\bibitem[\citeproctext]{ref-R-tidyterra}
+Hernangómez, D., 2023b. Using the {tidyverse} with {terra} objects: The
+{tidyterra} package. Journal of Open Source Software 8, 5751.
+\url{https://doi.org/10.21105/joss.05751}
+
 \bibitem[\citeproctext]{ref-R-terra}
 Hijmans, R.J., 2024. \href{https://rspatial.org/}{Terra: Spatial data
 analysis}.
@@ -945,6 +1089,18 @@ whole landscape: historical, hybrid, and novel ecosystems. Frontiers in
 Ecology and the Environment 12, 557--564.
 \url{https://doi.org/10.1890/130300}
 
+\bibitem[\citeproctext]{ref-huete2002}
+Huete, A., Didan, K., Miura, T., Rodriguez, E.P., Gao, X., Ferreira,
+L.G., 2002. Overview of the radiometric and biophysical performance of
+the MODIS vegetation indices. Remote Sensing of Environment 83,
+195--213. \url{https://doi.org/10.1016/S0034-4257(02)00096-2}
+
+\bibitem[\citeproctext]{ref-huete1997}
+Huete, A.R., Liu, H., Leeuwen, W.J.D. van, 1997. IGARSS'97. 1997 IEEE
+international geoscience and remote sensing symposium proceedings.
+Remote sensing - a scientific vision for sustainable development. pp.
+1966--1968 vol.4. \url{https://doi.org/10.1109/IGARSS.1997.609169}
+
 \bibitem[\citeproctext]{ref-iacus2012}
 Iacus, S.M., King, G., Porro, G., 2012. Causal Inference without Balance
 Checking: Coarsened Exact Matching. Political Analysis 20, 1--24.
@@ -960,11 +1116,23 @@ Kassambara, A., 2023.
 \href{https://rpkgs.datanovia.com/rstatix/}{Rstatix: Pipe-friendly
 framework for basic statistical tests}.
 
+\bibitem[\citeproctext]{ref-keyser2024}
+Keyser, S.R., Pauli, J.N., Fink, D., Radeloff, V.C., Pigot, A.L.,
+Zuckerberg, B., 2024. Seasonality Structures Avian Functional Diversity
+and Niche Packing Across North America. Ecology Letters 27, e14521.
+\url{https://doi.org/10.1111/ele.14521}
+
 \bibitem[\citeproctext]{ref-li2023}
 Li, W., Guo, W.-Y., Pasgaard, M., Niu, Z., Wang, L., Chen, F., Qin, Y.,
 Svenning, J.-C., 2023. Human fingerprint on structural density of
 forests globally. Nature Sustainability 6, 368--379.
 \url{https://doi.org/10.1038/s41893-022-01020-5}
+
+\bibitem[\citeproctext]{ref-lieffers2020}
+Lieffers, V.J., Pinno, B.D., Beverly, J.L., Thomas, B.R., Nock, C.,
+2020. Reforestation policy has constrained options for managing risks on
+public forests. Canadian Journal of Forest Research 50, 855--861.
+\url{https://doi.org/10.1139/cjfr-2019-0422}
 
 \bibitem[\citeproctext]{ref-liira2007}
 Liira, J., Sepp, T., Parrest, O., 2007. The forest structure and
@@ -1068,6 +1236,16 @@ ecological integrity. Frontiers in Environmental Science 12.
 \href{https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96344_01}{Park
 {Act}}, n.d. RSBC 1996, c 344.
 
+\bibitem[\citeproctext]{ref-sf2018}
+Pebesma, E., 2018. {Simple Features for R: Standardized Support for
+Spatial Vector Data}. {The R Journal} 10, 439--446.
+\url{https://doi.org/10.32614/RJ-2018-009}
+
+\bibitem[\citeproctext]{ref-sf2023}
+Pebesma, E., Bivand, R., 2023. {Spatial Data Science: With applications
+in R}. {Chapman and Hall/CRC}.
+\url{https://doi.org/10.1201/9780429459016}
+
 \bibitem[\citeproctext]{ref-pereira2013}
 Pereira, H.M., Ferrier, S., Walters, M., Geller, G.N., Jongman, R.H.G.,
 Scholes, R.J., Bruford, M.W., Brummitt, N., Butchart, S.H.M., Cardoso,
@@ -1146,6 +1324,15 @@ Hostert, P., Coops, N.C., Radeloff, V.C., n.d. Medium-resolution dynamic
 habitat indices from landsat satellite imagery. Remote Sensing of
 Environment.
 
+\bibitem[\citeproctext]{ref-roman2018}
+Roman, L.A., Pearsall, H., Eisenman, T.S., Conway, T.M., Fahey, R.T.,
+Landry, S., Vogt, J., Doorn, N.S. van, Grove, J.M., Locke, D.H.,
+Bardekjian, A.C., Battles, J.J., Cadenasso, M.L., Bosch, C.C.K. van den,
+Avolio, M., Berland, A., Jenerette, G.D., Mincey, S.K., Pataki, D.E.,
+Staudhammer, C., 2018. Human and biophysical legacies shape contemporary
+urban forests: A literature synthesis. Urban Forestry \& Urban Greening
+31, 157--168. \url{https://doi.org/10.1016/j.ufug.2018.03.004}
+
 \bibitem[\citeproctext]{ref-schweiger2018}
 Schweiger, A.K., Cavender-Bares, J., Townsend, P.A., Hobbie, S.E.,
 Madritch, M.D., Wang, R., Tilman, D., Gamon, J.A., 2018. Plant spectral
@@ -1201,6 +1388,12 @@ Science 348, 571--573. \url{https://doi.org/10.1126/science.aaa4984}
 Walter, J.A., Stovall, A.E.L., Atkins, J.W., 2021. Vegetation structural
 complexity and biodiversity in the Great Smoky Mountains. Ecosphere 12,
 e03390. \url{https://doi.org/10.1002/ecs2.3390}
+
+\bibitem[\citeproctext]{ref-waring2006}
+Waring, R.H., Coops, N.C., Fan, W., Nightingale, J.M., 2006. MODIS
+enhanced vegetation index predicts tree species richness across forested
+ecoregions in the contiguous U.S.A. Remote Sensing of Environment 103,
+218--226. \url{https://doi.org/10.1016/j.rse.2006.05.007}
 
 \bibitem[\citeproctext]{ref-white2014}
 White, Joanne.C., Wulder, M.A., Hobart, G.W., Luther, J.E., Hermosilla,

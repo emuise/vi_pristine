@@ -155,7 +155,36 @@ Columbia, Canada</institution>
 
 
 <abstract>
-ABSTRACT
+Natural forests with high ecological integrity have natural or near
+natural ecosystem structure, function, and composition, and are home to
+large amounts of terrestrial biodiversity and provide integral ecosystem
+services. Anthropogenic pressures such as climate change,
+overexploitation, and invasive species are leading to the degradation or
+loss of high integrity forests. Due to this, it is important to be able
+to locate and assess the quality of forests stands across wide swaths of
+land. Remote sensing is rapidly providing more and more data capable of
+making these assessments, such as wall to wall metrics of forest
+structure and productivity. In this paper, we demonstrate a method to
+assess similarity to known high quality reference states using coarsened
+exact matching and the sigma dissimilarity metric. Using this
+dissimilarity metric, we can assess how far, in structural and
+functional space, every forest stand across Vancouver Island is to a
+comparable forest found in the oldest and largest protected area on the
+island, Strathcona Provincial Park. We further assess how cumulative and
+individual anthropogenic pressures are influencing ecological
+dissimilarity. We found that cumulative anthropogenic pressures
+influence the vertical layering of forests (canopy height and structural
+complexity), but do not influence forest energy availability or energy
+seasonality. Further individual pressures increase dissimilarity for the
+majority of forest structural attributes, and population density reduces
+similarity to highly seasonal forests. Our results demonstrate that
+applying strict matching procedures and the sigma dissimilarity metric
+can be used to assess ecosystem similarity, which could be especially
+useful when working with the location of rare ecosystems under large
+amounts of anthropogenic pressure. Further, we demonstrate that vertical
+forest structural attributes strongly related to biodiversity via niche
+availability and resource partitioning are influenced negatively by
+anthropogenic pressures.
 </abstract>
 <kwd-group kwd-group-type="author">
 <kwd>Protected areas</kwd>
@@ -503,7 +532,9 @@ ABSTRACT
       (<xref alt="Michaud et al., 2014" rid="ref-razenkovaMoose" ref-type="bibr">Michaud
       et al., 2014</xref>;
       <xref alt="Suttidate et al., 2021" rid="ref-suttidateConn" ref-type="bibr">Suttidate
-      et al., 2021</xref>).</p>
+      et al., 2021</xref>). In this study, we focus on the Cumulative
+      and Variation DHIs, as the minimum DHI is consistently 0 due to
+      the presence of snow.</p>
     </sec>
     <sec id="anthropogenic-pressures">
       <title>2.2.4 Anthropogenic Pressures</title>
@@ -544,7 +575,15 @@ ABSTRACT
       (<xref alt="Hijmans, 2024" rid="ref-R-terra" ref-type="bibr">Hijmans,
       2024</xref>) in R
       (<xref alt="R Core Team, 2024" rid="ref-R-base" ref-type="bibr">R
-      Core Team, 2024</xref> version 4.4.1).</p>
+      Core Team, 2024</xref> version 4.4.1). A visualization of one of
+      each input dataset can be found in Figure
+      <xref alt="Figure 2" rid="fig-data">Figure 2</xref>.</p>
+      <fig id="fig-data">
+        <caption><p>Figure 2: Visualization of the input datasets used
+        in the study. Panel C shows the human footprint and the location
+        of the samples used for our analysis.</p></caption>
+        <graphic mimetype="image" mime-subtype="png" xlink:href="strathcona/figures/data_figure.png" />
+      </fig>
     </sec>
   </sec>
   <sec id="sec-sim">
@@ -553,7 +592,7 @@ ABSTRACT
     (<xref alt="Mahony et al., 2017" rid="ref-mahony2017" ref-type="bibr">Mahony
     et al., 2017</xref>) of forested pixels across British Columbia by
     using an expanded coarsened exact matching (CEM) technique
-    , <xref alt="Figure 2" rid="fig-flow">Figure 2</xref>. This
+    , <xref alt="Figure 3" rid="fig-flow">Figure 3</xref>. This
     methodology enables us to evaluate the degree of similarity between
     all forested pixels in the province and natural forests, while
     accounting for potential confounding variables such as climate and
@@ -567,10 +606,10 @@ ABSTRACT
     there is not enough matched pixels found in Strathcona Park, we
     calculate the nearest neighbours in bin space for all strata, and
     sample up to 1000 pixels while minimizing the nearest neighbour
-    distance. If the nearest neighbour distance is on average above 2,
+    distance. If the nearest neighbour distance is on average above two,
     we do not consider that strata in our analysis.</p>
     <fig id="fig-flow">
-      <caption><p>Figure 2: Conceptual flow diagram of the
+      <caption><p>Figure 3: Conceptual flow diagram of the
       study.</p></caption>
       <graphic mimetype="image" mime-subtype="png" xlink:href="strathcona/figures/flow.drawio.png" />
     </fig>
@@ -619,7 +658,18 @@ ABSTRACT
     (<xref alt="Goodbody et al., 2023" rid="ref-goodbody2023" ref-type="bibr">Goodbody
     et al., 2023</xref>) with the Quiennec method
     (<xref alt="Queinnec et al., 2021" rid="ref-queinnec2021" ref-type="bibr">Queinnec
-    et al., 2021</xref>).</p>
+    et al., 2021</xref>). Geospatial data processing was performed using
+    the <bold>terra</bold> (version 1.7-78)
+    (<xref alt="Hijmans, 2024" rid="ref-R-terra" ref-type="bibr">Hijmans,
+    2024</xref>) sf (version 1.0-16)
+    (<xref alt="Pebesma, 2018" rid="ref-sf2018" ref-type="bibr">Pebesma,
+    2018</xref>;
+    <xref alt="Pebesma and Bivand, 2023" rid="ref-sf2023" ref-type="bibr">Pebesma
+    and Bivand, 2023</xref>) and <bold>tidyterra</bold> (version 0.6.1)
+    (<xref alt="Hernangómez, 2023a" rid="ref-hernangómez2023" ref-type="bibr">Hernangómez,
+    2023a</xref>,
+    <xref alt="2023b" rid="ref-R-tidyterra" ref-type="bibr">2023b</xref>)
+    R packages.</p>
   </sec>
   <sec id="analysis">
     <title>2.5 Analysis</title>
@@ -646,17 +696,43 @@ ABSTRACT
 </sec>
 <sec id="results">
   <title>3. Results</title>
+  <p>Our sigma dissimilarity processing workflow resulted in six island
+  wide maps of structural and functional similarity to the reference
+  state found in Strathcona Provincial Park
+  (<xref alt="Figure 4" rid="fig-regional">Figure 4</xref>). We display
+  three selected subsets of Vancouver Island to demonstrate variation in
+  similarity and the anthorpogenic footprint layers. Subset A shows a
+  region near Lake Cowichan where harvesting is a common anthropogenic
+  pressure (<xref alt="Figure 4" rid="fig-regional">Figure 4</xref> A).
+  Subset B shows a protected area near Campbell River with high
+  population density
+  (<xref alt="Figure 4" rid="fig-regional">Figure 4</xref> B). Subset C
+  shows a region with generally low anthropogenic pressure
+  (<xref alt="Figure 4" rid="fig-regional">Figure 4</xref> C). We see
+  more variation in the similarity to high aboveground biomass and
+  functional reference states, while the similarity to canopy cover,
+  canopy height, and structural complexity is often lower across
+  Vancouver Island.</p>
+  <fig id="fig-regional">
+    <caption><p>Figure 4: Regional details of the human footprint and
+    sigma dissimilarity across the sites on Vancouver Island. Subset A
+    show Cowichan Lake, a heavily harvested region. Subset B shows Elk
+    Falls Provincial Park, just outside Campbell River, a region with
+    high population density. Subset C shows a region with generally low
+    anthropogenic pressure.</p></caption>
+    <graphic mimetype="image" mime-subtype="png" xlink:href="strathcona/figures/multi_panel_inset_wide_PS.png" />
+  </fig>
   <p>We found that similarity to high structural complexity (Anova: p =
   0.007) and tall canopy height (Anova: p = 0.003) reference states was
   influenced by medium to high levels of cumulative anthropogenic
   pressure
-  (<xref alt="Figure 3" rid="fig-boxplot-overall">Figure 3</xref>).
+  (<xref alt="Figure 5" rid="fig-boxplot-overall">Figure 5</xref>).
   Similarity to high biomass (Anova: p = 0.142) and canopy cover (Anova:
   p = 0.855) regions were not significantly influenced by cumulative
   anthropogenic pressures. Neither of the productivity metrics were
   influenced by cumulative anthropogenic pressures.</p>
   <fig id="fig-boxplot-overall">
-    <caption><p>Figure 3: Boxplots of sigma similarity to the reference
+    <caption><p>Figure 5: Boxplots of sigma similarity to the reference
     state in Strathcona Provincial Park by cumulative human footprint
     category. Anova p-values corrected using the Holm-Bonferroni method.
     * indicates a Tukey HSD p-value &lt; 0.05. ** indicates a Tukey HSD
@@ -666,7 +742,7 @@ ABSTRACT
   <p>Increases in all individual anthropogenic pressures led to
   increased dissimilarity when compared to most structural reference
   states
-  (<xref alt="Figure 4" rid="fig-boxplot-individual">Figure 4</xref>).
+  (<xref alt="Figure 6" rid="fig-boxplot-individual">Figure 6</xref>).
   Increases in pressures from roads and built environment did not
   increase or reduce similarity to structural reference states with high
   canopy cover. Medium and high pressures from population density and
@@ -677,7 +753,7 @@ ABSTRACT
   dissimilarity to ecosystems with high variation in energy
   availability.</p>
   <fig id="fig-boxplot-individual">
-    <caption><p>Figure 4: Boxplots of sigma similarity to the reference
+    <caption><p>Figure 6: Boxplots of sigma similarity to the reference
     state in Strathcona Provincial Park by individual anthropogenic
     pressures. Anova p-values corrected using the Holm-Bonferroni
     method. * indicates a Tukey HSD p-value &lt; 0.05. ** indicates a
@@ -695,13 +771,13 @@ ABSTRACT
   footprint on these reference states, finding that ecosystem structure
   in the form of forest structural attributes is influenced by increased
   anthropogenic pressures on a cumulative and individual level
-  (<xref alt="Figure 3" rid="fig-boxplot-overall">Figure 3</xref>;
-  <xref alt="Figure 4" rid="fig-boxplot-individual">Figure 4</xref>).
+  (<xref alt="Figure 5" rid="fig-boxplot-overall">Figure 5</xref>;
+  <xref alt="Figure 6" rid="fig-boxplot-individual">Figure 6</xref>).
   Forest ecosystem function, as represented by the DHIs, is generally
   not significantly influenced by anthropogenic pressures, although
   population density increased similarity to ecosystems with high
   variation in energy availability
-  (<xref alt="Figure 4" rid="fig-boxplot-individual">Figure 4</xref>).</p>
+  (<xref alt="Figure 6" rid="fig-boxplot-individual">Figure 6</xref>).</p>
   <p>We find that similarity to high structural complexity forests,
   which are often high in biodiversity due to increased niche
   availability
@@ -710,10 +786,10 @@ ABSTRACT
   <xref alt="Walter et al., 2021" rid="ref-walter2021" ref-type="bibr">Walter
   et al., 2021</xref>), is impacted by medium to high levels of
   anthropogenic pressures. Structural similarity to tall forests is also
-  impacted by medium to high levelsof anthropogenic pressure, while
+  impacted by medium to high levels of anthropogenic pressure, while
   productivity metrics were not influenced by cumulative anthropogenic
   pressures in this region
-  (<xref alt="Figure 3" rid="fig-boxplot-overall">Figure 3</xref>). In
+  (<xref alt="Figure 5" rid="fig-boxplot-overall">Figure 5</xref>). In
   tropical forests, Bourgoin et al.
   (<xref alt="2024" rid="ref-bourgoin2024" ref-type="bibr">2024</xref>)
   found that anthropogenic forest degradation influenced aboveground
@@ -731,20 +807,70 @@ ABSTRACT
   footprint). We further this research by assessing individual pressures
   on a multivariate metric of structural similarity to a high-quality
   reference state
-  (<xref alt="Figure 4" rid="fig-boxplot-individual">Figure 4</xref>).</p>
-  <p>Anthropogenic effects on forest function are rarely examined. Here,
-  we also examine how anthropogenic pressures influence similarity to
-  high available energy and high energy variation forests, both
-  hypothesized to indicate high levels of biodiversity in a number of
-  guilds and clades
+  (<xref alt="Figure 6" rid="fig-boxplot-individual">Figure 6</xref>).</p>
+  <p>It is possible that we did not find a relationship between
+  cumulative anthropogenic pressures and canopy cover/aboveground
+  biomass as these forest structural attributes are typically high on
+  Vancouver Island due to the regions mild climate and suitability for
+  forest growth
+  (<xref alt="Waring et al., 2006" rid="ref-waring2006" ref-type="bibr">Waring
+  et al., 2006</xref>). Conversely, we did find a relationship between
+  the vertical layering (canopy height and structural complexity) of
+  trees and anthropogenic pressures
+  (<xref alt="Figure 5" rid="fig-boxplot-overall">Figure 5</xref>). This
+  is especially relevant as structurally complex forests are crucial for
+  harbouring biodiversity and providing ecosystem functions and
+  services. The lack of a relationship between canopy cover/aboveground
+  biomass and the cumulative human footprint is potentially due to
+  replanting efforts from the forestry industry following harvest, which
+  are required in British Columbia and often lead to single species,
+  single aged stands
+  (<xref alt="Lieffers et al., 2020" rid="ref-lieffers2020" ref-type="bibr">Lieffers
+  et al., 2020</xref>). Stands of this configuration are unlikely to be
+  found in our reference state, Strathcona Provincial Park, as it has
+  been a protected area for over 100 years, thus leading to higher
+  dissimilarity values.</p>
+  <p>Anthropogenic effects on forest function and energy availability
+  have rarely been examined. Here, we also examine how anthropogenic
+  pressures influence similarity to high available energy and high
+  energy variation forests, both hypothesized to indicate high levels of
+  biodiversity in a number of guilds and clades
   (<xref alt="Radeloff et al., 2019" rid="ref-radeloff2019" ref-type="bibr">Radeloff
   et al., 2019</xref>;
   <xref alt="Razenkova et al., 2022" rid="ref-razenkova2022" ref-type="bibr">Razenkova
   et al., 2022</xref>). We do not find a strong influence of cumulative
   anthropogenic pressure on our forest functioning metrics, however, we
-  did find that dissimilarity to forest stands with high annual energy
-  variability was reduced under high anthropogenic pressure
-  (<xref alt="Figure 4" rid="fig-boxplot-individual">Figure 4</xref>).</p>
+  did find that similarity to forest stands with high annual energy
+  variability was increased in high population density areas
+  (<xref alt="Figure 6" rid="fig-boxplot-individual">Figure 6</xref>).
+  This increase in similarity in high density areas is potentially
+  driven by ornamental trees and the bias for North American urban
+  forests to be primarily deciduous trees
+  (<xref alt="Clapp et al., 2014" rid="ref-clapp2014" ref-type="bibr">Clapp
+  et al., 2014</xref>;
+  <xref alt="Roman et al., 2018" rid="ref-roman2018" ref-type="bibr">Roman
+  et al., 2018</xref>), which would have a stronger variation DHI
+  component due to annual leaf senescence and green-up.</p>
+  <p>Further, the calculation of the DHIs is dependent on using a
+  vegetation index or productivity estimate, in our case NDVI.
+  Vegetation indices have been shown to saturate at high levels of
+  canopy cover and leaf area index
+  (<xref alt="Huete et al., 2002" rid="ref-huete2002" ref-type="bibr">Huete
+  et al., 2002</xref>;
+  <xref alt="Huete et al., 1997" rid="ref-huete1997" ref-type="bibr">Huete
+  et al., 1997</xref>), which are common on Vancouver Island, and
+  comparisons of unprotected areas to the highest 10% cover in reference
+  states shows no significant difference
+  (<xref alt="Figure 5" rid="fig-boxplot-overall">Figure 5</xref>).
+  Recent research has shown that seasonality, here represented as the
+  Variation DHI, drives functional diversity in avian assemblages,
+  however, these results also strongly varied by region
+  (<xref alt="Keyser et al., 2024" rid="ref-keyser2024" ref-type="bibr">Keyser
+  et al., 2024</xref>). It is possible that examining anthropogenic
+  pressure impacts in regions with more variation in canopy cover may
+  lead to differing results depending on the amount of total variation
+  present in canopy cover, which would in turn influence seasonality and
+  energy availability.</p>
   <p>Assessing individual pressure influences on the environment is also
   relevant to questions of how cumulative anthropogenic pressure maps
   are calculate. There is currently a debate between additive and
@@ -813,7 +939,7 @@ ABSTRACT
   state. Our matching technique (coarsened exact matching, combined with
   an kNN approach when no exact match is available) allows us to
   generate reference states in a near wall-to-wall fashion, which
-  esnures similarity between reference state and compared pixels.</p>
+  ensures similarity between reference state and compared pixels.</p>
   <p>Our techniques move beyond traditional impact evaluation techniques
   (<xref alt="Ferraro, 2009" rid="ref-ferraro2009" ref-type="bibr">Ferraro,
   2009</xref>) commonly used in protected area effectiveness assessments
@@ -826,13 +952,23 @@ ABSTRACT
   associated with that species or ecosystem, these methods can be
   applied to assess similarity to those high quality ecosystems across
   large regions.</p>
-  <p>Could also be a paragraph about urban forestry and canopy cover.
-  Since urban foreters want to preserve high amounts of cover and
-  greenspace that could be why the roads/built environments dont see
-  strong differences to the reference state. This issue is also
-  compounded by the canopy cover on the island just being consistently
-  high across the board. I’m fine not discussing this, but could be
-  something interesting to note</p>
+</sec>
+<sec id="acknowledgements">
+  <title>5. Acknowledgements</title>
+  <p>This research was funded by NSERC support of Coops
+  (RGPIN-2018-03851). Remote sensing data products used in this research
+  are free and open and available for download
+  at <ext-link ext-link-type="uri" xlink:href="https://ca.nfis.org/maps_eng.html">https://ca.nfis.org/maps_eng.html</ext-link>.
+  The authors thank Dr. Michael A. Wulder and Dr. Joanne C. White for
+  development and early access to these National Terrestrial Ecosystem
+  Mapping System (NTEMS) products. They thank Dr. Elena Razenkova for
+  early access to the Landsat-derived Dynamic Habitat Indices. ERM would
+  like to thank the members of the IRSS for many helpful conversations
+  throughout the preparation of this manuscript.</p>
+</sec>
+<sec id="ethics">
+  <title>6. Ethics</title>
+  <p>The authors declare no conflicts of interest.</p>
 </sec>
 </body>
 
@@ -2394,6 +2530,171 @@ ABSTRACT
       <lpage></lpage>
     </element-citation>
   </ref>
+  <ref id="ref-waring2006">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Waring</surname><given-names>R. H.</given-names></name>
+        <name><surname>Coops</surname><given-names>N. C.</given-names></name>
+        <name><surname>Fan</surname><given-names>W.</given-names></name>
+        <name><surname>Nightingale</surname><given-names>J. M.</given-names></name>
+      </person-group>
+      <article-title>MODIS enhanced vegetation index predicts tree species richness across forested ecoregions in the contiguous U.S.A.</article-title>
+      <source>Remote Sensing of Environment</source>
+      <year iso-8601-date="2006-07">2006</year><month>07</month>
+      <volume>103</volume>
+      <issue>2</issue>
+      <uri>https://linkinghub.elsevier.com/retrieve/pii/S003442570600191X</uri>
+      <pub-id pub-id-type="doi">10.1016/j.rse.2006.05.007</pub-id>
+      <fpage>218</fpage>
+      <lpage>226</lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-lieffers2020">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Lieffers</surname><given-names>Victor J.</given-names></name>
+        <name><surname>Pinno</surname><given-names>Bradley D.</given-names></name>
+        <name><surname>Beverly</surname><given-names>Jennifer L.</given-names></name>
+        <name><surname>Thomas</surname><given-names>Barb R.</given-names></name>
+        <name><surname>Nock</surname><given-names>Charles</given-names></name>
+      </person-group>
+      <article-title>Reforestation policy has constrained options for managing risks on public forests</article-title>
+      <source>Canadian Journal of Forest Research</source>
+      <year iso-8601-date="2020-09">2020</year><month>09</month>
+      <volume>50</volume>
+      <issue>9</issue>
+      <uri>https://cdnsciencepub.com/doi/10.1139/cjfr-2019-0422</uri>
+      <pub-id pub-id-type="doi">10.1139/cjfr-2019-0422</pub-id>
+      <fpage>855</fpage>
+      <lpage>861</lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-clapp2014">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Clapp</surname><given-names>J. Casey</given-names></name>
+        <name><surname>Ryan III</surname><given-names>H. Dennis P.</given-names></name>
+        <name><surname>Harper</surname><given-names>Richard W.</given-names></name>
+        <name><surname>Bloniarz</surname><given-names>David V.</given-names></name>
+      </person-group>
+      <article-title>Rationale for the increased use of conifers as functional green infrastructure: A literature review and synthesis</article-title>
+      <source>Arboricultural Journal</source>
+      <year iso-8601-date="2014-07-03">2014</year><month>07</month><day>03</day>
+      <volume>36</volume>
+      <issue>3</issue>
+      <uri>https://doi.org/10.1080/03071375.2014.950861</uri>
+      <pub-id pub-id-type="doi">10.1080/03071375.2014.950861</pub-id>
+      <fpage>161</fpage>
+      <lpage>178</lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-roman2018">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Roman</surname><given-names>Lara A.</given-names></name>
+        <name><surname>Pearsall</surname><given-names>Hamil</given-names></name>
+        <name><surname>Eisenman</surname><given-names>Theodore S.</given-names></name>
+        <name><surname>Conway</surname><given-names>Tenley M.</given-names></name>
+        <name><surname>Fahey</surname><given-names>Robert T.</given-names></name>
+        <name><surname>Landry</surname><given-names>Shawn</given-names></name>
+        <name><surname>Vogt</surname><given-names>Jess</given-names></name>
+        <name><surname>Doorn</surname><given-names>Natalie S. van</given-names></name>
+        <name><surname>Grove</surname><given-names>J. Morgan</given-names></name>
+        <name><surname>Locke</surname><given-names>Dexter H.</given-names></name>
+        <name><surname>Bardekjian</surname><given-names>Adrina C.</given-names></name>
+        <name><surname>Battles</surname><given-names>John J.</given-names></name>
+        <name><surname>Cadenasso</surname><given-names>Mary L.</given-names></name>
+        <name><surname>Bosch</surname><given-names>Cecil C. Konijnendijk van den</given-names></name>
+        <name><surname>Avolio</surname><given-names>Meghan</given-names></name>
+        <name><surname>Berland</surname><given-names>Adam</given-names></name>
+        <name><surname>Jenerette</surname><given-names>G. Darrel</given-names></name>
+        <name><surname>Mincey</surname><given-names>Sarah K.</given-names></name>
+        <name><surname>Pataki</surname><given-names>Diane E.</given-names></name>
+        <name><surname>Staudhammer</surname><given-names>Christina</given-names></name>
+      </person-group>
+      <article-title>Human and biophysical legacies shape contemporary urban forests: A literature synthesis</article-title>
+      <source>Urban Forestry &amp; Urban Greening</source>
+      <year iso-8601-date="2018-04-01">2018</year><month>04</month><day>01</day>
+      <volume>31</volume>
+      <uri>https://www.sciencedirect.com/science/article/pii/S1618866717307665</uri>
+      <pub-id pub-id-type="doi">10.1016/j.ufug.2018.03.004</pub-id>
+      <fpage>157</fpage>
+      <lpage>168</lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-keyser2024">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Keyser</surname><given-names>Spencer R.</given-names></name>
+        <name><surname>Pauli</surname><given-names>Jonathan N.</given-names></name>
+        <name><surname>Fink</surname><given-names>Daniel</given-names></name>
+        <name><surname>Radeloff</surname><given-names>Volker C.</given-names></name>
+        <name><surname>Pigot</surname><given-names>Alex L.</given-names></name>
+        <name><surname>Zuckerberg</surname><given-names>Benjamin</given-names></name>
+      </person-group>
+      <article-title>Seasonality Structures Avian Functional Diversity and Niche Packing Across North America</article-title>
+      <source>Ecology Letters</source>
+      <year iso-8601-date="2024">2024</year>
+      <volume>27</volume>
+      <issue>10</issue>
+      <uri>https://onlinelibrary.wiley.com/doi/abs/10.1111/ele.14521</uri>
+      <pub-id pub-id-type="doi">10.1111/ele.14521</pub-id>
+      <fpage>e14521</fpage>
+      <lpage></lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-hernangómez2023">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Hernangómez</surname><given-names>Diego</given-names></name>
+      </person-group>
+      <article-title>Using the tidyverse with terra objects: the tidyterra package</article-title>
+      <source>Journal of Open Source Software</source>
+      <year iso-8601-date="2023-11-10">2023</year><month>11</month><day>10</day>
+      <volume>8</volume>
+      <issue>91</issue>
+      <uri>https://joss.theoj.org/papers/10.21105/joss.05751</uri>
+      <pub-id pub-id-type="doi">10.21105/joss.05751</pub-id>
+      <fpage>5751</fpage>
+      <lpage></lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-huete1997">
+    <element-citation publication-type="paper-conference">
+      <person-group person-group-type="author">
+        <name><surname>Huete</surname><given-names>A. R.</given-names></name>
+        <name><surname>Liu</surname><given-names>HuiQing</given-names></name>
+        <name><surname>Leeuwen</surname><given-names>W. J. D. van</given-names></name>
+      </person-group>
+      <article-title>IGARSS’97. 1997 IEEE international geoscience and remote sensing symposium proceedings. Remote sensing - a scientific vision for sustainable development</article-title>
+      <year iso-8601-date="1997-08">1997</year><month>08</month>
+      <volume>4</volume>
+      <pub-id pub-id-type="doi">10.1109/IGARSS.1997.609169</pub-id>
+      <fpage>1966</fpage>
+      <lpage>1968 vol.4</lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-huete2002">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Huete</surname><given-names>A.</given-names></name>
+        <name><surname>Didan</surname><given-names>K.</given-names></name>
+        <name><surname>Miura</surname><given-names>T.</given-names></name>
+        <name><surname>Rodriguez</surname><given-names>E. P.</given-names></name>
+        <name><surname>Gao</surname><given-names>X.</given-names></name>
+        <name><surname>Ferreira</surname><given-names>L. G.</given-names></name>
+      </person-group>
+      <article-title>Overview of the radiometric and biophysical performance of the MODIS vegetation indices</article-title>
+      <source>Remote Sensing of Environment</source>
+      <year iso-8601-date="2002-11">2002</year><month>11</month>
+      <volume>83</volume>
+      <issue>1-2</issue>
+      <uri>https://gateway.webofknowledge.com/gateway/Gateway.cgi?GWVersion=2&amp;SrcAuth=DOISource&amp;SrcApp=WOS&amp;KeyAID=10.1016%2FS0034-4257%2802%2900096-2&amp;DestApp=DOI&amp;SrcAppSID=6ABQuYtmtvvjzqEmPms&amp;SrcJTitle=REMOTE+SENSING+OF+ENVIRONMENT&amp;DestDOIRegistrantName=Elsevier</uri>
+      <pub-id pub-id-type="doi">10.1016/S0034-4257(02)00096-2</pub-id>
+      <fpage>195</fpage>
+      <lpage>213</lpage>
+    </element-citation>
+  </ref>
   <ref id="ref-R-base">
     <element-citation publication-type="book">
       <person-group person-group-type="author">
@@ -2424,6 +2725,63 @@ ABSTRACT
       <source>Terra: Spatial data analysis</source>
       <year iso-8601-date="2024">2024</year>
       <uri>https://rspatial.org/</uri>
+    </element-citation>
+  </ref>
+  <ref id="ref-R-tidyterra">
+    <element-citation publication-type="book">
+      <person-group person-group-type="author">
+        <name><surname>Hernangómez</surname><given-names>Diego</given-names></name>
+      </person-group>
+      <source>Tidyterra: Tidyverse methods and ggplot2 helpers for terra objects</source>
+      <year iso-8601-date="2024">2024</year>
+      <uri>https://dieghernan.github.io/tidyterra/</uri>
+    </element-citation>
+  </ref>
+  <ref id="ref-sf2023">
+    <element-citation publication-type="book">
+      <person-group person-group-type="author">
+        <name><surname>Pebesma</surname><given-names>Edzer</given-names></name>
+        <name><surname>Bivand</surname><given-names>Roger</given-names></name>
+      </person-group>
+      <source>Spatial Data Science: With applications in R</source>
+      <publisher-name>Chapman and Hall/CRC</publisher-name>
+      <year iso-8601-date="2023">2023</year>
+      <uri>https://r-spatial.org/book/</uri>
+      <pub-id pub-id-type="doi">10.1201/9780429459016</pub-id>
+    </element-citation>
+  </ref>
+  <ref id="ref-sf2018">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Pebesma</surname><given-names>Edzer</given-names></name>
+      </person-group>
+      <article-title>Simple Features for R: Standardized Support for Spatial Vector Data</article-title>
+      <source>The R Journal</source>
+      <year iso-8601-date="2018">2018</year>
+      <volume>10</volume>
+      <issue>1</issue>
+      <uri>https://doi.org/10.32614/RJ-2018-009</uri>
+      <pub-id pub-id-type="doi">10.32614/RJ-2018-009</pub-id>
+      <fpage>439</fpage>
+      <lpage>446</lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-R-tidyterra">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Hernangómez</surname><given-names>Diego</given-names></name>
+      </person-group>
+      <article-title>Using the tidyverse with terra objects: The tidyterra package</article-title>
+      <source>Journal of Open Source Software</source>
+      <publisher-name>The Open Journal</publisher-name>
+      <year iso-8601-date="2023">2023</year>
+      <volume>8</volume>
+      <issue>91</issue>
+      <issn>2475-9066</issn>
+      <uri>https://doi.org/10.21105/joss.05751</uri>
+      <pub-id pub-id-type="doi">10.21105/joss.05751</pub-id>
+      <fpage>5751</fpage>
+      <lpage></lpage>
     </element-citation>
   </ref>
 </ref-list>
@@ -2563,14 +2921,43 @@ Columbia, Canada</institution>
 <corresp id="cor-1-nb-article">evanmuis@student.ubc.ca</corresp>
 </author-notes>
 <abstract>
-ABSTRACT
+Natural forests with high ecological integrity have natural or near
+natural ecosystem structure, function, and composition, and are home to
+large amounts of terrestrial biodiversity and provide integral ecosystem
+services. Anthropogenic pressures such as climate change,
+overexploitation, and invasive species are leading to the degradation or
+loss of high integrity forests. Due to this, it is important to be able
+to locate and assess the quality of forests stands across wide swaths of
+land. Remote sensing is rapidly providing more and more data capable of
+making these assessments, such as wall to wall metrics of forest
+structure and productivity. In this paper, we demonstrate a method to
+assess similarity to known high quality reference states using coarsened
+exact matching and the sigma dissimilarity metric. Using this
+dissimilarity metric, we can assess how far, in structural and
+functional space, every forest stand across Vancouver Island is to a
+comparable forest found in the oldest and largest protected area on the
+island, Strathcona Provincial Park. We further assess how cumulative and
+individual anthropogenic pressures are influencing ecological
+dissimilarity. We found that cumulative anthropogenic pressures
+influence the vertical layering of forests (canopy height and structural
+complexity), but do not influence forest energy availability or energy
+seasonality. Further individual pressures increase dissimilarity for the
+majority of forest structural attributes, and population density reduces
+similarity to highly seasonal forests. Our results demonstrate that
+applying strict matching procedures and the sigma dissimilarity metric
+can be used to assess ecosystem similarity, which could be especially
+useful when working with the location of rare ecosystems under large
+amounts of anthropogenic pressure. Further, we demonstrate that vertical
+forest structural attributes strongly related to biodiversity via niche
+availability and resource partitioning are influenced negatively by
+anthropogenic pressures.
 </abstract>
 </front-stub>
 
 <body>
 <sec specific-use="notebook-content">
 <code language="r script"># package citation
-.to.cite &lt;- c(&quot;sgsR&quot;,  &quot;terra&quot;, &quot;sf&quot;, &quot;rstatix&quot;)
+.to.cite &lt;- c(&quot;sgsR&quot;,  &quot;terra&quot;, &quot;sf&quot;, &quot;rstatix&quot;, &quot;tidyterra&quot;)
 
 pkgs &lt;- unique(c(.to.cite, .packages()))
 knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
@@ -2907,7 +3294,9 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
       (<xref alt="Michaud et al., 2014" rid="ref-razenkovaMoose-nb-article" ref-type="bibr">Michaud
       et al., 2014</xref>;
       <xref alt="Suttidate et al., 2021" rid="ref-suttidateConn-nb-article" ref-type="bibr">Suttidate
-      et al., 2021</xref>).</p>
+      et al., 2021</xref>). In this study, we focus on the Cumulative
+      and Variation DHIs, as the minimum DHI is consistently 0 due to
+      the presence of snow.</p>
     </sec>
     <sec id="anthropogenic-pressures-nb-article">
       <title>2.2.4 Anthropogenic Pressures</title>
@@ -2948,7 +3337,18 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
       (<xref alt="Hijmans, 2024" rid="ref-R-terra-nb-article" ref-type="bibr">Hijmans,
       2024</xref>) in R
       (<xref alt="R Core Team, 2024" rid="ref-R-base-nb-article" ref-type="bibr">R
-      Core Team, 2024</xref> version 4.4.1).</p>
+      Core Team, 2024</xref> version 4.4.1). A visualization of one of
+      each input dataset can be found in Figure
+      <xref alt="Figure 2" rid="fig-data-nb-article">Figure 2</xref>.</p>
+      <sec id="cell-fig-data-nb-article" specific-use="notebook-content">
+      <code language="r script">knitr::include_graphics(&quot;E:/Sync/Masters/04_vi_pristine/strathcona/figures/data_figure.png&quot;)</code>
+      <fig id="fig-data-nb-article">
+        <caption><p>Figure 2: Visualization of the input datasets used
+        in the study. Panel C shows the human footprint and the location
+        of the samples used for our analysis.</p></caption>
+        <graphic mimetype="image" mime-subtype="png" xlink:href="strathcona/figures/data_figure.png" />
+      </fig>
+      </sec>
     </sec>
   </sec>
   <sec id="sec-sim-nb-article">
@@ -2957,7 +3357,7 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
     (<xref alt="Mahony et al., 2017" rid="ref-mahony2017-nb-article" ref-type="bibr">Mahony
     et al., 2017</xref>) of forested pixels across British Columbia by
     using an expanded coarsened exact matching (CEM) technique
-    , <xref alt="Figure 2" rid="fig-flow-nb-article">Figure 2</xref>. This
+    , <xref alt="Figure 3" rid="fig-flow-nb-article">Figure 3</xref>. This
     methodology enables us to evaluate the degree of similarity between
     all forested pixels in the province and natural forests, while
     accounting for potential confounding variables such as climate and
@@ -2971,12 +3371,12 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
     there is not enough matched pixels found in Strathcona Park, we
     calculate the nearest neighbours in bin space for all strata, and
     sample up to 1000 pixels while minimizing the nearest neighbour
-    distance. If the nearest neighbour distance is on average above 2,
+    distance. If the nearest neighbour distance is on average above two,
     we do not consider that strata in our analysis.</p>
     <sec id="cell-fig-flow-nb-article" specific-use="notebook-content">
     <code language="r script">knitr::include_graphics(&quot;E:/Sync/Masters/04_vi_pristine/strathcona/figures/flow.drawio.png&quot;)</code>
     <fig id="fig-flow-nb-article">
-      <caption><p>Figure 2: Conceptual flow diagram of the
+      <caption><p>Figure 3: Conceptual flow diagram of the
       study.</p></caption>
       <graphic mimetype="image" mime-subtype="png" xlink:href="strathcona/figures/flow.drawio.png" />
     </fig>
@@ -3026,7 +3426,18 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
     (<xref alt="Goodbody et al., 2023" rid="ref-goodbody2023-nb-article" ref-type="bibr">Goodbody
     et al., 2023</xref>) with the Quiennec method
     (<xref alt="Queinnec et al., 2021" rid="ref-queinnec2021-nb-article" ref-type="bibr">Queinnec
-    et al., 2021</xref>).</p>
+    et al., 2021</xref>). Geospatial data processing was performed using
+    the <bold>terra</bold> (version 1.7-78)
+    (<xref alt="Hijmans, 2024" rid="ref-R-terra-nb-article" ref-type="bibr">Hijmans,
+    2024</xref>) sf (version 1.0-16)
+    (<xref alt="Pebesma, 2018" rid="ref-sf2018-nb-article" ref-type="bibr">Pebesma,
+    2018</xref>;
+    <xref alt="Pebesma and Bivand, 2023" rid="ref-sf2023-nb-article" ref-type="bibr">Pebesma
+    and Bivand, 2023</xref>) and <bold>tidyterra</bold> (version 0.6.1)
+    (<xref alt="Hernangómez, 2023a" rid="ref-hernangómez2023-nb-article" ref-type="bibr">Hernangómez,
+    2023a</xref>,
+    <xref alt="2023b" rid="ref-R-tidyterra-nb-article" ref-type="bibr">2023b</xref>)
+    R packages.</p>
   </sec>
   <sec id="analysis-nb-article">
     <title>2.5 Analysis</title>
@@ -3053,11 +3464,40 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
 </sec>
 <sec id="results-nb-article">
   <title>3. Results</title>
+  <p>Our sigma dissimilarity processing workflow resulted in six island
+  wide maps of structural and functional similarity to the reference
+  state found in Strathcona Provincial Park
+  (<xref alt="Figure 4" rid="fig-regional-nb-article">Figure 4</xref>). We display
+  three selected subsets of Vancouver Island to demonstrate variation in
+  similarity and the anthorpogenic footprint layers. Subset A shows a
+  region near Lake Cowichan where harvesting is a common anthropogenic
+  pressure (<xref alt="Figure 4" rid="fig-regional-nb-article">Figure 4</xref> A).
+  Subset B shows a protected area near Campbell River with high
+  population density
+  (<xref alt="Figure 4" rid="fig-regional-nb-article">Figure 4</xref> B). Subset C
+  shows a region with generally low anthropogenic pressure
+  (<xref alt="Figure 4" rid="fig-regional-nb-article">Figure 4</xref> C). We see
+  more variation in the similarity to high aboveground biomass and
+  functional reference states, while the similarity to canopy cover,
+  canopy height, and structural complexity is often lower across
+  Vancouver Island.</p>
+  <sec id="cell-fig-regional-nb-article" specific-use="notebook-content">
+  <code language="r script">knitr::include_graphics(&quot;E:/Sync/Masters/04_vi_pristine/strathcona/figures/multi_panel_inset_wide_PS.png&quot;)</code>
+  <fig id="fig-regional-nb-article">
+    <caption><p>Figure 4: Regional details of the human footprint and
+    sigma dissimilarity across the sites on Vancouver Island. Subset A
+    show Cowichan Lake, a heavily harvested region. Subset B shows Elk
+    Falls Provincial Park, just outside Campbell River, a region with
+    high population density. Subset C shows a region with generally low
+    anthropogenic pressure.</p></caption>
+    <graphic mimetype="image" mime-subtype="png" xlink:href="strathcona/figures/multi_panel_inset_wide_PS.png" />
+  </fig>
+  </sec>
   <p>We found that similarity to high structural complexity (Anova: p =
   0.007) and tall canopy height (Anova: p = 0.003) reference states was
   influenced by medium to high levels of cumulative anthropogenic
   pressure
-  (<xref alt="Figure 3" rid="fig-boxplot-overall-nb-article">Figure 3</xref>).
+  (<xref alt="Figure 5" rid="fig-boxplot-overall-nb-article">Figure 5</xref>).
   Similarity to high biomass (Anova: p = 0.142) and canopy cover (Anova:
   p = 0.855) regions were not significantly influenced by cumulative
   anthropogenic pressures. Neither of the productivity metrics were
@@ -3065,7 +3505,7 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
   <sec id="cell-fig-boxplot-overall-nb-article" specific-use="notebook-content">
   <code language="r script">knitr::include_graphics(&quot;E:/Sync/Masters/04_vi_pristine/strathcona/figures/mahal_boxplot_sig.png&quot;)</code>
   <fig id="fig-boxplot-overall-nb-article">
-    <caption><p>Figure 3: Boxplots of sigma similarity to the reference
+    <caption><p>Figure 5: Boxplots of sigma similarity to the reference
     state in Strathcona Provincial Park by cumulative human footprint
     category. Anova p-values corrected using the Holm-Bonferroni method.
     * indicates a Tukey HSD p-value &lt; 0.05. ** indicates a Tukey HSD
@@ -3076,7 +3516,7 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
   <p>Increases in all individual anthropogenic pressures led to
   increased dissimilarity when compared to most structural reference
   states
-  (<xref alt="Figure 4" rid="fig-boxplot-individual-nb-article">Figure 4</xref>).
+  (<xref alt="Figure 6" rid="fig-boxplot-individual-nb-article">Figure 6</xref>).
   Increases in pressures from roads and built environment did not
   increase or reduce similarity to structural reference states with high
   canopy cover. Medium and high pressures from population density and
@@ -3089,7 +3529,7 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
   <sec id="cell-fig-boxplot-individual-nb-article" specific-use="notebook-content">
   <code language="r script">knitr::include_graphics(&quot;E:/Sync/Masters/04_vi_pristine/strathcona/figures/indiv_boxplots.png&quot;)</code>
   <fig id="fig-boxplot-individual-nb-article">
-    <caption><p>Figure 4: Boxplots of sigma similarity to the reference
+    <caption><p>Figure 6: Boxplots of sigma similarity to the reference
     state in Strathcona Provincial Park by individual anthropogenic
     pressures. Anova p-values corrected using the Holm-Bonferroni
     method. * indicates a Tukey HSD p-value &lt; 0.05. ** indicates a
@@ -3108,13 +3548,13 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
   footprint on these reference states, finding that ecosystem structure
   in the form of forest structural attributes is influenced by increased
   anthropogenic pressures on a cumulative and individual level
-  (<xref alt="Figure 3" rid="fig-boxplot-overall-nb-article">Figure 3</xref>;
-  <xref alt="Figure 4" rid="fig-boxplot-individual-nb-article">Figure 4</xref>).
+  (<xref alt="Figure 5" rid="fig-boxplot-overall-nb-article">Figure 5</xref>;
+  <xref alt="Figure 6" rid="fig-boxplot-individual-nb-article">Figure 6</xref>).
   Forest ecosystem function, as represented by the DHIs, is generally
   not significantly influenced by anthropogenic pressures, although
   population density increased similarity to ecosystems with high
   variation in energy availability
-  (<xref alt="Figure 4" rid="fig-boxplot-individual-nb-article">Figure 4</xref>).</p>
+  (<xref alt="Figure 6" rid="fig-boxplot-individual-nb-article">Figure 6</xref>).</p>
   <p>We find that similarity to high structural complexity forests,
   which are often high in biodiversity due to increased niche
   availability
@@ -3123,10 +3563,10 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
   <xref alt="Walter et al., 2021" rid="ref-walter2021-nb-article" ref-type="bibr">Walter
   et al., 2021</xref>), is impacted by medium to high levels of
   anthropogenic pressures. Structural similarity to tall forests is also
-  impacted by medium to high levelsof anthropogenic pressure, while
+  impacted by medium to high levels of anthropogenic pressure, while
   productivity metrics were not influenced by cumulative anthropogenic
   pressures in this region
-  (<xref alt="Figure 3" rid="fig-boxplot-overall-nb-article">Figure 3</xref>). In
+  (<xref alt="Figure 5" rid="fig-boxplot-overall-nb-article">Figure 5</xref>). In
   tropical forests, Bourgoin et al.
   (<xref alt="2024" rid="ref-bourgoin2024-nb-article" ref-type="bibr">2024</xref>)
   found that anthropogenic forest degradation influenced aboveground
@@ -3144,20 +3584,70 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
   footprint). We further this research by assessing individual pressures
   on a multivariate metric of structural similarity to a high-quality
   reference state
-  (<xref alt="Figure 4" rid="fig-boxplot-individual-nb-article">Figure 4</xref>).</p>
-  <p>Anthropogenic effects on forest function are rarely examined. Here,
-  we also examine how anthropogenic pressures influence similarity to
-  high available energy and high energy variation forests, both
-  hypothesized to indicate high levels of biodiversity in a number of
-  guilds and clades
+  (<xref alt="Figure 6" rid="fig-boxplot-individual-nb-article">Figure 6</xref>).</p>
+  <p>It is possible that we did not find a relationship between
+  cumulative anthropogenic pressures and canopy cover/aboveground
+  biomass as these forest structural attributes are typically high on
+  Vancouver Island due to the regions mild climate and suitability for
+  forest growth
+  (<xref alt="Waring et al., 2006" rid="ref-waring2006-nb-article" ref-type="bibr">Waring
+  et al., 2006</xref>). Conversely, we did find a relationship between
+  the vertical layering (canopy height and structural complexity) of
+  trees and anthropogenic pressures
+  (<xref alt="Figure 5" rid="fig-boxplot-overall-nb-article">Figure 5</xref>). This
+  is especially relevant as structurally complex forests are crucial for
+  harbouring biodiversity and providing ecosystem functions and
+  services. The lack of a relationship between canopy cover/aboveground
+  biomass and the cumulative human footprint is potentially due to
+  replanting efforts from the forestry industry following harvest, which
+  are required in British Columbia and often lead to single species,
+  single aged stands
+  (<xref alt="Lieffers et al., 2020" rid="ref-lieffers2020-nb-article" ref-type="bibr">Lieffers
+  et al., 2020</xref>). Stands of this configuration are unlikely to be
+  found in our reference state, Strathcona Provincial Park, as it has
+  been a protected area for over 100 years, thus leading to higher
+  dissimilarity values.</p>
+  <p>Anthropogenic effects on forest function and energy availability
+  have rarely been examined. Here, we also examine how anthropogenic
+  pressures influence similarity to high available energy and high
+  energy variation forests, both hypothesized to indicate high levels of
+  biodiversity in a number of guilds and clades
   (<xref alt="Radeloff et al., 2019" rid="ref-radeloff2019-nb-article" ref-type="bibr">Radeloff
   et al., 2019</xref>;
   <xref alt="Razenkova et al., 2022" rid="ref-razenkova2022-nb-article" ref-type="bibr">Razenkova
   et al., 2022</xref>). We do not find a strong influence of cumulative
   anthropogenic pressure on our forest functioning metrics, however, we
-  did find that dissimilarity to forest stands with high annual energy
-  variability was reduced under high anthropogenic pressure
-  (<xref alt="Figure 4" rid="fig-boxplot-individual-nb-article">Figure 4</xref>).</p>
+  did find that similarity to forest stands with high annual energy
+  variability was increased in high population density areas
+  (<xref alt="Figure 6" rid="fig-boxplot-individual-nb-article">Figure 6</xref>).
+  This increase in similarity in high density areas is potentially
+  driven by ornamental trees and the bias for North American urban
+  forests to be primarily deciduous trees
+  (<xref alt="Clapp et al., 2014" rid="ref-clapp2014-nb-article" ref-type="bibr">Clapp
+  et al., 2014</xref>;
+  <xref alt="Roman et al., 2018" rid="ref-roman2018-nb-article" ref-type="bibr">Roman
+  et al., 2018</xref>), which would have a stronger variation DHI
+  component due to annual leaf senescence and green-up.</p>
+  <p>Further, the calculation of the DHIs is dependent on using a
+  vegetation index or productivity estimate, in our case NDVI.
+  Vegetation indices have been shown to saturate at high levels of
+  canopy cover and leaf area index
+  (<xref alt="Huete et al., 2002" rid="ref-huete2002-nb-article" ref-type="bibr">Huete
+  et al., 2002</xref>;
+  <xref alt="Huete et al., 1997" rid="ref-huete1997-nb-article" ref-type="bibr">Huete
+  et al., 1997</xref>), which are common on Vancouver Island, and
+  comparisons of unprotected areas to the highest 10% cover in reference
+  states shows no significant difference
+  (<xref alt="Figure 5" rid="fig-boxplot-overall-nb-article">Figure 5</xref>).
+  Recent research has shown that seasonality, here represented as the
+  Variation DHI, drives functional diversity in avian assemblages,
+  however, these results also strongly varied by region
+  (<xref alt="Keyser et al., 2024" rid="ref-keyser2024-nb-article" ref-type="bibr">Keyser
+  et al., 2024</xref>). It is possible that examining anthropogenic
+  pressure impacts in regions with more variation in canopy cover may
+  lead to differing results depending on the amount of total variation
+  present in canopy cover, which would in turn influence seasonality and
+  energy availability.</p>
   <p>Assessing individual pressure influences on the environment is also
   relevant to questions of how cumulative anthropogenic pressure maps
   are calculate. There is currently a debate between additive and
@@ -3226,7 +3716,7 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
   state. Our matching technique (coarsened exact matching, combined with
   an kNN approach when no exact match is available) allows us to
   generate reference states in a near wall-to-wall fashion, which
-  esnures similarity between reference state and compared pixels.</p>
+  ensures similarity between reference state and compared pixels.</p>
   <p>Our techniques move beyond traditional impact evaluation techniques
   (<xref alt="Ferraro, 2009" rid="ref-ferraro2009-nb-article" ref-type="bibr">Ferraro,
   2009</xref>) commonly used in protected area effectiveness assessments
@@ -3239,13 +3729,23 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
   associated with that species or ecosystem, these methods can be
   applied to assess similarity to those high quality ecosystems across
   large regions.</p>
-  <p>Could also be a paragraph about urban forestry and canopy cover.
-  Since urban foreters want to preserve high amounts of cover and
-  greenspace that could be why the roads/built environments dont see
-  strong differences to the reference state. This issue is also
-  compounded by the canopy cover on the island just being consistently
-  high across the board. I’m fine not discussing this, but could be
-  something interesting to note</p>
+</sec>
+<sec id="acknowledgements-nb-article">
+  <title>5. Acknowledgements</title>
+  <p>This research was funded by NSERC support of Coops
+  (RGPIN-2018-03851). Remote sensing data products used in this research
+  are free and open and available for download
+  at <ext-link ext-link-type="uri" xlink:href="https://ca.nfis.org/maps_eng.html">https://ca.nfis.org/maps_eng.html</ext-link>.
+  The authors thank Dr. Michael A. Wulder and Dr. Joanne C. White for
+  development and early access to these National Terrestrial Ecosystem
+  Mapping System (NTEMS) products. They thank Dr. Elena Razenkova for
+  early access to the Landsat-derived Dynamic Habitat Indices. ERM would
+  like to thank the members of the IRSS for many helpful conversations
+  throughout the preparation of this manuscript.</p>
+</sec>
+<sec id="ethics-nb-article">
+  <title>6. Ethics</title>
+  <p>The authors declare no conflicts of interest.</p>
 </sec>
 </body>
 
@@ -4809,6 +5309,171 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
       <lpage></lpage>
     </element-citation>
   </ref>
+  <ref id="ref-waring2006-nb-article">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Waring</surname><given-names>R. H.</given-names></name>
+        <name><surname>Coops</surname><given-names>N. C.</given-names></name>
+        <name><surname>Fan</surname><given-names>W.</given-names></name>
+        <name><surname>Nightingale</surname><given-names>J. M.</given-names></name>
+      </person-group>
+      <article-title>MODIS enhanced vegetation index predicts tree species richness across forested ecoregions in the contiguous U.S.A.</article-title>
+      <source>Remote Sensing of Environment</source>
+      <year iso-8601-date="2006-07">2006</year><month>07</month>
+      <volume>103</volume>
+      <issue>2</issue>
+      <uri>https://linkinghub.elsevier.com/retrieve/pii/S003442570600191X</uri>
+      <pub-id pub-id-type="doi">10.1016/j.rse.2006.05.007</pub-id>
+      <fpage>218</fpage>
+      <lpage>226</lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-lieffers2020-nb-article">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Lieffers</surname><given-names>Victor J.</given-names></name>
+        <name><surname>Pinno</surname><given-names>Bradley D.</given-names></name>
+        <name><surname>Beverly</surname><given-names>Jennifer L.</given-names></name>
+        <name><surname>Thomas</surname><given-names>Barb R.</given-names></name>
+        <name><surname>Nock</surname><given-names>Charles</given-names></name>
+      </person-group>
+      <article-title>Reforestation policy has constrained options for managing risks on public forests</article-title>
+      <source>Canadian Journal of Forest Research</source>
+      <year iso-8601-date="2020-09">2020</year><month>09</month>
+      <volume>50</volume>
+      <issue>9</issue>
+      <uri>https://cdnsciencepub.com/doi/10.1139/cjfr-2019-0422</uri>
+      <pub-id pub-id-type="doi">10.1139/cjfr-2019-0422</pub-id>
+      <fpage>855</fpage>
+      <lpage>861</lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-clapp2014-nb-article">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Clapp</surname><given-names>J. Casey</given-names></name>
+        <name><surname>Ryan III</surname><given-names>H. Dennis P.</given-names></name>
+        <name><surname>Harper</surname><given-names>Richard W.</given-names></name>
+        <name><surname>Bloniarz</surname><given-names>David V.</given-names></name>
+      </person-group>
+      <article-title>Rationale for the increased use of conifers as functional green infrastructure: A literature review and synthesis</article-title>
+      <source>Arboricultural Journal</source>
+      <year iso-8601-date="2014-07-03">2014</year><month>07</month><day>03</day>
+      <volume>36</volume>
+      <issue>3</issue>
+      <uri>https://doi.org/10.1080/03071375.2014.950861</uri>
+      <pub-id pub-id-type="doi">10.1080/03071375.2014.950861</pub-id>
+      <fpage>161</fpage>
+      <lpage>178</lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-roman2018-nb-article">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Roman</surname><given-names>Lara A.</given-names></name>
+        <name><surname>Pearsall</surname><given-names>Hamil</given-names></name>
+        <name><surname>Eisenman</surname><given-names>Theodore S.</given-names></name>
+        <name><surname>Conway</surname><given-names>Tenley M.</given-names></name>
+        <name><surname>Fahey</surname><given-names>Robert T.</given-names></name>
+        <name><surname>Landry</surname><given-names>Shawn</given-names></name>
+        <name><surname>Vogt</surname><given-names>Jess</given-names></name>
+        <name><surname>Doorn</surname><given-names>Natalie S. van</given-names></name>
+        <name><surname>Grove</surname><given-names>J. Morgan</given-names></name>
+        <name><surname>Locke</surname><given-names>Dexter H.</given-names></name>
+        <name><surname>Bardekjian</surname><given-names>Adrina C.</given-names></name>
+        <name><surname>Battles</surname><given-names>John J.</given-names></name>
+        <name><surname>Cadenasso</surname><given-names>Mary L.</given-names></name>
+        <name><surname>Bosch</surname><given-names>Cecil C. Konijnendijk van den</given-names></name>
+        <name><surname>Avolio</surname><given-names>Meghan</given-names></name>
+        <name><surname>Berland</surname><given-names>Adam</given-names></name>
+        <name><surname>Jenerette</surname><given-names>G. Darrel</given-names></name>
+        <name><surname>Mincey</surname><given-names>Sarah K.</given-names></name>
+        <name><surname>Pataki</surname><given-names>Diane E.</given-names></name>
+        <name><surname>Staudhammer</surname><given-names>Christina</given-names></name>
+      </person-group>
+      <article-title>Human and biophysical legacies shape contemporary urban forests: A literature synthesis</article-title>
+      <source>Urban Forestry &amp; Urban Greening</source>
+      <year iso-8601-date="2018-04-01">2018</year><month>04</month><day>01</day>
+      <volume>31</volume>
+      <uri>https://www.sciencedirect.com/science/article/pii/S1618866717307665</uri>
+      <pub-id pub-id-type="doi">10.1016/j.ufug.2018.03.004</pub-id>
+      <fpage>157</fpage>
+      <lpage>168</lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-keyser2024-nb-article">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Keyser</surname><given-names>Spencer R.</given-names></name>
+        <name><surname>Pauli</surname><given-names>Jonathan N.</given-names></name>
+        <name><surname>Fink</surname><given-names>Daniel</given-names></name>
+        <name><surname>Radeloff</surname><given-names>Volker C.</given-names></name>
+        <name><surname>Pigot</surname><given-names>Alex L.</given-names></name>
+        <name><surname>Zuckerberg</surname><given-names>Benjamin</given-names></name>
+      </person-group>
+      <article-title>Seasonality Structures Avian Functional Diversity and Niche Packing Across North America</article-title>
+      <source>Ecology Letters</source>
+      <year iso-8601-date="2024">2024</year>
+      <volume>27</volume>
+      <issue>10</issue>
+      <uri>https://onlinelibrary.wiley.com/doi/abs/10.1111/ele.14521</uri>
+      <pub-id pub-id-type="doi">10.1111/ele.14521</pub-id>
+      <fpage>e14521</fpage>
+      <lpage></lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-hernangómez2023-nb-article">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Hernangómez</surname><given-names>Diego</given-names></name>
+      </person-group>
+      <article-title>Using the tidyverse with terra objects: the tidyterra package</article-title>
+      <source>Journal of Open Source Software</source>
+      <year iso-8601-date="2023-11-10">2023</year><month>11</month><day>10</day>
+      <volume>8</volume>
+      <issue>91</issue>
+      <uri>https://joss.theoj.org/papers/10.21105/joss.05751</uri>
+      <pub-id pub-id-type="doi">10.21105/joss.05751</pub-id>
+      <fpage>5751</fpage>
+      <lpage></lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-huete1997-nb-article">
+    <element-citation publication-type="paper-conference">
+      <person-group person-group-type="author">
+        <name><surname>Huete</surname><given-names>A. R.</given-names></name>
+        <name><surname>Liu</surname><given-names>HuiQing</given-names></name>
+        <name><surname>Leeuwen</surname><given-names>W. J. D. van</given-names></name>
+      </person-group>
+      <article-title>IGARSS’97. 1997 IEEE international geoscience and remote sensing symposium proceedings. Remote sensing - a scientific vision for sustainable development</article-title>
+      <year iso-8601-date="1997-08">1997</year><month>08</month>
+      <volume>4</volume>
+      <pub-id pub-id-type="doi">10.1109/IGARSS.1997.609169</pub-id>
+      <fpage>1966</fpage>
+      <lpage>1968 vol.4</lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-huete2002-nb-article">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Huete</surname><given-names>A.</given-names></name>
+        <name><surname>Didan</surname><given-names>K.</given-names></name>
+        <name><surname>Miura</surname><given-names>T.</given-names></name>
+        <name><surname>Rodriguez</surname><given-names>E. P.</given-names></name>
+        <name><surname>Gao</surname><given-names>X.</given-names></name>
+        <name><surname>Ferreira</surname><given-names>L. G.</given-names></name>
+      </person-group>
+      <article-title>Overview of the radiometric and biophysical performance of the MODIS vegetation indices</article-title>
+      <source>Remote Sensing of Environment</source>
+      <year iso-8601-date="2002-11">2002</year><month>11</month>
+      <volume>83</volume>
+      <issue>1-2</issue>
+      <uri>https://gateway.webofknowledge.com/gateway/Gateway.cgi?GWVersion=2&amp;SrcAuth=DOISource&amp;SrcApp=WOS&amp;KeyAID=10.1016%2FS0034-4257%2802%2900096-2&amp;DestApp=DOI&amp;SrcAppSID=6ABQuYtmtvvjzqEmPms&amp;SrcJTitle=REMOTE+SENSING+OF+ENVIRONMENT&amp;DestDOIRegistrantName=Elsevier</uri>
+      <pub-id pub-id-type="doi">10.1016/S0034-4257(02)00096-2</pub-id>
+      <fpage>195</fpage>
+      <lpage>213</lpage>
+    </element-citation>
+  </ref>
   <ref id="ref-R-base-nb-article">
     <element-citation publication-type="book">
       <person-group person-group-type="author">
@@ -4839,6 +5504,63 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
       <source>Terra: Spatial data analysis</source>
       <year iso-8601-date="2024">2024</year>
       <uri>https://rspatial.org/</uri>
+    </element-citation>
+  </ref>
+  <ref id="ref-R-tidyterra-nb-article">
+    <element-citation publication-type="book">
+      <person-group person-group-type="author">
+        <name><surname>Hernangómez</surname><given-names>Diego</given-names></name>
+      </person-group>
+      <source>Tidyterra: Tidyverse methods and ggplot2 helpers for terra objects</source>
+      <year iso-8601-date="2024">2024</year>
+      <uri>https://dieghernan.github.io/tidyterra/</uri>
+    </element-citation>
+  </ref>
+  <ref id="ref-sf2023-nb-article">
+    <element-citation publication-type="book">
+      <person-group person-group-type="author">
+        <name><surname>Pebesma</surname><given-names>Edzer</given-names></name>
+        <name><surname>Bivand</surname><given-names>Roger</given-names></name>
+      </person-group>
+      <source>Spatial Data Science: With applications in R</source>
+      <publisher-name>Chapman and Hall/CRC</publisher-name>
+      <year iso-8601-date="2023">2023</year>
+      <uri>https://r-spatial.org/book/</uri>
+      <pub-id pub-id-type="doi">10.1201/9780429459016</pub-id>
+    </element-citation>
+  </ref>
+  <ref id="ref-sf2018-nb-article">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Pebesma</surname><given-names>Edzer</given-names></name>
+      </person-group>
+      <article-title>Simple Features for R: Standardized Support for Spatial Vector Data</article-title>
+      <source>The R Journal</source>
+      <year iso-8601-date="2018">2018</year>
+      <volume>10</volume>
+      <issue>1</issue>
+      <uri>https://doi.org/10.32614/RJ-2018-009</uri>
+      <pub-id pub-id-type="doi">10.32614/RJ-2018-009</pub-id>
+      <fpage>439</fpage>
+      <lpage>446</lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-R-tidyterra-nb-article">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Hernangómez</surname><given-names>Diego</given-names></name>
+      </person-group>
+      <article-title>Using the tidyverse with terra objects: The tidyterra package</article-title>
+      <source>Journal of Open Source Software</source>
+      <publisher-name>The Open Journal</publisher-name>
+      <year iso-8601-date="2023">2023</year>
+      <volume>8</volume>
+      <issue>91</issue>
+      <issn>2475-9066</issn>
+      <uri>https://doi.org/10.21105/joss.05751</uri>
+      <pub-id pub-id-type="doi">10.21105/joss.05751</pub-id>
+      <fpage>5751</fpage>
+      <lpage></lpage>
     </element-citation>
   </ref>
 </ref-list>
