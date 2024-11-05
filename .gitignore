@@ -11,5 +11,5 @@
 .DS_Store
 data/
 strathcona/*
-!strathcona/figures
+strathcona/figures
 notebooks/defunct/*
