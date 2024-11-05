@@ -204,22 +204,23 @@ great_lakes <- list.files(unzip_dir, pattern = "hydro.*\\.shp$", recursive = T, 
 Make the study area map Caption: Location of Vancouver Island's protected areas that meet the inclusion criteria (IUCN categories Ia, Ib, II, and IV; \> 100 ha in size) for our study.
 
 ```{r}
-vi_ext <- ext(vi_mainland)
+dem <- all[["DEM"]]
 
-main <- ggplot() +
-  geom_spatvector(data = bcb_hres, fill = "#e5e5e5", col = "#00000000") +
-  geom_spatvector(data = vi_mainland) +
-  geom_spatvector(data = pa_filt %>%
-                    filter(as.logical(included)), aes(fill = as.logical(included)), col = "#00000000") +
-  geom_spatvector(data = vi_mainland, fill = "#00000000") +
-  theme_bw() +
-  scale_fill_manual(name = NULL, values = "#0bc818", labels = "Protected Areas") +
-  theme(legend.position = "inside",
-          legend.position.inside = c(0.85, 0.9)) +
-  coord_sf(xlim = c(vi_ext$xmin, vi_ext$xmax),
-           ylim = c(vi_ext$ymin, vi_ext$ymax)) +
-  theme(panel.background = element_rect(fill = "lightblue"),
-        legend.background = element_blank())
+slope <- terrain(dem, "slope", unit = "radians")
+aspect <- terrain(dem, "aspect", unit = "radians")
+hill <- shade(slope, aspect, 30, 270)
+
+# normalize names
+names(hill) <- "shades"
+
+# Hillshading, but we need a palette
+pal_greys <- hcl.colors(1000, "Grays")
+
+ggplot() +
+  geom_spatraster(data = hill) +
+  scale_fill_gradientn(colors = pal_greys, na.value = NA)
+
+vi_ext <- ext(vi_mainland)
 
 # download vectors of NA coutnries for the inset map
 cad <- geodata::gadm("Canada", level = 1, path = scratch)
@@ -234,7 +235,50 @@ cad_ext <- cad %>%
 vi_box <- vi_ext %>% 
   vect(crs = "epsg:3005") %>%
   project("epsg:4437")
+
+main <- ggplot() +
+  geom_spatvector(data = bcb_hres,
+                  fill = "#e5e5e5",
+                  col = "#00000000") +
+  # geom_spatvector(data = vi_mainland) +
   
+  geom_spatraster(data = dem) +
+  scale_fill_hypso_c(palette = "dem_screen", name = "Elevation (m)", 
+                     guide = guide_colourbar(direction = "horizontal", 
+                                             order = 2,
+                                             title.position = "top")) +
+  ggnewscale::new_scale_fill() +
+  geom_spatraster(data = hill, alpha = 0.5) +
+  scale_fill_gradientn(colors = pal_greys,
+                       na.value = NA,
+                       guide = "none") +
+  geom_spatvector(
+    data = pa_filt %>%
+      filter(as.logical(included)),
+    aes(col = as.logical(included)),
+    fill = "#00000000",
+    size = 3
+  ) +
+  geom_spatvector(data = vi_mainland, fill = "#00000000") +
+  scale_colour_manual(name = NULL,
+                      values = "red",
+                      labels = "Strathcona\nProvincial Park",
+                      guide = guide_legend(order = 1,
+                                           override.aes = list(fill = "#e5e5e5"))) +
+  theme_bw() +
+  theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.85, 0.85),
+    panel.background = element_rect(fill = "lightblue"),
+    legend.background = element_rect(fill = "#00000000"),
+    legend.text = element_text(hjust = 0.5),
+    legend.title = element_text(hjust = 0.5)
+  ) +
+  coord_sf(
+    xlim = c(vi_ext$xmin, vi_ext$xmax),
+    ylim = c(vi_ext$ymin, vi_ext$ymax)
+  )
+
 inset <- ggplot() +
   geom_spatvector(data = world, fill = "#7f7f7f") +
   geom_spatvector(data = cad %>% project("epsg:3347"), fill = "#b3b3b3") +
@@ -252,7 +296,7 @@ inset <- ggplot() +
 study_area <- main +
   inset_element(inset, 0, 0, 0.4, 0.4)
 
-ggsave(here::here(figure_loc, "study_area.png"), plot = study_area, height = 6, width = 6)
+ggsave(here::here(figure_loc, "study_area.png"), plot = study_area, height = 6, width = 6, dpi = 300)
 ```
 
 Plot status year map and cumulative proportion
@@ -1244,81 +1288,6 @@ list.files(mahal_ras_loc, pattern = ".dat$") %>%
 
 variable_maps
 
-```{r}
-all[[1:7]] %>%
-  as.list() %>%
-  map(.f = \(x) {
-    
-    varname = basename(sources(x)) %>%
-      tools::file_path_sans_ext()
-    
-    divby = keys$continuous %>%
-      filter(variable == varname) %>% 
-      pull(divide_by)
-    pal = "imola"
-    
-    if(str_detect(varname, "DHI")) {
-      divby = ifelse(str_detect(varname, "DHI"), 1000, divby)
-      
-      pal = "hawaii"
-    }
-    if(varname == "elev_cv") {
-      x[x > 1000] = 1000
-    }
-    
-    
-
-    savename = here::here(figure_loc,
-                          "metric_rasters",
-                          glue::glue("{varname}.png"))
-    dir.create(dirname(savename), showWarnings = F)
-    
-    metric <- x %>%
-      crop(nn_mask) %>%
-      mask(nn_mask, maskvalues = 0)
-    
-    metric = metric / divby
-    
-    out <- ggplot() +
-      geom_spatraster(data = metric) +
-      geom_spatvector(data = vi_mainland, fill = "transparent") +
-      scico::scale_fill_scico(
-        palette = pal,
-        na.value = NA
-      ) +
-      labs(fill = keys$continuous %>% 
-             filter(variable == varname) %>% 
-             pull(label)) +
-      theme(
-        legend.position = "inside",
-        legend.position.inside = c(0.8, 0.8)
-      ) +
-      map_theme
-    
-    out_inset <- out + inset_element(
-      inset +
-        theme(
-          panel.background = element_rect(fill = "white"),
-          panel.grid = element_line(colour = "#ebebeb")
-        ),
-      0,
-      0,
-      0.4,
-      0.4
-    )
-    
-    ggsave(
-      filename = savename,
-      plot = out_inset,
-      height = 6,
-      width = 6,
-      dpi = 300
-    )
-  }, .progress = T)
-```
-
-
-
 # sampling for model
 
 Following Venter lab papers [@hirsh-pearson2022; @arias-patino2024] re stratified sampling
@@ -1522,6 +1491,231 @@ ggsave(
 )
 ```
 
+# variable maps
+
+```{r}
+vp <- all[[1:13]] %>%
+  as.list() %>%
+  map(.f = \(x) {
+    
+    varname = basename(sources(x)) %>%
+      tools::file_path_sans_ext()
+    
+    divby = keys$continuous %>%
+      filter(str_to_lower(variable) == varname) %>%
+      pull(divide_by) %>%
+      as.numeric() %>%
+      unique()
+    pal = "imola"
+    
+    legend_label <- keys$continuous %>%
+             filter(str_to_lower(variable) == varname) %>%
+             pull(label)
+    
+    if (str_detect(varname, "DHI")) {
+      divby = ifelse(str_detect(varname, "DHI"), 1000, divby)
+      legend_label <- keys$continuous %>%
+             filter(variable == varname) %>%
+             pull(label)
+      pal = "hawaii"
+    } else if (str_detect(varname, "clim")) {
+      pal = "lajolla"
+      
+      legend_label = str_wrap(legend_label, width = 20)
+    } else if (str_detect(varname, "slope")) {
+      pal = "acton"
+    } else if (str_detect(varname, "dem")) {
+      pal = "acton"
+    }
+    
+    
+    if (varname == "elev_cv") {
+      x[x > 1000] = 1000
+    }
+    
+    
+    
+    savename = here::here(figure_loc, "metric_rasters", glue::glue("{varname}.png"))
+    dir.create(dirname(savename), showWarnings = F)
+    
+    metric <- x %>%
+      crop(nn_mask) %>%
+      mask(nn_mask, maskvalues = 0)
+    
+    metric = metric / divby
+    
+    out <- ggplot() +
+      geom_spatraster(data = metric) +
+      geom_spatvector(data = vi_mainland, fill = "transparent") +
+      scico::scale_fill_scico(palette = pal, na.value = NA) +
+      labs(fill = legend_label)  +
+      theme_void() +
+      theme(
+        legend.position = "inside",
+        legend.position.inside = c(0.2, 0.2),
+        legend.title.position = "top",
+        legend.title = element_text(hjust = 0.5),
+        legend.direction = "horizontal",
+        legend.text = element_text(size = 12)
+      )
+    
+    
+    
+    out_inset <- out + inset_element(
+      inset +
+        theme(
+          panel.background = element_rect(fill = "white"),
+          panel.grid = element_line(colour = "#ebebeb")
+        ),
+      0,
+      0,
+      0.4,
+      0.4
+    )
+    
+    ggsave(
+      filename = savename,
+      plot = out_inset,
+      height = 6,
+      width = 6,
+      dpi = 300
+    )
+    
+    out
+  }, .progress = T)
+
+names(vp) <- names(all[[1:13]])
+
+hf_map_panel <- ggplot() +
+  geom_spatvector(data = bcb_hres, fill = "#e5e5e5", col = "#00000000") +
+  geom_spatraster(data = hf_classed_masked) +
+  geom_spatvector(data = vi_mainland,
+                  col = "grey50",
+                  fill = "transparent") +
+  scico::scale_fill_scico(
+    palette = hf_palette,
+    guide = guide_legend(title = "Human Footprint"),
+    na.value = "transparent",
+    breaks = c(0, 1, 2, 3),
+    labels = c(
+      "No Pressure (0)",
+      "Low Pressure (0-4)",
+      "Medium Pressure (4-8)",
+      "High Pressure (8+)"
+    )
+  ) +
+  geom_spatvector(
+    data = pa_filt,
+    col = "red",
+    fill = "transparent",
+    size = 4
+  ) +
+  geom_spatvector(
+    data = hf_samples,
+    aes(fill = strata, col = as.factor(strata)),
+    pch = 21,
+    size = 2
+  ) +
+  scale_colour_manual(
+    values = c("white", "black", "black", "black"),
+    breaks = c(0, 1, 2, 3),
+    labels = c(
+      "No Pressure (0)",
+      "Low Pressure (0-4)",
+      "Medium Pressure (4-8)",
+      "High Pressure (8+)"
+    ),
+    guide = guide_legend(title = "Human Footprint")
+  ) +
+  theme_bw() +
+  theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.2, 0.2),
+    legend.text = element_text(size = 16),
+    legend.title = element_text(size = 24),
+    legend.key.size = unit(1, 'cm'),
+    panel.background = element_rect(fill = "lightblue", colour = "black")
+  ) +
+  coord_sf(
+    xlim = c(vi_ext$xmin, vi_ext$xmax),
+    ylim = c(vi_ext$ymin, vi_ext$ymax)
+  )
+
+layout <- "
+ABCD
+EFGH
+IJKL
+MMNN
+MMNN"
+
+top <- topleft | topright
+ggsave("top.png", top, height = 10, width = 20)
+
+panel12 <- free(vp[["elev_p95"]]) + free(vp[["percentage_first_returns_above_2m"]]) + free(vp[["clim_MAP"]]) + free(vp[["clim_MAT"]]) +
+  free(vp[["elev_cv"]]) + free(vp[["total_biomass"]]) + free(vp[["clim_MCMT"]]) + free(vp[["clim_MWMT"]]) +
+  free(vp[["CumDHI"]]) + free(vp[["VarDHI"]]) + free(vp[["slope"]]) + free(vp[["DEM"]]) + hf_map_panel + inset + plot_layout(design = layout)
+
+ggsave(here::here(figure_loc, "data_panels.png"), panel12, dpi = 600, height = 20, width = 20)
+ggsave(here::here(figure_loc, "data_panels.pdf"), panel12, dpi = 600, height = 20, width = 20)
+
+
+
+```
+
+```{r}
+hf_map_panel <- ggplot() +
+  #geom_spatvector(data = bcb_hres, fill = "#e5e5e5", col = "#00000000") +
+  geom_spatraster(data = hf_classed_masked) +
+  geom_spatvector(data = vi_mainland,
+                  col = "grey50",
+                  fill = "transparent") +
+  scico::scale_fill_scico(
+    palette = hf_palette,
+    guide = guide_legend(title = "Human Footprint"),
+    na.value = "transparent",
+    breaks = c(0, 1, 2, 3),
+    labels = c(
+      "No Pressure (0)",
+      "Low Pressure (0-4)",
+      "Medium Pressure (4-8)",
+      "High Pressure (8+)"
+    )
+  ) +
+  geom_spatvector(
+    data = pa_filt,
+    col = "red",
+    fill = "transparent",
+    size = 4
+  ) +
+  geom_spatvector(
+    data = hf_samples,
+    aes(fill = strata, col = as.factor(strata)),
+    pch = 21,
+    size = 1
+  ) +
+  scale_colour_manual(
+    values = c("white", "black", "black", "black"),
+    breaks = c(0, 1, 2, 3),
+    labels = c(
+      "No Pressure (0)",
+      "Low Pressure (0-4)",
+      "Medium Pressure (4-8)",
+      "High Pressure (8+)"
+    ),
+    guide = guide_legend(title = "Human Footprint")
+  ) +
+  theme_void() +
+  theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.2, 0.2)
+  )
+
+twoby <- vp[["elev_p95"]] + vp[["CumDHI"]] + hf_map_panel + vp[["clim_MAP"]] + vp[["slope"]] + plot_layout(nrow = 2) + plot_annotation(tag_levels = "a") &
+  theme(plot.tag = element_text(hjust = 1, vjust = 0))
+ggsave(here::here(figure_loc, "data_figure.png"), twoby, height = 12, width = 12)
+```
+
+
 # Extract similarity, do ANOVA & post test
 
 ```{r}
@@ -1683,31 +1877,6 @@ ggsave(here::here(figure_loc, "mahal_boxplot_sig.png"),
        width = 12,
        dpi = 300)
 ```
-
-correlation between similarity metrics
-
-```{r}
-mahal_samples %>%
-  select(-type, -rule) %>% 
-  GGally::ggpairs(aes(colour = as.factor(strata), alpha = 0.4))
-
-ggplot(mahal_samples, aes(x = biomass_str, y = cum_dhi, col = as.factor(strata))) + 
-  geom_point(alpha = 0.4) +
-  geom_smooth()
-
-boxplot_df %>%
-  ggplot(aes(x = value, fill = fct_reorder(labels, strata))) +
-  geom_density(alpha = 0.5) +
-  facet_wrap(~fct_reorder(facet_label, str_detect(class, "dhi")), scales = "free", ncol = 4) +
-  theme(legend.position = "inside",
-        legend.position.inside = c(0.8, 0.25)) +
-  scico::scale_fill_scico_d(palette = "bamako")
-
-mahal_samples %>%
-  ggplot(aes(x = biomass_str, fill = as.factor(strata))) + 
-  geom_histogram()
-```
-
 
 # individual impacts
 
