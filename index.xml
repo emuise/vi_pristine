@@ -250,6 +250,8 @@ anthropogenic pressures.
   to their inherent linkages
   (<xref alt="Cardinale et al., 2012" rid="ref-cardinale2012" ref-type="bibr">Cardinale
   et al., 2012</xref>;
+  <xref alt="Hansen et al., 2021" rid="ref-hansen2021" ref-type="bibr">Hansen
+  et al., 2021</xref>;
   <xref alt="Marín et al., 2021" rid="ref-marín2021" ref-type="bibr">Marín
   et al., 2021</xref>), it is challenging to obtain suitable
   field-derived data across extensive land areas due to the significant
@@ -595,7 +597,9 @@ anthropogenic pressures.
     (<xref alt="Mahony et al., 2017" rid="ref-mahony2017" ref-type="bibr">Mahony
     et al., 2017</xref>) of forested pixels across British Columbia by
     using an expanded coarsened exact matching (CEM) technique
-    , <xref alt="Figure 3" rid="fig-flow">Figure 3</xref>. This
+    (<xref alt="Iacus et al., 2012" rid="ref-iacus2012" ref-type="bibr">Iacus
+    et al., 2012</xref>)
+    (<xref alt="Figure 3" rid="fig-flow">Figure 3</xref>). This
     methodology enables us to evaluate the degree of similarity between
     all forested pixels in the province and natural forests, while
     accounting for potential confounding variables such as climate and
@@ -618,13 +622,13 @@ anthropogenic pressures.
     </fig>
     <p>Following the matching procedure, we identify data driven
     reference states in both structural and functional attributes by
-    selecting the top 10% of protected observations for each structural
-    (canopy height, cover, and structural complexity) and functional
-    (cumulative and variation DHIs) attribute, separately. We then
-    determine the similarity of all pixels, in both structural and
-    functional attributes, to the reference states by calculating the
-    sigma dissimilarity metric. Sigma dissimilarity standardizes the
-    Mahalanobian distance
+    selecting the top 10% of protected, undisturbed observations for
+    each structural (canopy height, cover, and structural complexity)
+    and functional (cumulative and variation DHIs) attribute,
+    separately. We then determine the similarity of all pixels, in both
+    structural and functional attributes, to the reference states by
+    calculating the sigma dissimilarity metric. Sigma dissimilarity
+    standardizes the Mahalanobian distance
     (<xref alt="Mahalanobis, 1936" rid="ref-mahalanobis1936generalized" ref-type="bibr">Mahalanobis,
     1936</xref>) by rescaling it into percentiles of the chi
     distribution
@@ -960,14 +964,14 @@ anthropogenic pressures.
   <title>5. Acknowledgements</title>
   <p>This research was funded by NSERC support of Coops
   (RGPIN-2024-04402). Remote sensing data products used in this research
-  are free and open and available for download
-  at <ext-link ext-link-type="uri" xlink:href="https://ca.nfis.org/maps_eng.html">https://ca.nfis.org/maps_eng.html</ext-link>.
+  are free and open and available for download at
+  <ext-link ext-link-type="uri" xlink:href="https://ca.nfis.org/maps_eng.html">https://ca.nfis.org/maps_eng.html</ext-link>.
   The authors thank Dr. Michael A. Wulder and Dr. Joanne C. White for
   development and early access to these National Terrestrial Ecosystem
   Mapping System (NTEMS) products. They thank Dr. Elena Razenkova for
   early access to the Landsat-derived Dynamic Habitat Indices. ERM would
   like to thank the members of the IRSS for many helpful conversations
-  throughout the preparation of this man</p>
+  throughout the preparation of this manuscript.</p>
 </sec>
 <sec id="ethics">
   <title>6. Ethics</title>
@@ -2698,6 +2702,37 @@ anthropogenic pressures.
       <lpage>213</lpage>
     </element-citation>
   </ref>
+  <ref id="ref-hansen2021">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Hansen</surname><given-names>Andrew J.</given-names></name>
+        <name><surname>Noble</surname><given-names>Benjamin P.</given-names></name>
+        <name><surname>Veneros</surname><given-names>Jaris</given-names></name>
+        <name><surname>East</surname><given-names>Alyson</given-names></name>
+        <name><surname>Goetz</surname><given-names>Scott J.</given-names></name>
+        <name><surname>Supples</surname><given-names>Christina</given-names></name>
+        <name><surname>Watson</surname><given-names>James E. M.</given-names></name>
+        <name><surname>Jantz</surname><given-names>Patrick A.</given-names></name>
+        <name><surname>Pillay</surname><given-names>Rajeev</given-names></name>
+        <name><surname>Jetz</surname><given-names>Walter</given-names></name>
+        <name><surname>Ferrier</surname><given-names>Simon</given-names></name>
+        <name><surname>Grantham</surname><given-names>Hedley S.</given-names></name>
+        <name><surname>Evans</surname><given-names>Thomas D.</given-names></name>
+        <name><surname>Ervin</surname><given-names>Jamison</given-names></name>
+        <name><surname>Venter</surname><given-names>Oscar</given-names></name>
+        <name><surname>Virnig</surname><given-names>Anne L. S.</given-names></name>
+      </person-group>
+      <article-title>Toward monitoring forest ecosystem integrity within the post-2020 Global Biodiversity Framework</article-title>
+      <source>Conservation Letters</source>
+      <year iso-8601-date="2021">2021</year>
+      <volume>14</volume>
+      <issue>4</issue>
+      <uri>https://onlinelibrary.wiley.com/doi/abs/10.1111/conl.12822</uri>
+      <pub-id pub-id-type="doi">10.1111/conl.12822</pub-id>
+      <fpage>e12822</fpage>
+      <lpage></lpage>
+    </element-citation>
+  </ref>
   <ref id="ref-R-base">
     <element-citation publication-type="book">
       <person-group person-group-type="author">
@@ -3010,6 +3045,8 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
   to their inherent linkages
   (<xref alt="Cardinale et al., 2012" rid="ref-cardinale2012-nb-article" ref-type="bibr">Cardinale
   et al., 2012</xref>;
+  <xref alt="Hansen et al., 2021" rid="ref-hansen2021-nb-article" ref-type="bibr">Hansen
+  et al., 2021</xref>;
   <xref alt="Marín et al., 2021" rid="ref-marín2021-nb-article" ref-type="bibr">Marín
   et al., 2021</xref>), it is challenging to obtain suitable
   field-derived data across extensive land areas due to the significant
@@ -3361,7 +3398,9 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
     (<xref alt="Mahony et al., 2017" rid="ref-mahony2017-nb-article" ref-type="bibr">Mahony
     et al., 2017</xref>) of forested pixels across British Columbia by
     using an expanded coarsened exact matching (CEM) technique
-    , <xref alt="Figure 3" rid="fig-flow-nb-article">Figure 3</xref>. This
+    (<xref alt="Iacus et al., 2012" rid="ref-iacus2012-nb-article" ref-type="bibr">Iacus
+    et al., 2012</xref>)
+    (<xref alt="Figure 3" rid="fig-flow-nb-article">Figure 3</xref>). This
     methodology enables us to evaluate the degree of similarity between
     all forested pixels in the province and natural forests, while
     accounting for potential confounding variables such as climate and
@@ -3387,13 +3426,13 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
     </sec>
     <p>Following the matching procedure, we identify data driven
     reference states in both structural and functional attributes by
-    selecting the top 10% of protected observations for each structural
-    (canopy height, cover, and structural complexity) and functional
-    (cumulative and variation DHIs) attribute, separately. We then
-    determine the similarity of all pixels, in both structural and
-    functional attributes, to the reference states by calculating the
-    sigma dissimilarity metric. Sigma dissimilarity standardizes the
-    Mahalanobian distance
+    selecting the top 10% of protected, undisturbed observations for
+    each structural (canopy height, cover, and structural complexity)
+    and functional (cumulative and variation DHIs) attribute,
+    separately. We then determine the similarity of all pixels, in both
+    structural and functional attributes, to the reference states by
+    calculating the sigma dissimilarity metric. Sigma dissimilarity
+    standardizes the Mahalanobian distance
     (<xref alt="Mahalanobis, 1936" rid="ref-mahalanobis1936generalized-nb-article" ref-type="bibr">Mahalanobis,
     1936</xref>) by rescaling it into percentiles of the chi
     distribution
@@ -3738,14 +3777,14 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
   <title>5. Acknowledgements</title>
   <p>This research was funded by NSERC support of Coops
   (RGPIN-2024-04402). Remote sensing data products used in this research
-  are free and open and available for download
-  at <ext-link ext-link-type="uri" xlink:href="https://ca.nfis.org/maps_eng.html">https://ca.nfis.org/maps_eng.html</ext-link>.
+  are free and open and available for download at
+  <ext-link ext-link-type="uri" xlink:href="https://ca.nfis.org/maps_eng.html">https://ca.nfis.org/maps_eng.html</ext-link>.
   The authors thank Dr. Michael A. Wulder and Dr. Joanne C. White for
   development and early access to these National Terrestrial Ecosystem
   Mapping System (NTEMS) products. They thank Dr. Elena Razenkova for
   early access to the Landsat-derived Dynamic Habitat Indices. ERM would
   like to thank the members of the IRSS for many helpful conversations
-  throughout the preparation of this man</p>
+  throughout the preparation of this manuscript.</p>
 </sec>
 <sec id="ethics-nb-article">
   <title>6. Ethics</title>
@@ -5476,6 +5515,37 @@ knitr::write_bib(pkgs, file = &quot;packages.bib&quot;)</code>
       <pub-id pub-id-type="doi">10.1016/S0034-4257(02)00096-2</pub-id>
       <fpage>195</fpage>
       <lpage>213</lpage>
+    </element-citation>
+  </ref>
+  <ref id="ref-hansen2021-nb-article">
+    <element-citation publication-type="article-journal">
+      <person-group person-group-type="author">
+        <name><surname>Hansen</surname><given-names>Andrew J.</given-names></name>
+        <name><surname>Noble</surname><given-names>Benjamin P.</given-names></name>
+        <name><surname>Veneros</surname><given-names>Jaris</given-names></name>
+        <name><surname>East</surname><given-names>Alyson</given-names></name>
+        <name><surname>Goetz</surname><given-names>Scott J.</given-names></name>
+        <name><surname>Supples</surname><given-names>Christina</given-names></name>
+        <name><surname>Watson</surname><given-names>James E. M.</given-names></name>
+        <name><surname>Jantz</surname><given-names>Patrick A.</given-names></name>
+        <name><surname>Pillay</surname><given-names>Rajeev</given-names></name>
+        <name><surname>Jetz</surname><given-names>Walter</given-names></name>
+        <name><surname>Ferrier</surname><given-names>Simon</given-names></name>
+        <name><surname>Grantham</surname><given-names>Hedley S.</given-names></name>
+        <name><surname>Evans</surname><given-names>Thomas D.</given-names></name>
+        <name><surname>Ervin</surname><given-names>Jamison</given-names></name>
+        <name><surname>Venter</surname><given-names>Oscar</given-names></name>
+        <name><surname>Virnig</surname><given-names>Anne L. S.</given-names></name>
+      </person-group>
+      <article-title>Toward monitoring forest ecosystem integrity within the post-2020 Global Biodiversity Framework</article-title>
+      <source>Conservation Letters</source>
+      <year iso-8601-date="2021">2021</year>
+      <volume>14</volume>
+      <issue>4</issue>
+      <uri>https://onlinelibrary.wiley.com/doi/abs/10.1111/conl.12822</uri>
+      <pub-id pub-id-type="doi">10.1111/conl.12822</pub-id>
+      <fpage>e12822</fpage>
+      <lpage></lpage>
     </element-citation>
   </ref>
   <ref id="ref-R-base-nb-article">
