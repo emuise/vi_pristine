@@ -68,12 +68,12 @@ keywords:
 
 date: last-modified 
 bibliography: [references.bib, packages.bib]
-container-title: Conservation Biology 
+container-title: Science of Remote Sensing
 number-sections: false
 notebook-links: false 
 reference-doc: my-styles.docx
 csl: remote-sensing-of-environment.csl
-journalname: Remote Sensing in Ecology and Conservation
+journalname: Science of Remote Sensing
 ---
 
 ```{r}
