@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.4.1",
+    "Version": "4.4.2",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -93,31 +93,6 @@
         "R"
       ],
       "Hash": "eaabdc7938aa3632a28273f53a0d226d"
-    },
-    "GGally": {
-      "Package": "GGally",
-      "Version": "2.2.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "RColorBrewer",
-        "dplyr",
-        "ggplot2",
-        "ggstats",
-        "grDevices",
-        "grid",
-        "gtable",
-        "lifecycle",
-        "magrittr",
-        "plyr",
-        "progress",
-        "rlang",
-        "scales",
-        "tidyr",
-        "utils"
-      ],
-      "Hash": "b11ac45c916608b7d1374ff87da053d5"
     },
     "KernSmooth": {
       "Package": "KernSmooth",
@@ -428,7 +403,7 @@
     },
     "boot": {
       "Package": "boot",
-      "Version": "1.3-30",
+      "Version": "1.3-31",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -436,7 +411,7 @@
         "graphics",
         "stats"
       ],
-      "Hash": "96abeed416a286d4a0f52e550b612343"
+      "Hash": "de2a4646c18661d6a0a08ec67f40b7ed"
     },
     "broom": {
       "Package": "broom",
@@ -489,11 +464,11 @@
       "RemoteRepo": "budR",
       "RemoteUsername": "emuise",
       "RemoteRef": "HEAD",
-      "RemoteSha": "5507a227ac906f60ec592db879f31817fad8a845",
+      "RemoteSha": "099add42883645240b909baa1889146b473cae0f",
       "Requirements": [
         "R"
       ],
-      "Hash": "5fccd6030e25a4241e76ace610da9349"
+      "Hash": "eb7b386b08fd6f79f1a68fd4a7e7f23f"
     },
     "cachem": {
       "Package": "cachem",
@@ -1150,6 +1125,16 @@
       ],
       "Hash": "384b388bd9155468d2c851846ee69f9f"
     },
+    "ggnewscale": {
+      "Package": "ggnewscale",
+      "Version": "0.5.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "ggplot2"
+      ],
+      "Hash": "0e4714a05e572eacd7c232fde675558e"
+    },
     "ggplot2": {
       "Package": "ggplot2",
       "Version": "3.5.1",
@@ -1243,27 +1228,26 @@
       ],
       "Hash": "a57f0f5dbcfd0d77ad4ff33032f5dc79"
     },
-    "ggstats": {
-      "Package": "ggstats",
-      "Version": "0.7.0",
+    "ggspatial": {
+      "Package": "ggspatial",
+      "Version": "1.1.9",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
         "R",
-        "cli",
-        "dplyr",
-        "forcats",
+        "abind",
         "ggplot2",
-        "lifecycle",
-        "patchwork",
-        "purrr",
+        "glue",
+        "grid",
+        "methods",
         "rlang",
+        "rosm",
         "scales",
-        "stats",
-        "stringr",
+        "sf",
+        "tibble",
         "tidyr"
       ],
-      "Hash": "95296256ea213cdd58601260893d0fc7"
+      "Hash": "0a4e5ed181eb823957df790ec11a28fc"
     },
     "gld": {
       "Package": "gld",
@@ -1534,6 +1518,16 @@
         "tidyselect"
       ],
       "Hash": "5baae149f1082f466df9d1442ba7aa65"
+    },
+    "jpeg": {
+      "Package": "jpeg",
+      "Version": "0.1-10",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R"
+      ],
+      "Hash": "031a0b683d001a7519202f0628fc0358"
     },
     "jquerylib": {
       "Package": "jquerylib",
@@ -2426,6 +2420,22 @@
       ],
       "Hash": "c6fa270a97604238a5ce5fe5d327fdad"
     },
+    "rosm": {
+      "Package": "rosm",
+      "Version": "0.3.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "curl",
+        "glue",
+        "jpeg",
+        "png",
+        "progress",
+        "rlang",
+        "wk"
+      ],
+      "Hash": "fcd529f183c4163a91430d7b7bbaece5"
+    },
     "rprojroot": {
       "Package": "rprojroot",
       "Version": "2.0.4",
@@ -2743,7 +2753,7 @@
     },
     "survival": {
       "Package": "survival",
-      "Version": "3.6-4",
+      "Version": "3.7-0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -2755,7 +2765,7 @@
         "stats",
         "utils"
       ],
-      "Hash": "e6e3071f471513e4b85f98ca041303c7"
+      "Hash": "5aaa9cbaf4aba20f8e06fdea1850a398"
     },
     "sys": {
       "Package": "sys",

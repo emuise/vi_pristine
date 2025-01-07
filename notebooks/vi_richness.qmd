@@ -1,0 +1,297 @@
+---
+title: "organize the richness"
+editor: visual
+---
+
+unzip all this shizz
+
+```{r}
+library(tidyverse)
+library(terra)
+library(tidyterra)
+library(patchwork)
+
+# this is where i will save the 30-m summaries
+input_loc <- here::here("data", "inputs")
+
+base_path <- "F:/AOH_maps"
+
+zipped <- here::here(base_path, "zipped")
+unzipped <- here::here(base_path, "unzipped")
+dir.create(unzipped)
+
+vi_aoh_loc <- here::here(base_path, "vi")
+dir.create(vi_aoh_loc)
+
+zipped %>%
+  list.files(pattern = ".zip$", full.names = T) %>%
+  map(\(x) {
+    name <- x %>%
+      basename() %>% 
+      tools::file_path_sans_ext() 
+    
+    message(name)
+    
+    exdir <- name %>%
+      here::here(unzipped, .)
+    
+    if(dir.exists(exdir)) {
+      return()
+    }
+    
+    unzip(zipfile = x,
+          exdir = exdir)
+  }, .progress = T)
+  
+```
+
+crop everything to vancouver island
+
+```{r}
+vi <- "E:/Sync/Masters/04_vi_pristine/data/all_strath/data/shapefiles/vi.shp" %>%
+  vect()
+
+vi_wgs84 <- vi %>%
+  project(y = "epsg:4326")
+
+aoh_files <- list.files(unzipped, recursive = T, full.names = T, pattern = ".tif$") %>%
+  unlist()
+```
+
+make a template raster so everything aligns properly. i am doing this based on the coopers hawk. this cell just runs the next loop a first time, then rasterizes vi so its consistently projected.
+
+```{r}
+# known raster that works (coopers hawk)
+x <- aoh_files[[6]]
+
+#genearet new savename
+savename = here::here(vi_aoh_loc, dirname(x) %>% basename(), basename(x))
+
+# make directory
+dir.create(dirname(savename),
+           recursive = T,
+           showWarnings = F)
+
+r <- rast(x)
+
+# crop raster to wgs84 then project (speeds up project)
+# then crop and extend to vi
+out <- r %>%
+  crop(vi_wgs84, mask = T, extend = T) %>%
+  project(
+    "epsg:3005",
+    method = "near",
+    res = 100,
+    threads = T,
+    use_gdal = T,
+    by_util = T
+  ) %>%
+  crop(vi, extend = T)
+
+out %>%
+  writeRaster(savename, overwrite = T)
+
+# make a consistent raster for all other rasters to match to
+vi_rast_100 <- rasterize(vi, out)
+
+# so it doesn't interfere with other map functions
+rm(x)
+```
+
+I want a function that takes a list of files, loads them, crops them to vi
+
+```{r}
+aoh_files %>%
+  map(\(x) {
+    savename = here::here(vi_aoh_loc, 
+                             dirname(x) %>% basename(), 
+                             basename(x))
+    
+    if(file.exists(savename)) return()
+    
+    dir.create(dirname(savename), recursive = T, showWarnings = F)
+    #print(savename)
+    
+    
+    r <- rast(x)
+    if(!relate(vi_wgs84, r, "intersects")) {
+      return()
+    }
+    
+    
+    
+    out <- r %>%
+      crop(vi_wgs84, mask = T, extend = T) %>% 
+      project(vi_rast_100, method = "near", res = 100, 
+              threads = T, use_gdal = T, by_util = T) %>% 
+      crop(vi_rast_100, extend = T) 
+    
+    if(is.null(unique(out)[1, ])) {
+      #print("not in range")
+      return()
+    }
+    
+    out %>%
+      writeRaster(savename)
+  }, .progress = T)
+```
+
+```{r}
+aoh_vis <- list.files(vi_aoh_loc, recursive = T, full.names = T)
+
+mammals <- list.files(vi_aoh_loc, recursive = T, full.names = T) %>% 
+  str_subset("Mammals")
+
+mammal_tib <- tibble(filename = mammals) %>%
+  mutate(species = basename(filename) %>% tools::file_path_sans_ext(),
+         order = dirname(filename) %>% basename()) %>%
+  separate(order, into = c("class", "order")) %>%
+  mutate(migrate = "M")
+
+birds = list.files(vi_aoh_loc, recursive = T, full.names = T) %>% 
+  str_subset("Birds")
+
+bird_tib <- tibble(filename = birds) %>%
+  mutate(species = basename(filename) %>% tools::file_path_sans_ext(),
+         order = dirname(filename) %>% basename(),
+         migrate = str_detect(order, "non_", negate = T),
+         order = str_remove(order, "non_migratory_"),
+         order = str_remove(order, "migratory_"),
+         migrate = ifelse(migrate, str_sub(species, -1, -1), F),
+         species = str_sub(species, 1, -3)) %>%
+  separate(order, into = c("class", "order"))
+
+all <- bind_rows(bird_tib, mammal_tib) %>%
+  mutate(raster = map(filename, \(f) {
+    r <- rast(f)
+    extend(r, vi)
+  })) %>%
+  filter(map_vec(raster, \(x) {
+    # this filter removes any rasters that don't have any presence data
+    # in the study area (in this case Vancouver Island)
+    # this can happen because the intersect that i use earlier
+    # checks the extent of the raster, not where there is presence data
+    f <- freq(x)
+    f$value == 1
+  }))
+
+```
+
+generate richness maps for all types (b, n, r, non, and mammals) and grouped types (migratory = b/n) and (resident = r/non)
+
+```{r}
+vi_richness_loc <- here::here(base_path, "vi_richness")
+
+generate_richness <- function(migrate_class, type) {
+  subset <- all %>%
+    filter(migrate %in% migrate_class) %>%
+    arrange(species)
+  # needs an arrange as the group_by/group_split doesn't properly retain order
+  
+  condensed <- subset %>%
+    distinct(species, class, order, migrate = T) %>%
+    mutate(raster = subset %>%
+             group_by(species) %>%
+             group_map(.f = \(x, ...) {
+               species <- x %>%
+                 pull(species) %>%
+                 unique()
+               out <- x %>%
+                 pull(raster) %>%
+                 rast() %>%
+                 any(na.rm = T)
+               
+               names(out) <- species
+               out
+             }, .keep = T))
+  
+  # mig_all %>%
+  #   filter(map_vec(raster, \(x) {
+  #     # this filter removes any rasters that don't have any presence data
+  #     # in the study area (in this case Vancouver Island)
+  #     # this can happen because the intersect that i use earlier
+  #     # checks the extent of the raster, not where there is presence data
+  #     f <- freq(x)
+  #     f$value == 1
+  #   }))
+  #
+  # mig_all %>%
+  #   mutate(check = map(raster, names)) %>%
+  #   unnest(check) %>%
+  #   filter(species == check)
+  
+  savename <- here::here(vi_richness_loc, glue::glue("{type}.dat"))
+  
+  summed <- condensed %>%
+    pull(raster) %>%
+    rast() %>%
+    sum(na.rm = T)
+  
+  names(summed) <- type
+  
+  
+  writeRaster(summed, savename, filetype = "envi", overwrite = T)
+}
+
+generate_richness("M", "Mammals")
+generate_richness("B", "Breeding Birds")
+generate_richness("R", "Resident Birds")
+generate_richness("N", "Non-breeding Birds")
+generate_richness("FALSE", "Non-migratory Birds")
+
+generate_richness(c("B", "N"), "Migratory Birds")
+generate_richness(c("FALSE", "R"), "Resident and Non-migratory Birds")
+```
+
+generate land cover and nn_dist masks
+
+```{r}
+forests <- "E:/Sync/Masters/analysis_03_decay/data/rasters/forests.dat" %>%
+  rast() %>%
+  crop(vi, mask = T)
+```
+
+plot all of them at once
+
+```{r}
+groups <- list.files(vi_richness_loc, full.names = T, pattern = ".dat$") %>%
+  map(rast) %>%
+  map(resample, forests, method = "near") %>%
+  map(mask, mask = forests)
+
+map(groups, \(x) {
+  savename <- here::here(input_loc, "richness", glue::glue("{names(x)}.dat"))
+  dir.create(dirname(savename), showWarnings = F)
+  writeRaster(x, savename, overwrite = T, filetype = "envi")
+})
+
+rich_plots <- map(groups, \(x) {
+  legend_title = names(x) %>%
+    str_wrap(20)
+  max_x = global(x, max, na.rm = T)$max
+  
+  ggplot() +
+    geom_spatraster(data = x) +
+    scale_fill_viridis_c(
+      na.value = "transparent",
+      guide = guide_colorbar(direction = "horizontal", title = legend_title),
+      limits = c(0, max_x)
+    ) +
+    theme_void() +
+    theme(
+      legend.position = "inside",
+      legend.position.inside = c(0.2, 0.2),
+      legend.title.position = "top",
+      legend.title = element_text(hjust = 0.5)
+    )
+})
+
+rich_plots[[2]] + rich_plots[[4]] + rich_plots[[3]] + 
+  rich_plots[[1]] + rich_plots[[5]] + rich_plots[[6]] +
+  plot_layout(ncol = 3)
+
+rich_plots[[2]] + rich_plots[[3]] + rich_plots[[6]] + 
+  plot_layout(ncol = 3)
+
+ggsave(here::here("figures", "group_richness.png"), dpi = 300, height = 6, width = 12)
+```

@@ -6,20 +6,21 @@ library(patchwork)
 
 
 clims <- list.files(
-  "E:/Sync/Masters/04_vi_pristine/data/rasters/inputs",
+  "E:/Sync/Masters/04_vi_pristine/data/inputs/covariates",
   pattern = "clim",
   full.names = T
 ) %>%
   str_subset(pattern = ".dat$") %>%
   map(rast)
 
-dem <- "E:/Sync/Masters/04_vi_pristine/data/rasters/inputs/dem.dat" %>%
+dem <- "E:/Sync/Masters/04_vi_pristine/data/inputs/covariates/dem.dat" %>%
   rast()
 
-slope <- "E:/Sync/Masters/04_vi_pristine/data/rasters/inputs/slope.dat" %>%
+slope <- "E:/Sync/Masters/04_vi_pristine/data/inputs/covariates/slope.dat" %>%
   rast()
 
-bcb <- bcmaps::bc_bound_hres()
+bcb <- "E:/Sync/Masters/04_vi_pristine/data/all_strath/shapefiles/vi.shp" %>%
+  vect()
 
 f <- c(clims, dem, slope)
 
@@ -35,27 +36,50 @@ p <- map2(f, LETTERS[1:length(f)], \(x, pal) {
   ggplot() +
     geom_spatraster(data = x) +
     scale_fill_viridis_c(option = pal, na.value = "transparent") +
+    geom_spatvector(data = bcb, fill = "transparent", col = "black") +
     theme_void() +
     theme(legend.position = "none")
 })
 
-layout_um <- map(1:length(f), \(x) {
+layout_um <- map(1:2, \(x) {
   area(t = x,
        l = 1,
        b = 9 + x,
        r = 2)
 })
 
-layout <- c(layout_um[[6]],
-            layout_um[[5]],
-            layout_um[[4]],
-            layout_um[[3]],
-            layout_um[[2]],
+layout <- c(layout_um[[2]],
             layout_um[[1]])
 
-stack <- p[[1]] + p[[2]] + p[[3]] + p[[4]] + p[[5]] + p[[6]] + plot_layout(design = layout)
 
-ggsave(here::here("figures", "test_stack.png"), plot = stack, height = 6, width = 4)
+
+
+stack <- p[[1]] + p[[2]]  + plot_layout(design = layout)
+
+ggsave(here::here("figures", "stack_two.png"), plot = stack, height = 4, width = 4)
+
+layout_um <- map(1:4, \(x) {
+  area(t = x,
+       l = 1,
+       b = 9 + x,
+       r = 2)
+})
+
+
+layout2 <- c(layout_um[[4]],
+             layout_um[[3]],
+             layout_um[[2]],
+             layout_um[[1]])
+
+
+stack4 <- p[[3]] + p[[4]] + p[[5]] + p[[6]] + plot_layout(design = layout2)
+
+
+ggsave(here::here("figures", "stack_four.png"), plot = stack4, height = 4, width = 4)
+
+
+
+
 
 quant <- read_csv("E:/Sync/Masters/analysis_03_decay/data/csv/quantiles.csv")
 

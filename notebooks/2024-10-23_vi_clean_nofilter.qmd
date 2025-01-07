@@ -1,0 +1,2353 @@
+---
+title: Vancouver Island
+author: Evan Muise
+---
+
+# Processing
+
+## setup always run
+
+Load Packages
+
+```{r}
+library(tidyverse)
+library(terra)
+library(sf)
+library(glue)
+library(tidyterra)
+library(polars)
+library(arrow)
+library(wdpar)
+library(patchwork)
+library(furrr)
+library(data.table)
+library(ggforce)
+library(sgsR)
+library(budR)
+library(ggpubr)
+library(rstatix)
+
+
+options(scipen = 999)
+
+hf_palette = "bamako"
+```
+
+Set up folder structure
+
+```{r}
+base_loc <- here::here()
+
+# this is the important one to switch for each different
+# reference state
+base_data_loc <- here::here(base_loc, "data", "all_strath")
+dir.create(base_data_loc, showWarnings = F)
+
+source(here::here("scripts", "0_generate_folders.R"))
+
+figure_loc <- here::here(base_loc, "figures")
+dir.create(figure_loc, showWarnings = F)
+
+scratch <- here::here("scratch")
+dir.create(scratch, showWarnings = F)
+
+input_loc <- here::here("data", "inputs")
+dir.create(input_loc, showWarnings = F)
+
+split_loc <- here::here("data", "pca_splits")
+dir.create(split_loc, showWarnings = F)
+
+output_raster_loc <- here::here("data", "sigma_outputs")
+dir.create(output_raster_loc, showWarnings = F)
+
+
+
+
+```
+
+Map and plot themes
+
+```{r}
+map_theme <- theme_bw() + 
+  theme(panel.background = element_rect(fill = "white", colour = "black"),
+    panel.grid = element_line(colour = "#ebebeb"),
+    legend.position = "inside",
+    legend.position.inside = c(0.8, 0.8))
+
+plot_theme <- theme_bw() +
+  theme(panel.grid = element_blank())
+```
+
+## raster processing
+
+Divide high resolution bc bounding box into individual polygons. Second largest one should be Vancouver Island (region of interest)
+
+```{r}
+forests <- "E:/Sync/Masters/analysis_03_decay/data/rasters/forests.dat" %>%
+  rast()
+
+bcb_hres <- bcmaps::bc_bound_hres() %>%
+  vect()
+
+vi_mainland <- bcb_hres %>%
+  disagg() %>%
+  mutate(Shape_Area = expanse(.)) %>%
+  arrange(desc(Shape_Area)) %>%
+  filter(row_number() == 2) %>%
+  disagg() %>% 
+  mutate(Shape_Area = expanse(.)) %>%
+  filter(Shape_Area == max(Shape_Area))
+
+writeVector(vi_mainland, here::here(shapefile_loc, "vi.shp"),
+            overwrite = T)
+
+vi_ext <- ext(vi_mainland)
+```
+
+```{r}
+bec <- bcmaps::bec() %>%
+  vect()
+
+bec_vi <- crop(bec, vi_mainland) %>%
+  aggregate(by = "ZONE")
+```
+
+Forest type raster and VI raster
+
+```{r}
+forests_vi <- forests %>%
+  crop(vi_mainland, mask = T)
+
+names(forests_vi) <- "forests"
+
+vi_rast <- vi_mainland %>%
+  rasterize(forests_vi, field = 1, touches = T) %>%
+  trim()
+
+bec_rast <- bec_vi %>% 
+  rasterize(forests_vi, field = "ZONE", touches = T) %>% 
+  trim()
+
+prop_forest <- sum(freq(forests_vi)$count)/(freq(vi_rast)$count)
+
+glue::glue("{round(prop_forest, 3) * 100}%")
+```
+
+Generate input datasources (in another script so other qmd can refer to it)
+
+```{r}
+source(here::here("scripts", "0_generate_input_data.R"))
+```
+
+Confound data
+
+```{r}
+confound_all <- list.files(here::here(input_loc, "covariates"), 
+                           full.names = T, pattern = ".dat$") %>%
+  rast()
+
+names(confound_all) <- confound_all %>%
+  sources() %>%
+  basename() %>%
+  tools::file_path_sans_ext()
+```
+
+variables
+
+```{r}
+var_all <- list.files(here::here(input_loc, "variables"), 
+                           full.names = T, pattern = ".dat$") %>%
+  rast()
+
+names(var_all) <- var_all %>%
+  sources() %>%
+  basename() %>%
+  tools::file_path_sans_ext()
+```
+
+human footprint/disturbance info
+
+```{r}
+pressures <- list.files(here::here(input_loc, "pressures"), 
+                           full.names = T, pattern = ".dat$") %>%
+  rast()
+
+names(pressures) <- pressures %>%
+  sources() %>%
+  basename() %>%
+  tools::file_path_sans_ext()
+```
+
+species richness data
+
+Needs to run vi_richness.qmd 
+
+```{r}
+richness <- list.files(here::here(input_loc, "richness"), 
+                           full.names = T, pattern = ".dat$") %>%
+  rast()
+
+names(richness) <- richness %>%
+  sources() %>%
+  basename() %>%
+  tools::file_path_sans_ext()
+```
+
+
+Protected areas converted to raster This cell has the criteria for including a protected area. We follow Bolton et al. (2018) and Muise et al. (2022). IUCN categories I, II, IV. III is not included as they designate national monuments. We also exclude forests under 100 ha in size (1 km\^2). See https://conbio.onlinelibrary.wiley.com/doi/10.1111/conl.12881 for arguments for including small forest patches.
+
+Notably, the designated old growth in BC isn't included in these IUCN categories.
+
+```{r}
+pa_filt_loc <- here::here(shapefile_loc, "pa_filt.shp")
+vi_pa_loc <- here::here(shapefile_loc, "vi_pa.shp")
+
+if (!file.exists(pa_filt_loc)) {
+  cad_pa <- wdpa_fetch("CAN", download_dir = scratch)
+  
+  vi_pa <- cad_pa %>%
+    filter(st_geometry_type(.) != "MULTIPOINT") %>% # get rid of point PAs
+    vect() %>%
+    project(vi_mainland) %>%
+    crop(vi_mainland) %>%
+    janitor::clean_names() %>%
+    mutate(area = expanse(., unit = "ha")) %>%
+    mutate(included = (iucn_cat %in% c("Ia", "Ib", "II", "IV") &
+                         area >= 100))
+  
+  writeVector(vi_pa, vi_pa_loc, overwrite = T)
+  
+  pa_filt <- vi_pa  
+  
+  # this filters it to just strathcona to test it
+  pa_filt <- vi_pa %>%
+    filter(str_detect(name, "STRATH")) %>%
+    mutate(included = T)
+  
+  writeVector(pa_filt, pa_filt_loc, overwrite = T)
+}
+pa_filt <- vect(pa_filt_loc)
+vi_pa <- vect(vi_pa_loc)
+  
+pa_rast <- vi_pa %>%
+  filter(as.logical(included)) %>%
+  rasterize(vi_rast, field = "name")
+
+names(pa_rast) <- "parkname"
+```
+
+Make a single raster, turn it into a dataframe
+
+Calculate 5 quantiles for the confounding variables to use as strata
+
+Save all_df to a parquet file for when i need to open it later
+
+```{r}
+all <- c(var_all, confound_all, forests_vi, pressures, pa_rast, bec_rast, richness)
+
+all_df_save <- here::here("data", "all_data.parquet")
+
+if (!file.exists(all_df_save)) {
+  all_df <- as.data.frame(all, xy = T) %>%
+    mutate(
+      forests = case_when(
+        forests == 81 ~ "wetland-treed",
+        forests == 210 ~ "coniferous",
+        forests == 220 ~ "broadleaf",
+        forests == 230 ~ "mixed wood"
+      )
+    ) %>%
+    mutate(
+      across(ends_with("DHI"), \(x) x / 1000),
+      elev_cv = elev_cv / 1000,
+      elev_cv = ifelse(elev_cv > 1, 1, elev_cv), # fix erroneous data
+      percentage_first_returns_above_2m = percentage_first_returns_above_2m / 100,
+      total_biomass = total_biomass / 100,
+      elev_p95 = elev_p95 / 1000
+    )
+  
+  quantiles <- all_df %>%
+    select(clim_map:slope) %>%
+    reframe(across(everything(), .f = \(x) {
+      quantile(x, probs = seq(0, 1, 0.2), na.rm = T)
+    }))
+  
+  quantile_long <- quantiles %>%
+    mutate(decile = row_number() - 1) %>%
+    pivot_longer(-decile) %>%
+    group_by(name) %>%
+    mutate(
+      value = ifelse(value == min(value), value - 1e-6, value),
+      value = ifelse(value == max(value), value + 1e-6, value)
+    ) %>%
+    ungroup()
+  
+  all_df <- all_df %>%
+    mutate(across(clim_map:slope, \(x) {
+      cut(
+        x,
+        quantile_long %>%
+          filter(name == cur_column()) %>%
+          select(value) %>%
+          as.vector() %>%
+          unlist() %>%
+          unname(),
+        labels = F
+      )
+    }, .names = "{.col}_bin"))
+  
+  all_df %>%
+    write_parquet(sink = all_df_save)
+}
+```
+
+up to here generates all_df, which is the table everything is processed on
+
+## tabular processing
+
+Filter to just forests, generate the summary dataframe used to generate a treatment for each strata
+
+```{r}
+all_df <- read_parquet(all_df_save)
+
+all_df %>% 
+  select(clim_map:slope) %>% 
+  drop_na() %>% 
+  cor() %>% 
+  as_tibble() %>% 
+  mutate(y = c("clim_map",
+               "clim_MAT",
+               "clim_MCMT",
+               "clim_MWMT",
+               "DEM",
+               "slope")) %>%
+  pivot_longer(-y) %>%
+  filter(abs(value) != 1) %>%
+  filter(abs(value) >= 0.7)
+
+# all temperature variables are correlated with DEM
+
+# this function selects what bins are used for the coarsened exact matching
+# if confound correlation filter is true, then uses the ones that are not 
+# correlated; precip, dem, and slope
+# if the confound filter is false, uses any binned variable
+# binned variables are all climate and topography information
+
+strata_oi <- function(confound_correlation_filter = T) {
+  if (confound_correlation_filter) {
+    c("clim_map_bin", "DEM_bin", "slope_bin")
+  } else {
+    c(ends_with("bin"))
+  }
+} 
+
+bin_names <- all_df %>%
+  head(1) %>%
+  select(strata_oi(F)) %>% 
+  colnames() %>%
+  str_remove("_bin")
+
+bin_names
+
+forested_strata <- all_df %>%
+  filter(!is.na(forests)) %>%
+  unite(col = "strata", strata_oi(F), sep = "-")
+
+rm(all_df)
+```
+
+turn all values into PCA values, only keeping those that explain \>1% of variance (See @mahony2018; @mahony2017)
+
+```{r}
+pca_on_cols <- function(group_name, cols) {
+  for_pca <- forested_strata %>% select( {{cols}} )
+
+  
+  
+  pca_vi <- prcomp(for_pca, center = T, scale = T)
+  
+  vars <- apply(pca_vi$x, 2, var)
+  
+  props <- vars / sum(vars)
+  
+  n_comps <- (props > 0.01) %>% sum()
+  
+  pca_vi_scores <- pca_vi$x %>% as_tibble() %>%
+    .[, 1:n_comps]
+  
+  names(pca_vi_scores) <- glue("{group_name}_{1:n_comps}")
+  
+  pca_vi_scores
+}
+
+pca_dhi <- pca_on_cols("dhi", c(CumDHI, VarDHI))
+pca_str <- pca_on_cols("str", c(elev_p95, percentage_first_returns_above_2m, total_biomass, elev_cv))
+pca_all <- pca_on_cols("all", c(elev_p95, percentage_first_returns_above_2m, total_biomass, elev_cv, CumDHI, VarDHI))
+
+all_pca <- bind_cols(forested_strata, pca_dhi, pca_str, pca_all) %>%
+  mutate(across(names(richness), ~ replace_na(.x, 0)))
+
+# this is the number of pca dimensions that we kept
+df_tab <- tibble(
+  dhi = all_pca %>%
+    select(starts_with("dhi_")) %>%
+    ncol(),
+  str = all_pca %>%
+    select(starts_with("str_")) %>%
+    ncol(),
+  all = all_pca %>%
+    select(starts_with("all_")) %>%
+    ncol()
+)
+
+rm(forested_strata, pca_dhi, pca_str, pca_all)
+
+```
+
+```{r}
+save_splits <- function(df, save_folder) {
+  done_splits <- list.files(save_folder, recursive = T)
+  
+  remain <- df %>%
+    filter(!(glue("{forests}/{strata}.parquet") %in% done_splits))
+  
+  remain %>%
+    group_by(forests, strata) %>%
+    group_split() %>%
+    map(.f = \(x) {
+      h <- x %>% head(1) # first observation, used to get the savename
+      forests <- h %>% pull(forests)
+      strata <- h %>% pull(strata)
+      
+      savename <- here::here(save_folder, forests, glue::glue("{strata}.parquet"))
+      
+      if (file.exists(savename)) {
+        return()
+      }
+      
+      write_parquet(x, sink = savename)
+    }, .progress = "Saving splits")
+  return()
+}
+
+create_ftype_subfolder <- function(path) {
+  walk(
+    here::here(path, ftypes),
+    dir.create,
+    showWarnings = F,
+    recursive = T
+  )
+}
+```
+
+
+```{r}
+ftypes <- all_pca %>% pull(forests) %>% unique()
+
+create_ftype_subfolder(here::here("data", "pca_splits"))
+
+all_pca %>%
+  save_splits(., split_loc)
+```
+
+
+Table to work out nn based on
+The count in the second code line is how the treatment is generated
+Also need to somehow figure out how it will filter for highest x%
+
+Needs to consider: 
+filter name (what subfolder am i saving it to? isntead ofall strath)
+what the filter is? all pas? strathcona? strathcona with variable filter (top 10% height) etc
+top 10% migratory birds by treatment
+top 10% migratory birds overall
+
+so
+name (folder name)
+scale (global meaning applied before the splits or local meaning applied on the splits)
+filter (what to filter on, protected areas, strathcona, AND/OR variable filters)
+
+
+```{r}
+# function to add a column that is if it is a treatment pixel or not
+# robust to type of treatment filter, needs to be a string
+calculate_treatment <- function(filter_statement, filter_statement2 = NA, ...) {
+  
+  groups = enquos(...)
+  
+  out <- all_pca %>%
+    # if scale is global, no grouping applied; as example, it would call the
+    # top 10% of the entire island as the treatment, ignoring the environmental
+    # conditions
+    # if scale not global, applies on a strata basis, considering environmental
+    # conditions
+    group_by(!!!groups) %>%
+    # apply the filter
+    mutate(treatment := !!rlang::parse_expr(filter_statement)) 
+  
+  if(!is.na(filter_statement2)) {
+    out <- out %>% 
+      mutate(treatment := treatment & !!rlang::parse_expr(filter_statement2))
+  }
+  
+  out %>%
+    # removes any disturbed pixels from the treatment
+    mutate(treatment = if_else(disturbance == "No change", treatment, FALSE)) %>%
+    # enforce only no human footprint pixels
+    mutate(treatment = if_else(human_footprint < 1, treatment, FALSE)) %>%
+    # fixes erroneuous NAs common when working with parkname
+    mutate(treatment = if_else(is.na(treatment), FALSE, treatment))
+    
+}
+
+# function to generate the treated/untreated, strata, and forest class table
+# to be used to calculate nn distance
+generate_treat_counts <- function(treated_df, treated_loc) {
+  treated_df %>%
+    ungroup() %>%
+    count(strata, forests, treatment) %>%
+    mutate(treatment = if_else(treatment, "treat", "untreat")) %>%
+    complete(strata, forests, treatment, fill = list(n = 0)) %>%
+    pivot_wider(names_from = treatment, values_from = n) %>%
+    mutate(split_file = here::here(
+      treated_loc,
+      forests,
+      glue::glue("{strata}.parquet")
+    )) %>%
+    separate(strata, into = bin_names) %>%
+    mutate(across(clim_map:slope, as.numeric)) %>%
+    filter(!(treat == 0 & untreat == 0)) %>%
+    mutate(treat_file = str_replace(split_file, "strata_splits", "treatment_splits"))
+}
+
+generate_treatments <- function(scpa_split, treatment_loc, treated_loc) {
+  
+  
+  # find all strata with treated pixels
+  t_splits <- scpa_split %>%
+    filter(treat > 0)
+  
+  class <- t_splits %>% 
+    head(1) %>%
+    pull(forests)
+  
+  # return if proper number of files already exists
+  if(length(list.files(here::here(treatment_loc, class))) == length(list.files(here::here(treated_loc, class)))) {
+    return()
+  }
+  
+  # get nearest neighbour of all strata to other stratas with treated pixles
+  nn <- FNN::get.knnx(
+    t_splits %>%
+      select(clim_map:slope),
+    scpa_split %>%
+      select(clim_map:slope),
+    k = nrow(t_splits)
+  )
+  
+  t_splits <- t_splits %>%
+    unite(col = strata, clim_map:slope, sep = "-") %>%
+    mutate(rn = row_number())
+  
+  # how many need to be processed
+  process_rows <- nrow(nn$nn.index)
+  
+  # get class so it knows what it's working on
+  
+  
+  plan(multisession, workers = 16)
+  
+  
+  
+  future_map(1:nrow(scpa_split),
+             \(row) {
+               # for save name
+               meta_df <- scpa_split[row, ]
+               
+               save_name <- meta_df %>%
+                 pull(treat_file)
+               
+               if (file.exists(save_name)) {
+                 return(save_name)
+               }
+               
+               
+               indices <- nn$nn.index[row, ]
+               dists <- nn$nn.dist[row, ]
+               
+               # join table of nearest neighbour attributes
+               nn_jt <- tibble(rn = indices, nn_dist = dists)
+               
+               # joined and sorted
+               nn_df <- t_splits %>%
+                 left_join(nn_jt, by = "rn") %>%
+                 arrange(nn_dist, desc(treat))
+               
+               # figure out the largest distance needed to sample up to
+               # the minimum number of protected pixels
+               big_dist <- nn_df  %>%
+                 group_by(nn_dist) %>%
+                 summarize(n_treat = sum(treat)) %>%
+                 mutate(cumsum = cumsum(n_treat)) %>%
+                 filter(cumsum >= min_treat) %>%
+                 slice_min(nn_dist) %>%
+                 pull(nn_dist)
+               
+               # if big_dist doesn't grab enough to satisfy min_treat
+               # then sample everything
+               if(length(big_dist) == 0) {
+                 big_dist = max(nn_df$nn_dist)
+               }
+               
+               # filter to below that big distance
+               pots <- nn_df %>%
+                 filter(nn_dist <= big_dist)
+               
+               # if it can all be grabbed from 1 distance, do so
+               dif_dists <- pots %>%
+                 pull(nn_dist) %>%
+                 unique() %>%
+                 length()
+               
+               # if not
+               if (dif_dists != 1) {
+                 # grab all from below this distance
+                 fulls <- nn_df %>%
+                   filter(nn_dist < big_dist) %>%
+                   mutate(dfs = map2(split_file, nn_dist, \(loc, dist) {
+                     read_parquet(loc) %>%
+                       mutate(nn_dist = dist) %>%
+                       filter(treatment == 1)
+                   })) %>%
+                   select(dfs) %>%
+                   unnest(dfs)
+                 
+                 # how many need to be sampled above this distance
+                 n_to_sample <- min_treat - nrow(fulls)
+                 
+                 set.seed(69420)
+                 
+                 # sample the rest from those at the maximum needed nn_dist
+                 to_save <- pots %>%
+                   filter(nn_dist == big_dist) %>%
+                   pull(split_file) %>%
+                   map_dfr(read_parquet) %>%
+                   filter(treatment == 1) %>%
+                   slice_sample(n = n_to_sample) %>%
+                   mutate(nn_dist = big_dist) %>%
+                   bind_rows(fulls)
+               } else {
+                 # keeps all as they are the same distance
+                 # it can't minimize distance by doing any sampling
+                 to_save <- pots %>%
+                   filter(nn_dist == big_dist) %>%
+                   pull(split_file) %>%
+                   map_dfr(read_parquet) %>%
+                   filter(treatment == 1) %>%
+                   mutate(nn_dist = big_dist)
+               }
+               
+               write_parquet(to_save, sink = save_name)
+               
+               save_name
+               
+             },
+             .options = furrr_options(seed = T),
+             .progress = T)
+  return()
+}
+
+calc_sigma <- function(split_file, treat_file, sigma_loc, nn_df) {
+  class <- dirname(split_file) %>% basename()
+  
+  savename <- here::here(sigma_loc, class, basename(split_file))
+  if (file.exists(savename)) return()
+  
+  split <- read_parquet(split_file)
+  treat <- read_parquet(treat_file)
+  
+  filt_centres <- treat %>%
+    summarize(across(dhi_1:all_6, \(x) mean(x, na.rm = T)))
+  
+  filt_sds <- treat %>%
+    summarize(across(dhi_1:all_6, \(x) sd(x, na.rm = T)))
+  
+  out <- split %>%
+    select(starts_with("dhi_") |
+             starts_with("all_") |
+             starts_with("str_")) %>%
+    mutate(across(
+      starts_with("dhi_") |
+        starts_with("all_") |
+        starts_with("str_"),
+      \(x) {
+        # get mean from the filtered centre variables
+        mn <- filt_centres %>%
+          select(cur_column()) %>%
+          as.numeric()
+        
+        # get sd from global pca standard deviations
+        sd <- filt_sds %>%
+          select(cur_column()) %>%
+          as.numeric()
+        
+        # calc standardized euclidean distance
+        # the sqrt is following equation 5 of mahony et al 2017
+        (x - mn) ^ 2 / sd
+      }
+    )) %>%
+    mutate(
+      dhi = rowSums(across(starts_with("dhi_"))),
+      str = rowSums(across(starts_with("str_"))),
+      all = rowSums(across(starts_with("all_")))
+    ) %>%
+    select(dhi, str, all) %>%
+    mutate(across(everything(), \(x) sqrt(x))) %>%
+    mutate(across(everything(), \(x) {
+      # number of PCs of interest for this group of variables
+      n_df <- df_tab %>%
+        select(cur_column()) %>%
+        as.numeric()
+      
+      # percentile of the nearest neighbour distance on the chi distribution
+      #with degrees of freedom equaling the dimensionality of the distance measurement (PCs)
+      perc <- pchisq(x, df = n_df)
+      # values of the chi percentiles on a standard half-normal distribution
+      # (chi distribution with one degree of freedom)
+      qchisq(perc, df = 1)
+    }))
+  
+  names(out) <- glue("sigma_{names(out)}")
+  
+  split %>%
+    select(x, y, treatment, strata, forests) %>%
+    bind_cols(., out) %>%
+    left_join(nn_df) %>%
+    write_parquet(sink = savename)
+}
+
+calc_mean_nn_dist <- function(file) {
+  class <- file %>%
+    dirname() %>%
+    basename()
+  
+  strata <- file %>%
+    tools::file_path_sans_ext() %>%
+    basename()
+  
+  pq <- read_parquet(file)
+  
+  pq %>%
+    summarize(nn_dist = mean(nn_dist)) %>%
+    mutate(forests = class, strata = strata)
+  
+}
+
+rebuild_rasters <- function(folder, save_folder, nn_df) {
+  variants <- list.files(folder, full.names = T, pattern = ".parquet$", recursive = T)[1] %>%
+    read_parquet() %>%
+    select(-x, -y, -forests, -strata, -treatment) %>%
+    colnames()
+  
+  all_savenames <- here::here(save_folder, glue("{variants}.dat"))
+  
+  if(all(file.exists(all_savenames))) {return(all_savenames)}
+  
+  mega_df <- list.files(folder, full.names = T, pattern = ".parquet$", recursive = T) %>%
+    map_dfr(read_parquet)
+  
+  
+  map(variants, \(variant) {
+    
+    savename <- here::here(save_folder, glue("{variant}.dat"))
+    
+    if (file.exists(savename)) {
+      return(savename)
+    }
+    
+    out_rast <- mega_df %>%
+      select(x, y, all_of(variant)) %>%
+      rast(crs = "epsg:3005")
+    
+    writeRaster(out_rast, savename, filetype = "envi")
+    return(savename)
+  }, .progress = "saving raster")
+}
+
+```
+
+```{r}
+folder_name = "all_strathcona"
+filter_statement = "parkname == 'STRATHCONA PARK' & ZONE != 'CDF'"
+filter_statement = "parkname == 'STRATHCONA PARK' & elev_cv >= quantile(elev_cv, 0.9)" 
+filter_statement = "!is.na(parkname)"
+filter_statement = ""
+filter_statement = "elev_cv >= quantile(elev_cv, 0.9)"
+scale = "global"
+
+min_treat = 100
+
+generate_sigma_raster = function(folder_name, filter_statement, ..., min_treat = 100) {
+  # ... is what to group by for the treatment
+  # strata would be 
+  folder <- here::here("data", "subfolders", folder_name)
+  
+  print("calculating treatment")
+  treated_df <- calculate_treatment(filter_statement, ...)
+  
+  treated_loc <- here::here(folder, "strata_splits")
+  
+  print("creating treated_loc folder")
+  create_ftype_subfolder(treated_loc)
+  print("saving treated_loc splits")
+  save_splits(treated_df, treated_loc)
+  
+  print("generate wide_scpa")
+  wide_scpa <- generate_treat_counts(treated_df, treated_loc = treated_loc)
+  
+  treatment_loc <- here::here(folder, "treatment_splits")
+  
+  create_ftype_subfolder(treatment_loc)
+  
+  print("generate treatments")
+  wide_scpa %>%
+    group_by(forests) %>%
+    group_split() %>%
+    walk(generate_treatments, treated_loc = treated_loc, treatment_loc = treatment_loc, .progress = "Generating treatments")
+  
+  sigma_loc <- here::here(folder, "sigma_splits")
+  
+  create_ftype_subfolder(sigma_loc)
+  
+  print("calculate or load nn dist")
+  nn_file <- here::here(folder, "nn_dists.parquet")
+  
+  if (!file.exists(nn_file)) {
+    nn_df <- map_dfr(wide_scpa$treat_file, calc_mean_nn_dist, .progress = "Calculating mean nn dist") %>%
+      write_parquet(nn_file)
+  }
+  nn_df <- read_parquet(nn_file)
+  
+  print("calculate sigma")
+  # calculating sigma
+  walk2(.x = wide_scpa$split_file, .y = wide_scpa$treat_file, .f = calc_sigma, sigma_loc = sigma_loc,
+        nn_df = nn_df,
+        .progress = "Calculating mahalanobis distances")
+  
+  
+  
+  out_folder <- here::here(output_raster_loc, folder_name)
+  dir.create(out_folder, showWarnings = F)
+  
+  print("rebuild rasters")
+  rebuild_rasters(sigma_loc, out_folder)
+  
+}
+```
+
+```{r}
+# just protected areas
+generate_sigma_raster(folder_name = "all_strathcona", 
+                      filter_statement = "parkname == 'STRATHCONA PARK' & ZONE != 'CDF'",
+                      filter_statement2 = NA)
+
+# generate_sigma_raster("all_pa",
+#                       filter_statement = "!is.na(parkname)",
+#                       filter_statement2 = NA)
+# 
+# # protected and structure
+# generate_sigma_raster("all_strath-p90_cv", 
+#                       filter_statement = "parkname == 'STRATHCONA PARK' & ZONE != 'CDF'" ,
+#                       filter_statement2 = "elev_cv >= quantile(elev_cv, 0.9) & ZONE != 'CDF'", strata)
+# generate_sigma_raster("all_strath-p90_height", 
+#                       filter_statement = "parkname == 'STRATHCONA PARK' & ZONE != 'CDF'" ,
+#                       filter_statement2 = "elev_p95 >= quantile(elev_p95, 0.9) & ZONE != 'CDF'", strata)
+# generate_sigma_raster("all_strath-p90_cover", 
+#                       filter_statement = "parkname == 'STRATHCONA PARK' & ZONE != 'CDF'",
+#                       filter_statement2 = "percentage_first_returns_above_2m >= quantile(percentage_first_returns_above_2m, 0.9) & ZONE != 'CDF'", 
+#                       strata)
+# generate_sigma_raster("all_strath-p90_biomass", 
+#                       filter_statement = "parkname == 'STRATHCONA PARK' & ZONE != 'CDF'",
+#                       filter_statement2 = "total_biomass >= quantile(total_biomass, 0.9) ", 
+#                       strata)
+# 
+# # protected and DHI
+# generate_sigma_raster("all_strath-p90_CumDHI", 
+#                       filter_statement = "parkname == 'STRATHCONA PARK' & ZONE != 'CDF'",
+#                       filter_statement2 = "CumDHI >= quantile(CumDHI, 0.9) & ZONE != 'CDF'", 
+#                       strata)
+# generate_sigma_raster("all_strath-p10_VarDHI", 
+#                       filter_statement = "parkname == 'STRATHCONA PARK' & ZONE != 'CDF'",
+#                       filter_statement2 = "VarDHI <= quantile(VarDHI, 0.1) & ZONE != 'CDF'", 
+#                       strata)
+# generate_sigma_raster("all_strath-p90_CumVar", 
+#                       filter_statement = "parkname == 'STRATHCONA PARK' & ZONE != 'CDF'",
+#                       filter_statement2 = "CumDHI >= quantile(CumDHI, 0.9) & VarDHI <= quantile(VarDHI, 0.1) & ZONE != 'CDF'", 
+#                       strata)
+# 
+# # protected and species richness
+# generate_sigma_raster("all_strath-p90_mammals", 
+#                       filter_statement = "parkname == 'STRATHCONA PARK' & ZONE != 'CDF'",
+#                       filter_statement2 =  "`Mammals` >= quantile(`Mammals`, 0.9)", strata)
+# 
+# generate_sigma_raster("all_strath-p90_RnM-birds", 
+#                       filter_statement = "parkname == 'STRATHCONA PARK' & ZONE != 'CDF'",
+#                       filter_statement2 = "`Resident and Non-migratory Birds` >= quantile(`Resident and Non-migratory Birds`, 0.9)", 
+#                       strata)
+# 
+# generate_sigma_raster("all_strath-p90_M-birds", 
+#                       filter_statement = "parkname == 'STRATHCONA PARK' & ZONE != 'CDF'",
+#                       filter_statement2 = "`Migratory Birds` >= quantile(`Migratory Birds`, 0.9)", strata)
+# 
+# # global species richness, no protected filter
+# generate_sigma_raster(folder_name = "p90_mammals", 
+#                       filter_statement = "`Mammals` >= quantile(`Mammals`, 0.9)",
+#                       filter_statement2 = NA)
+# 
+# generate_sigma_raster("p90_RnM-birds", 
+#                       filter_statement = "`Resident and Non-migratory Birds` >= quantile(`Resident and Non-migratory Birds`, 0.9)",
+#                       filter_statement2 = NA)
+# 
+# generate_sigma_raster("p90_M-birds", 
+#                       filter_statement = "`Migratory Birds` >= quantile(`Migratory Birds`, 0.9)",
+#                       filter_statement2 = NA)
+# 
+# generate_sigma_raster("p90_birds", 
+#                       filter_statement = "`Migratory Birds` + `Resident and Non-migratory Birds` >= quantile(`Migratory Birds` + `Resident and Non-migratory Birds`, 0.9)",
+#                       filter_statement2 = NA)
+# 
+# # tallest trees that are then most complex
+# generate_sigma_raster(folder_name = "tall_complex",
+#                       filter_statement = "elev_p95 >= quantile(elev_p95, 0.9)",
+#                       filter_statement2 = "elev_cv >= quantile(elev_cv, 0.9)",
+#                       strata)
+```
+
+Following Venter lab papers [@hirsh-pearson2022; @arias-patino2024] re stratified sampling
+
+```{r}
+# reclassification table in the terra r package
+# that goes 0 to "No Pressure" 4-8 to medium pressure, and 8+ to high pressure
+
+# from hirsh-pearson and arias-patino
+hf_rcl <- c(0, 0, 0,
+           0, 3.999999, 1,
+            3.999999, 7.999999, 2,
+            7.999999, Inf, 3) %>%
+  matrix(ncol = 3, 
+         byrow = T)
+
+hf_tibble <- tibble(
+  breaks = 0:3,
+  labels = c(
+    "Intact (0)",
+    "Low Pressure (0-4)", 
+    "Medium Pressure (4-8)",
+    "High Pressure (8+)"
+  ),
+  values = scico::scico(n = 4, palette = hf_palette)
+)
+
+hf_classed <- all$human_footprint %>%
+  classify(rcl = hf_rcl)
+
+# mask by forested pixels
+hf_classed_masked <- hf_classed %>%
+  mask(all$forests)
+
+names(hf_classed_masked) <- "strata"
+
+strata_join <- tibble(strata = c(0, 1, 2, 3),
+    labels = c(
+      "Intact (0)",
+      "Low Pressure (0-4)",
+      "Medium Pressure (4-8)",
+      "High Pressure (8+)"
+    ),
+    values = scico::scico(n = 4, palette = hf_palette))
+
+set.cats(hf_classed_masked, value = strata_join)
+
+```
+
+# Analysis
+
+
+```{r}
+nn_rcl <- c(-Inf, 2, 1,
+            2, Inf, 0) %>%
+  matrix(ncol = 3, byrow = T)
+
+gen_nn_cutoff_rast <- function(folder, cutoff = 2) {
+  
+  nn_r <- rast(here::here(folder, "nn_dist.dat"))
+  
+  nn_int <- nn_r %>%
+  classify(c(-Inf, 0, 1, 2, 3, 4, Inf))
+  
+  nn_mask <- nn_r %>%
+    classify(nn_rcl)
+  
+  out <- c(nn_int, nn_mask)
+  
+  names(out) <- c("nn_integer", "nn_mask")
+  
+  out
+}
+
+make_hf_sample_map <- function(masked_hf, samples) {
+  ggplot() +
+    geom_spatraster(data = hf_tosample) +
+    geom_spatvector(data = vi_mainland,
+                    col = "grey50",
+                    fill = "transparent") +
+    scico::scale_fill_scico(
+      palette = hf_palette,
+      guide = guide_legend(title = "Human Footprint"),
+      na.value = "transparent",
+      breaks = c(0, 1, 2, 3),
+      labels = c(
+        "Intact (0)",
+        "Low Pressure (0-4)",
+        "Medium Pressure (4-8)",
+        "High Pressure (8+)"
+      )
+    ) +
+    geom_spatvector(
+      data = samples,
+      aes(fill = strata, col = as.factor(strata)),
+      pch = 21,
+      size = 2
+    ) +
+    scale_colour_manual(
+      values = c("white", "black", "black", "black"),
+      breaks = c(0, 1, 2, 3),
+      labels = c(
+        "Intact (0)",
+        "Low Pressure (0-4)",
+        "Medium Pressure (4-8)",
+        "High Pressure (8+)"
+      ),
+      guide = guide_legend(title = "Human Footprint")
+    ) + theme(
+      legend.position = "inside",
+      legend.position.inside = c(0.8, 0.8),
+      panel.grid = element_line(colour = "#ebebeb"),
+      panel.background = element_rect(fill = "white", colour = "black")
+    )
+}
+
+```
+
+## cumulative pressures
+includes plot
+
+```{r}
+dir_process <- list.dirs(output_raster_loc, full.names = T, recursive = F)
+folder <- dir_process[] # 12 is all strath
+
+# after calc statistics make a functio nthat takes the folders and generates the mega
+# plot using
+# hf_sample_map <- make_hf_sample_map(hf_tosample, samples)
+# and other functions i have yet to make
+
+generate_boxplot_dfs <- function(folder) {
+  
+  boxplot_fileloc <- here::here(folder, "for_stats", "boxplot_df.csv")
+  if(file.exists(boxplot_fileloc)) {
+    return(read_csv(boxplot_fileloc))
+  }
+  
+  restriction <- basename(folder)
+  print(restriction)
+  nn <- gen_nn_cutoff_rast(folder)
+  mask <- nn$nn_mask
+  
+  tosample_loc <- here::here(folder, "hf_tosample.dat")
+  sample_saveloc <- here::here(folder, "for_stats", "samples.shp")
+  dir.create(dirname(sample_saveloc), showWarnings = F)
+  set.seed(69420)
+  
+  if (!file.exists(sample_saveloc)) {
+    hf_tosample <- hf_classed_masked %>%
+      crop(mask) %>%
+      mask(mask, maskvalues = 0)
+    
+    names(hf_tosample) <- "strata"
+    writeRaster(
+      hf_tosample,
+      tosample_loc,
+      filetype = "envi",
+      overwrite = T
+    )
+    
+    # we take extra samples because sometimes sgsR grabs some with NAs
+    # we filter out down to a consistent 100/strata later
+    samples <- sample_strat(
+      hf_tosample,
+      nSamp = 125,
+      allocation = "equal",
+      mindist = 1000
+    ) %>%
+      vect()
+    writeVector(samples, sample_saveloc)
+  }
+
+  samples <- vect(sample_saveloc)
+  
+  sigma_rasts <- list.files(folder, pattern = ".dat$", full.names = T) %>% 
+    str_subset("nn_dist", negate = T) %>%
+    rast()
+  
+  sigma_samples <- extract_metrics(sigma_rasts, samples %>%
+                                          st_as_sf()) %>%
+    vect() %>%
+    as_tibble() %>%
+    drop_na() 
+  
+  boxplot_df <- sigma_samples %>%
+    select(-type, -rule, -strata, -category) %>%
+    pivot_longer(-labels) %>%
+    mutate(facet_label = case_when(name == "sigma_dhi" ~ "Functional", 
+                                   name == "sigma_str" ~ "Structural",
+                                   .default = "Structural \nand Functional")) %>%
+    group_by(facet_label) %>%
+    mutate(value = ifelse(value == Inf, max(value[is.finite(value)]), value)) %>%
+    mutate(restriction) %>%
+    ungroup()
+  
+  write_csv(boxplot_df, boxplot_fileloc)
+  
+  boxplot_df
+  
+}
+
+all_boxplot_df <- map_dfr(dir_process, generate_boxplot_dfs, .progress = T) %>%
+  left_join(strata_join)
+
+run_anova <- function(x, ...) {
+  md <- x %>%
+    distinct(!!!enquos(...))
+  anova <- aov(value ~ strata, data = x) %>%
+    broom::tidy() %>%
+    filter(term == "strata") %>%
+    bind_cols(md)
+}
+
+set.seed(123123)
+
+splits <- all_boxplot_df %>%
+  filter(restriction == "all_strathcona") %>%
+  group_by(restriction, facet_label) %>%
+  group_split() %>%
+  map(\(x) {
+    x %>%
+    group_by(strata) %>%
+    slice_sample(n = 100) %>%
+    ungroup()
+  })
+
+names(splits) <- map(splits, \(x) {
+  paste0(x$restriction[1], "_", x$facet_label[1])
+})
+
+anovas_holm <- splits %>%
+  map_dfr(run_anova, restriction, facet_label) %>%
+  mutate(p.adj = p.adjust(p.value, method = "holm")) %>%
+  arrange(p.adj)
+
+anovas_holm
+
+sig_holms <- anovas_holm %>%
+  filter(p.adj < 0.05) %>%
+  mutate(ind = paste0(restriction, "_", facet_label)) %>%
+  pull(ind)
+
+tukey_splits <- splits[names(splits) %in% sig_holms]
+tukey_splits <- splits
+
+run_tukeys <- function(x, ...) {
+  md <- x %>%
+    distinct(!!!enquos(...))
+  
+  anova <- aov(value ~ strata, data = x) %>%
+    broom::tidy()
+  
+  pval <- anova %>%
+    pull(p.value) %>%
+    head(1)
+  
+  x %>%
+    mutate(strata = as.factor(strata)) %>%
+    tukey_hsd(value ~ strata) %>%
+    add_xy_position() %>%
+    filter(group1 == 0) %>%
+    bind_cols(md)
+}
+
+tukey_sigs <- tukey_splits %>%
+  map_dfr(run_tukeys, restriction, facet_label)
+
+tukey_sigs
+
+boxplot_sig <- tukey_splits %>%
+  bind_rows() %>%
+  ggplot(aes(x = fct_reorder(labels, strata), y = value)) +
+  geom_boxplot(aes(
+    fill = fct_reorder(labels, strata),
+    alpha = paste0(restriction, "_", facet_label) %in% sig_holms
+  )) +
+  facet_wrap( ~ facet_label) +
+  stat_pvalue_manual(tukey_sigs %>%
+                       filter(p.adj.signif != "ns"), label = "p.adj.signif") +
+  plot_theme +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "bottom") +
+  scale_fill_manual(values = hf_tibble$values) +
+  scale_alpha_manual(values = c(0.4, 1), guide = "none") +
+  labs(x = "Human Footprint Class", 
+       y = "Sigma Dissimilarity",
+       fill = NULL) +
+  geom_text(data = anovas_holm, aes(x = 1.5, y = 2.75, 
+                                    label = glue::glue("ANOVA, p = {round(p.adj, 3)}")))
+
+boxplot_sig
+
+ggsave(here::here(figure_loc, "mahal_boxplot_sig.png"),
+       plot = boxplot_sig,
+       height = 6,
+       width = 8,
+       dpi = 300)
+```
+
+## individual pressures
+
+```{r}
+valid_vars <- c("built",
+                "forestry_harvest",
+                "population_density",
+                "roads")
+
+indiv_rasts <- "Z:/_CanadaLayers/Rasters/canada_human_footprint" %>%
+  list.files(pattern = ".tif$", full.names = T) %>%
+  str_subset(pattern = "cum", negate = T) %>%
+  map(rast) 
+
+vars <- map(indiv_rasts, names) %>%
+  unlist()
+
+var_inds <- which(vars %in% valid_vars)
+
+# filter indiv rasts to be just those indexes in var_inds
+
+indiv_rasts_sub <- indiv_rasts[var_inds]
+
+indiv_sample_rasts_loc <- here::here(raster_loc, "indiv_sample_rasts.dat") 
+
+if (!file.exists(indiv_sample_rasts_loc)) {
+  vi_proj_buff <- vi_mainland %>% 
+  terra::buffer(1000) %>%
+  project(indiv_rasts[[1]])
+  
+  indiv_rasts_one <- indiv_rasts_sub %>%
+    map(crop, vi_proj_buff, .progress = "Crop buff") %>%
+    map(project,
+        hf_classed,
+        method = "near",
+        .progress = "project") %>%
+    map(crop, hf_classed, mask = T, .progress = "crop/mask") %>%
+    map(mask, mask = all$forests, .progress = "mask to forests") %>%
+    map(crop, y = nn_mask, .progress = "crop to nn_mask") %>%
+    map(mask,
+        mask = nn_mask,
+        maskvalues = 0,
+        .progress = "mask to nn_mask") %>%
+    map(classify, rcl = hf_rcl, .progress = "classify") %>%
+    rast()
+  
+  writeRaster(indiv_rasts_one, indiv_sample_rasts_loc, filetype = "envi")
+}
+
+indiv_rasts_one <- rast(indiv_sample_rasts_loc)
+
+indiv_rasts_list <- as.list(indiv_rasts_one)
+out <- c()
+
+indiv_samples <- indiv_rasts_list %>%
+  map_dfr(.f = \(x) {
+    outname <- names(x)
+    
+    names(x) <- "strata"
+    
+    set.seed(5)
+    
+    # sample above as sometimes samples from nodata areas; resample in
+    # aggregate after
+    x %>%
+      sample_strat(n = 125,
+                   allocation = "equal",
+                   mindist = 1000) %>%
+      mutate(variable = outname)
+    
+  }, .progress = "sampling")
+
+sigmas <- list.files(folder, pattern = ".dat$", full.names = T) %>%
+  rast()
+
+Os <- tukey_splits %>%
+  bind_rows() %>%
+  filter(strata == 0) %>%
+  nest(data = everything()) %>%
+  tibble(variable = indiv_samples %>% pull(variable) %>% unique(),
+         egg = .) %>%
+  unnest(everything()) %>%
+  unnest(everything()) %>%
+  select(-labels, -values, -facet_label, -restriction)
+
+
+preslice <- extract_metrics(sigmas, existing = indiv_samples) %>%
+  as_tibble() %>%
+  select(-geometry, -labels) %>%
+  select(-rule, -type) %>%
+  select(-nn_dist) %>%
+  group_by(variable, strata)
+
+
+set.seed(919)
+
+indiv_vals <- preslice %>%
+  slice_sample(n = 100) %>%
+  filter(strata != 0) %>%
+  pivot_longer(starts_with("sigma"))
+
+indiv_all <- indiv_vals %>%
+  bind_rows(Os) %>%
+  mutate(
+    facet_label = case_when(
+      name == "sigma_dhi" ~ "Functional",
+      name == "sigma_str" ~ "Structural",
+      .default = "Structural \nand Functional"
+    )
+  )
+
+indiv_splits <- indiv_all %>%
+  group_by(variable, facet_label) %>%
+  group_split()
+
+indiv_anova <- indiv_splits %>%
+  map_dfr(run_anova, variable, facet_label) %>%
+  mutate(p.adj = p.adjust(p.value, method = "holm")) %>%
+  arrange(p.adj)
+
+indiv_alphas <- indiv_anova %>%
+  filter(p.adj < 0.05) %>%
+  mutate(alpha = glue::glue("{variable}_{facet_label}")) %>%
+  pull(alpha)
+
+indiv_tukey <- indiv_splits %>%
+  map_dfr(run_tukeys, variable, facet_label)
+
+indiv_tukey_plot <- indiv_tukey %>%
+  filter(p.adj.signif != "ns") %>%
+  filter(glue::glue("{variable}_{facet_label}") %in% indiv_alphas) %>%
+  group_by(facet_label) %>% 
+  mutate(y.position = max(y.position))
+
+ypos <- indiv_tukey %>%
+  group_by(facet_label) %>%
+  summarize(y.position = max(y.position))
+
+
+ypos_anova <- left_join(indiv_anova, ypos)
+
+indiv_boxplots <- indiv_all %>%
+  left_join(strata_join) %>%
+  ggplot(aes(x = fct_reorder(labels, strata), y = value)) +
+  geom_boxplot(aes(fill = fct_reorder(labels, strata),
+                   alpha = glue::glue("{variable}_{facet_label}") %in% indiv_alphas)
+  ) +
+  facet_grid(
+    rows = vars(facet_label),
+    cols = vars(variable %>%
+                  str_replace("_", " ") %>%
+                  str_to_title()),
+    scales = "free"
+  ) +
+  plot_theme +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "bottom") +
+  labs(x = "Human Footprint Class",
+       y = "Sigma Dissimilarity",
+       fill = NULL) +
+  scale_fill_manual(values = hf_tibble$values) +
+  scale_alpha_manual(values = c(0.4, 1), guide = "none") +
+  geom_text(data = indiv_tukey_plot, 
+            aes(x = xmax, y = y.position, 
+                label = as.character(p.adj.signif)), 
+            col = "red", size = 5, vjust = 1) +
+  geom_text(data = ypos_anova, aes(x = -Inf, y = y.position, 
+                              label = glue::glue("ANOVA, p = {round(p.adj, 3)}")),
+            hjust = -0.1)
+
+indiv_boxplots
+
+ggsave(here::here(figure_loc, "indiv_boxplots.png"),
+       plot = indiv_boxplots,
+       height = 7,
+       width = 10,
+       dpi = 300)
+
+```
+
+# Figures
+
+## Study Area Map
+
+Download great lakes data
+
+```{r}
+url <- "https://www.sciencebase.gov/catalog/file/get/530f8a0ee4b0e7e46bd300dd"
+
+dest <- here::here(scratch, "great_lakes.zip")
+
+if (!file.exists(dest)) {
+  download.file(url, destfile = dest, mode = "wb")
+}
+
+unzip_dir <- here::here(scratch, "great_lakes")
+
+unzip(dest, exdir = unzip_dir)
+
+great_lakes <- list.files(unzip_dir, pattern = "hydro.*\\.shp$", recursive = T, full.names = T) %>%
+  map(vect) %>%
+  map(aggregate) %>%
+  vect() %>%
+  project("epsg:3347")
+```
+
+Make the study area map Caption: Location of Vancouver Island's protected areas that meet the inclusion criteria (IUCN categories Ia, Ib, II, and IV; \> 100 ha in size) for our study.
+
+```{r}
+dem <- all[["dem"]]
+
+slope <- terrain(dem, "slope", unit = "radians")
+aspect <- terrain(dem, "aspect", unit = "radians")
+hill <- shade(slope, aspect, 30, 270)
+
+# normalize names
+names(hill) <- "shades"
+
+# Hillshading, but we need a palette
+pal_greys <- hcl.colors(1000, "Grays")
+
+# download vectors of NA coutnries for the inset map
+cad <- geodata::gadm("Canada", level = 1, path = scratch)
+
+world <- geodata::world(path = scratch) %>%
+  project("epsg:3347")
+
+cad_ext <- cad %>%
+  project("epsg:3347") %>% 
+  ext()
+
+vi_box <- vi_ext %>% 
+  vect(crs = "epsg:3005") %>%
+  project("epsg:4437")
+
+main <- ggplot() +
+  geom_spatvector(data = bcb_hres,
+                  fill = "#e5e5e5",
+                  col = "#00000000") +
+  # geom_spatvector(data = vi_mainland) +
+  
+  geom_spatraster(data = dem) +
+  scale_fill_hypso_c(palette = "dem_screen", name = "Elevation (m)", 
+                     guide = guide_colourbar(direction = "horizontal", 
+                                             order = 2,
+                                             title.position = "top")) +
+  ggnewscale::new_scale_fill() +
+  geom_spatraster(data = hill, alpha = 0.5) +
+  scale_fill_gradientn(colors = pal_greys,
+                       na.value = NA,
+                       guide = "none") +
+  geom_spatvector(
+    data = pa_filt %>%
+      filter(as.logical(included)),
+    aes(col = as.logical(included)),
+    fill = "#00000000",
+    size = 3
+  ) +
+  geom_spatvector(data = vi_mainland, fill = "#00000000") +
+  scale_colour_manual(name = NULL,
+                      values = "red",
+                      labels = "Strathcona\nProvincial Park",
+                      guide = guide_legend(order = 1,
+                                           override.aes = list(fill = "#e5e5e5"))) +
+  theme_bw() +
+  theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.85, 0.85),
+    panel.background = element_rect(fill = "lightblue"),
+    legend.background = element_rect(fill = "#00000000"),
+    legend.text = element_text(hjust = 0.5),
+    legend.title = element_text(hjust = 0.5)
+  ) +
+  coord_sf(
+    xlim = c(vi_ext$xmin, vi_ext$xmax),
+    ylim = c(vi_ext$ymin, vi_ext$ymax)
+  )
+
+inset <- ggplot() +
+  geom_spatvector(data = world, fill = "#7f7f7f") +
+  geom_spatvector(data = cad %>% project("epsg:3347"), fill = "#b3b3b3") +
+  geom_spatvector(data = great_lakes, fill = "lightblue") +
+  geom_spatvector(data = bcb_hres, fill = "#e5e5e5") +
+  geom_spatvector(data = vi_box, col = "red", fill = "#00000000", linewidth = 1) +
+  coord_sf(xlim = c(cad_ext$xmin, cad_ext$xmax),
+           ylim = c(cad_ext$ymin, cad_ext$ymax)) +
+  theme_bw() +
+  theme(panel.background = element_rect(fill = "lightblue"),
+        axis.ticks = element_blank(),
+        axis.text = element_blank(),
+        plot.background = element_blank())
+
+study_area <- main +
+  inset_element(inset, 0, 0, 0.4, 0.4)
+
+ggsave(here::here(figure_loc, "study_area.png"), plot = study_area, height = 6, width = 6, dpi = 300)
+```
+
+## Status year cumulative
+
+Plot status year map and cumulative proportion
+
+```{r}
+cumplot_data <- as.data.frame(vi_pa) %>% 
+  group_by(status_yr) %>% 
+  summarize(area = sum(area)) 
+
+years_in <- cumplot_data$status_yr
+
+year_range <- min(years_in):max(years_in)
+
+missing_years <- year_range[!(year_range %in% years_in)]
+
+cumplot_data_full <- bind_rows(cumplot_data, tibble(status_yr = missing_years, area = 0))
+
+
+cumper_data <- cumplot_data_full %>%
+  arrange(status_yr) %>%
+  mutate(cumsum = cumsum(area), 
+         per = area / sum(area), 
+         cumper = cumsum(per)) 
+
+cumplot <- cumper_data %>%
+  ggplot(aes(x = status_yr, y = cumper)) +
+  geom_col(aes(fill = status_yr), width = 1) +
+  scale_y_continuous(labels = scales::label_percent(), limits = c(0, 1)) +
+  scico::scale_fill_scico(palette = "imola", name = "Designation Year") +
+  labs(x = "Designation Year",
+       y = "Proportion of Protected Areas") +
+  theme_bw() +
+  geom_vline(xintercept = 1984, col = "red", lty = "dashed") +
+  annotate("text", x = 1984, y = .75, label = "NTEMS Start", colour = "red", vjust = 1, angle = 90) +
+  theme(legend.position = "none",
+        panel.grid = element_blank()) 
+
+main <- ggplot() +
+  geom_spatvector(data = bcb_hres, fill = "#e5e5e5", col = "#00000000") +
+  geom_spatvector(data = vi_mainland) +
+  geom_spatvector(data = vi_pa %>%
+                    filter(as.logical(included)), aes(fill = status_yr), col = "#00000000") +
+  geom_spatvector(data = vi_mainland, fill = "#00000000") +
+  theme_bw() +
+  scico::scale_fill_scico(palette = "imola", name = "Designation Year") +
+  theme(legend.position = "none") +
+  coord_sf(xlim = c(vi_ext$xmin, vi_ext$xmax),
+           ylim = c(vi_ext$ymin, vi_ext$ymax)) +
+  theme(panel.background = element_rect(fill = "lightblue"))
+
+both = main + cumplot
+
+ggsave(here::here(figure_loc, "desig_year.png"), plot = both, dpi = 300, height = 6, width = 6)
+```
+
+## Data histogram plot
+
+```{r}
+
+forested_strata <- read_parquet(here::here(tab_loc, "all_data.parquet")) %>%
+  filter(!is.na(forests)) %>%
+  unite(col = "strata", strata_oi(F), sep = "-")
+
+data <- forested_strata %>%
+  select(CumDHI:total_biomass) %>%
+  select(-MinDHI) %>%
+  slice_sample(n = 10000) %>%
+  pivot_longer(everything()) %>%
+  left_join(keys$continuous %>%
+              select(name = variable,
+                     label)) %>%
+  select(-name)
+
+
+
+quantiles <- data %>%
+  group_by(label) %>%
+  summarise(q90 = quantile(value, 0.90))
+
+quantil_hist <- data %>%
+  ggplot() +
+  geom_histogram(aes(x = value, y = after_stat(ncount))) +
+  facet_wrap(~fct_reorder(label, str_detect(label, "DHI")), scales = "free", ncol = 1) +
+  plot_theme +
+  geom_vline(data = quantiles, aes(xintercept = q90, colour = "90th Percentile"), lty = "dashed") +
+  theme(legend.position = "bottom") +
+  labs(x = "Value",
+       col = NULL,
+       y = "Percent") +
+  scale_y_continuous(labels = scales::label_percent())
+
+ggsave(here::here(figure_loc, "hist_quantiles.png"), plot = quantil_hist, height = 8, width = 6, dpi = 300)
+
+rm(forested_strata)
+```
+
+## Tukey Power Transform
+
+Tukey's ladder of power transformation
+
+```{r}
+egg2 <- data %>%
+  group_by(label) %>%
+  group_split() %>%
+  map_dfr(.f = \(df) {
+    name <- df %>%
+      pull(label) %>% unique()
+    values <- df %>%
+      slice_sample(n = 1000) %>%
+      pull(value)
+    
+    lambda <- values %>%
+      rcompanion::transformTukey(returnLambda = T, plotit = F)
+    
+    out <- df %>%
+      mutate(transformed = value ^ lambda,
+             lambda = lambda,
+             scaled = as.numeric(scale(value)),
+             scaled_t = as.numeric(scale(transformed)),
+             outlier = scaled > 2)
+    
+    q90 <- out %>%
+      filter(!outlier) %>%
+      pull(value) %>%
+      quantile(0.90)
+    
+    out %>%
+      mutate(filter = case_when(
+                                outlier ~ "Outlier",
+                                value >= q90 ~ "Reference State",
+                                T ~ "Data")) %>%
+  pivot_longer(cols = c(value, transformed, scaled_t)) %>%
+  mutate(name = case_when(name == "transformed" ~ "Transformed Data",
+                          name == "scaled_t" ~ "Transformed/Scaled Data",
+                          T ~ "Base Data"),
+         facet_label = glue::glue("{fct_rev(label)}\n{name} - Lambda {lambda}"))
+  })
+
+qqnorm_plot <- egg2 %>%
+  ggplot(aes(sample = value)) +
+  geom_qq() +
+  geom_qq_line() +
+  facet_wrap(~facet_label, scales = "free", ncol = 3)
+
+ggsave(here::here(figure_loc, "qqnorms.png"), plot = qqnorm_plot, height = 10, width = 10, dpi = 300)
+
+quantil_hist_ol <- egg2 %>%
+  ggplot() +
+  geom_histogram(aes(x = value, fill = filter)) +
+  facet_wrap(~fct_reorder(facet_label, str_detect(facet_label, "DHI")), scales = "free", ncol = 3) +
+  plot_theme +
+  labs(x = "Value",
+       y = "Percent",
+       fill = NULL) +
+  theme(legend.position = "bottom")
+
+ggsave(here::here(figure_loc, "hist_quantiles_ol.png"), plot = quantil_hist_ol, height = 10, width = 10, dpi = 300)
+```
+
+## nn distance plot
+
+```{r}
+nn <- here::here(folder, "nn_dist.dat") %>% rast() 
+
+nn_classed = nn %>%
+  classify(c(-Inf, 0, 1, 2, 3, 4, Inf))
+
+nn_rcl <- c(-Inf, 2, 1,
+            2, Inf, 0) %>%
+  matrix(ncol = 3, byrow = T)
+
+nn_mask <- nn %>%
+  classify(nn_rcl)
+
+nn_map <- ggplot() +
+  geom_spatraster(data = nn_classed) +
+  scico::scale_fill_scico_d(
+    palette = "batlowK",
+    guide = guide_legend(ncol = 2),
+    labels = c("0", "0-1", "1-2", "2-3", "3-4", "4+"),
+    na.value = NA,
+    na.translate = F
+  ) +
+  labs(fill = "Nearest Neighbour Distance") +
+  theme(legend.position = "inside",
+        legend.position.inside = c(0.8, 0.8),
+        panel.background = element_rect(fill = "white", colour = "black"),
+        panel.grid = element_line(colour = "#ebebeb"))
+
+nn_map_inset <- nn_map + inset_element(
+    inset +
+      theme(
+        panel.background = element_rect(fill = "white"),
+        panel.grid = element_line(colour = "#ebebeb")
+      ),
+    0, 0, 0.4, 0.4
+  )
+
+ggsave(here::here(figure_loc, "nn_map.png"),
+       plot = nn_map_inset,
+       height = 6,
+       width = 6,
+       dpi = 300)
+
+nn_map_mask <- ggplot() +
+  geom_spatraster(data = as.logical(nn_mask)) +
+  scale_fill_manual(
+    values = c("#964a35", "#327fa5"),
+    guide = guide_legend(reverse = T),
+    labels = c("Not Included", "Included"),
+    na.value = NA,
+    na.translate = F
+  ) +
+  labs(fill = NULL) +
+  theme(legend.position = "inside",
+        legend.position.inside = c(0.8, 0.8),
+        panel.background = element_rect(fill = "white", colour = "black"),
+        panel.grid = element_line(colour = "#ebebeb"))
+
+nn_map_mask_inset <- nn_map_mask + inset_element(
+    inset +
+      theme(
+        panel.background = element_rect(fill = "white"),
+        panel.grid = element_line(colour = "#ebebeb")
+      ),
+    0, 0, 0.4, 0.4
+  )
+
+ggsave(here::here(figure_loc, "nn_map_masked.png"),
+       plot = nn_map_mask_inset,
+       height = 6, 
+       width = 6)
+```
+
+## Human footprint maps
+
+```{r}
+
+
+# base human footprint map
+
+hf_map <- ggplot() +
+  geom_spatraster(data = hf_classed) +
+  geom_spatvector(data = pa_filt,
+                  col = "red",
+                  fill = "transparent") +
+  geom_spatvector(data = vi_mainland,
+                  col = "grey50",
+                  fill = "transparent") +
+  scico::scale_fill_scico(
+    palette = hf_palette,
+    guide = guide_legend(title = "Human Footprint"),
+    na.value = "transparent",
+    breaks = c(0, 1, 2, 3),
+    labels = c(
+      "Intact (0)",
+      "Low Pressure (0-4)",
+      "Medium Pressure (4-8)",
+      "High Pressure (8+)"
+    )
+  ) +
+  theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.8, 0.8),
+    panel.grid = element_line(colour = "#ebebeb"),
+    panel.background = element_rect(fill = "white", colour = "black")
+  )
+
+hf_map_inset <- hf_map +
+  inset_element(
+    inset +
+      theme(
+        panel.background = element_rect(fill = "white"),
+        panel.grid = element_line(colour = "#ebebeb")
+      ),
+    0,
+    0,
+    0.4,
+    0.4
+  )
+
+ggsave(
+  here::here(figure_loc, "hf_map.png"),
+  plot = hf_map_inset,
+  height = 6,
+  width = 6,
+  dpi = 600
+)
+
+# masked based off forests and nn_mask
+
+hf_map_m <- ggplot() +
+  geom_spatraster(data = hf_classed_masked) +
+  geom_spatvector(data = pa_filt,
+                  col = "red",
+                  fill = "transparent") +
+  geom_spatvector(data = vi_mainland,
+                  col = "grey50",
+                  fill = "transparent") +
+  scico::scale_fill_scico(
+    palette = hf_palette,
+    guide = guide_legend(title = "Human Footprint"),
+    na.value = "transparent",
+    breaks = c(0, 1, 2, 3),
+    labels = c(
+      "Intact (0)",
+      "Low Pressure (0-4)",
+      "Medium Pressure (4-8)",
+      "High Pressure (8+)"
+    )
+  ) +
+  theme(
+    legend.position = "inside",
+    legend.position.inside = c(0.8, 0.8),
+    panel.grid = element_line(colour = "#ebebeb"),
+    panel.background = element_rect(fill = "white", colour = "black")
+  )
+
+hf_map_m_inset <- hf_map_m +
+  inset_element(
+    inset +
+      theme(
+        panel.background = element_rect(fill = "white"),
+        panel.grid = element_line(colour = "#ebebeb")
+      ),
+    0,
+    0,
+    0.4,
+    0.4
+  )
+
+ggsave(
+  here::here(figure_loc, "hf_map_masked.png"),
+  plot = hf_map_m_inset,
+  height = 6,
+  width = 6,
+  dpi = 600
+)
+
+# map including samples
+
+hf_map_samples <- hf_map_m +
+  geom_spatvector(
+    data = hf_samples,
+    aes(fill = strata, col = as.factor(strata)),
+    pch = 21,
+    size = 0.8
+  ) +
+  scale_colour_manual(
+    values = c("white", "black", "black", "black"),
+    breaks = c(0, 1, 2, 3),
+    labels = c(
+      "Intact (0)",
+      "Low Pressure (0-4)",
+      "Medium Pressure (4-8)",
+      "High Pressure (8+)"
+    ),
+    guide = guide_legend(title = "Human Footprint")
+  )
+
+hf_map_samples_inset <- hf_map_samples + inset_element(
+  inset +
+    theme(
+      panel.background = element_rect(fill = "white"),
+      panel.grid = element_line(colour = "#ebebeb")
+    ),
+  0,
+  0,
+  0.4,
+  0.4
+)
+
+ggsave(
+  here::here(figure_loc, "hf_map_samples.png"),
+  plot = hf_map_samples_inset,
+  height = 6,
+  width = 6,
+  dpi = 600
+)
+```
+
+## variable data maps 2
+
+```{r}
+vp <- all[[1:13]] %>%
+  as.list() %>%
+  map(.f = \(x) {
+
+    varname = basename(sources(x)) %>%
+      tools::file_path_sans_ext()
+
+    divby = keys$continuous %>%
+      filter(str_to_lower(variable) == varname) %>%
+      pull(divide_by) %>%
+      as.numeric() %>%
+      unique()
+    pal = "imola"
+
+    legend_label <- keys$continuous %>%
+             filter(str_to_lower(variable) == varname) %>%
+             pull(label)
+
+    if (str_detect(varname, "DHI")) {
+      divby = ifelse(str_detect(varname, "DHI"), 1000, divby)
+      legend_label <- keys$continuous %>%
+             filter(variable == varname) %>%
+             pull(label)
+      pal = "hawaii"
+    } else if (str_detect(varname, "clim")) {
+      pal = "lajolla"
+
+      legend_label = str_wrap(legend_label, width = 20)
+    } else if (str_detect(varname, "slope")) {
+      pal = "acton"
+    } else if (str_detect(varname, "dem")) {
+      pal = "acton"
+    }
+
+
+    if (varname == "elev_cv") {
+      x[x > 1000] = 1000
+    }
+
+
+
+    savename = here::here(figure_loc, "metric_rasters", glue::glue("{varname}.png"))
+    dir.create(dirname(savename), showWarnings = F)
+
+    metric <- x %>%
+      crop(nn_mask) %>%
+      mask(nn_mask, maskvalues = 0)
+
+    metric = metric / divby
+
+    out <- ggplot() +
+      geom_spatraster(data = metric) +
+      geom_spatvector(data = vi_mainland, fill = "transparent") +
+      scico::scale_fill_scico(palette = pal, na.value = NA) +
+      labs(fill = legend_label)  +
+      theme_void() +
+      theme(
+        legend.position = "inside",
+        legend.position.inside = c(0.2, 0.2),
+        legend.title.position = "top",
+        legend.title = element_text(hjust = 0.5),
+        legend.direction = "horizontal",
+        legend.text = element_text(size = 12)
+      )
+
+
+
+    out_inset <- out + inset_element(
+      inset +
+        theme(
+          panel.background = element_rect(fill = "white"),
+          panel.grid = element_line(colour = "#ebebeb")
+        ),
+      0,
+      0,
+      0.4,
+      0.4
+    )
+
+    ggsave(
+      filename = savename,
+      plot = out_inset,
+      height = 6,
+      width = 6,
+      dpi = 300
+    )
+
+    out
+  }, .progress = T)
+
+names(vp) <- names(all[[1:13]])
+```
+
+
+```{r}
+vp_elev <- vp[["elev_p95"]] +
+  labs(title = "Structure") +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.text = element_text(angle = 45, hjust = 1))
+
+vp_dhi <- vp[["CumDHI"]] +
+  labs(title = "Function") +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.text = element_text(angle = 45, hjust = 1))
+
+vp_clim <- vp[["clim_map"]] +
+  labs(title = "Climate") +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.text = element_text(angle = 45, hjust = 1))
+
+vp_topo <- vp[["slope"]] +
+  labs(title = "Topography") +
+  theme(plot.title = element_text(hjust = 0.5),
+        legend.text = element_text(angle = 45, hjust = 1))
+
+twoby <- vp_elev + vp_dhi + vp_clim + vp_topo + plot_layout(nrow = 2) +
+  plot_annotation(tag_levels = "a")
+ggsave(here::here(figure_loc, "data_figure.png"), twoby, height = 8, width = 8)
+```
+
+## sigma maps
+
+```{r}
+sigma_rcl <- c(-Inf, 0, 0,
+               0, 0.99999, 1,
+               0.99999, 1.99999, 2,
+               1.99999, 2.99999, 3,
+               2.99999, 3.99999, 4,
+               3.99999, Inf, 5) %>%
+  matrix(ncol = 3, byrow = T)
+
+
+
+list.files(mahal_ras_loc, pattern = ".dat$") %>%
+  map(.f = \(x) {
+    filename = here::here(mahal_ras_loc, x)
+    
+    title = tibble(variable = all_vars,
+                   filter = all_vars_names) %>%
+      filter(filter == x %>% basename() %>% tools::file_path_sans_ext() %>% str_split("-") %>% .[[1]] %>% .[1]) %>%
+      left_join(keys$continuous) %>%
+      pull(var_long)
+    
+    title2 = glue("Top 10% {title}")
+    
+    savename = here::here(figure_loc,
+                          "sigma_rasters",
+                          glue::glue("{basename(filename)}.png"))
+    dir.create(dirname(savename), showWarnings = F)
+    
+    sigma <- filename %>%
+      rast() %>%
+      classify(sigma_rcl) %>%
+      mask(nn_mask, maskvalues = 0)
+    
+    out <- ggplot() +
+      geom_spatraster(data = sigma) +
+      geom_spatvector(data = vi_mainland, fill = "transparent") +
+      scale_fill_viridis_c(
+        option = "viridis",
+        na.value = NA,
+        breaks = c(0:5),
+        labels = c("0", "0-1", "1-2", "2-3", "3-4", "4+"),
+        direction = -1,
+        guide = guide_legend()
+      ) +
+      labs(fill = "Sigma Similarity",
+           title = title2) +
+      theme(
+        legend.position = "inside",
+        legend.position.inside = c(0.8, 0.8),
+        panel.background = element_rect(fill = "white", colour = "black"),
+        panel.grid = element_line(colour = "#ebebeb")
+      )
+    
+    out_inset <- out+ inset_element(
+      inset +
+        theme(
+          panel.background = element_rect(fill = "white"),
+          panel.grid = element_line(colour = "#ebebeb")
+        ),
+      0,
+      0,
+      0.4,
+      0.4
+    )
+    
+    ggsave(
+      filename = savename,
+      plot = out_inset,
+      height = 6,
+      width = 6,
+      dpi = 300
+    )
+    
+    
+  })
+```
+
+## sigma inset maps tx style
+(TEXAS ROADHOUSE)
+
+```{r}
+hf_tibble <- tibble(
+  breaks = 0:3,
+  labels = c(
+    "Intact (0)",
+    "Low Pressure (0-4)",
+    "Medium Pressure (4-8)",
+    "High Pressure (8+)"
+  ),
+  values = scico::scico(n = 4, palette = hf_palette)
+)
+
+sigma_rcl <- c(-Inf, 0, 0,
+               0, 0.99999, 1,
+               0.99999, 1.99999, 2,
+               1.99999, 2.99999, 3,
+               2.99999, 3.99999, 4,
+               3.99999, Inf, 5) %>%
+  matrix(ncol = 3, byrow = T)
+
+subsets <- vect("E:/Sync/Masters/04_vi_pristine/data/all_strath/shapefiles/subset_SA.shp")
+
+subset_labels <- geom(subsets) %>%
+  as_tibble() %>% 
+  group_by(geom) %>% 
+  slice_max(order_by = y) %>%
+  slice_min(order_by = x) %>%
+  ungroup() %>%
+  distinct() %>%
+  mutate(label = c("A", "B", "C")) %>%
+  vect(geom = c("x", "y"), crs = "epsg:3005")
+
+sigma_files <- list.files("E:/Sync/Masters/04_vi_pristine/data/sigma_outputs/all_strathcona", 
+                          pattern = "sigma", full.names = T) %>%
+  str_subset(".dat$")
+
+sigma_rasters <- sigma_files %>%
+  rast() %>%
+  #classify(rcl = sigma_rcl) %>%
+  as.list()
+
+set.cats(hf_classed_masked, value = hf_tibble)
+
+# legend_theme <- theme(legend.background = element_blank(),
+#                       legend.)
+
+hf_multi_inset_base <- ggplot() +
+  geom_spatvector(data = bcb_hres, col = "#e5e5e5") +
+  geom_spatraster(data = hf_classed_masked) +
+  scale_fill_manual(
+    guide = guide_legend(title = "Human Footprint", nrow = 2),
+    labels = hf_tibble$labels,
+    values = hf_tibble$values,
+    na.value = "transparent",
+    na.translate = F
+  ) +
+  geom_spatvector(data = vi_mainland, fill = "#00000000") +
+  geom_spatvector(
+    data = subsets,
+    col = "black",
+    fill = "#00000000",
+    linewidth = 1.5
+  ) +
+  geom_spatvector_text(
+    data = subset_labels,
+    aes(label = label),
+    col = "black",
+    size = 6,
+    fontface = "bold",
+    vjust = -0.25
+  ) +
+  map_theme +
+  theme(legend.title.position = "top",
+        legend.position = "bottom") +
+  coord_sf(
+    xlim = c(vi_ext$xmin, vi_ext$xmax),
+    ylim = c(vi_ext$ymin, vi_ext$ymax)
+  ) +
+  labs(x = NULL,
+       y = NULL)
+
+(sigma_layout_wide <- 
+  "AABCDE
+   AAFGHI
+   ##JKLM")
+
+panels <- subsets %>% 
+  st_as_sf() %>%
+  group_by(label) %>%
+  group_split() %>%
+  map(vect) %>%
+  map(\(x) {
+    title = x %>%
+      pull(label)
+    subtitle = NULL
+    
+    sigma_subtitles <- map_chr(sigma_rasters, names) %>%
+      as_tibble() %>%
+      separate(value, into = c("value", "class")) %>%
+      mutate(
+        subtitle = case_when(class == "str" ~ "Structural Dissimilarity",
+                             class == "dhi" ~ "Functional Dissimilarity",
+                             class == "all" ~ "Structural and Functional Dissimilarity")
+      ) %>%
+      pull(subtitle) %>%
+      str_wrap(width = 20)
+    
+    if (title == "A") {
+      subtitle = "Human Footprint"
+    }
+    
+    hfc <- crop(hf_classed_masked, x)
+    
+    hf_tib_sub <- hf_tibble %>%
+      filter(labels %in% unique(hfc)$labels)
+    
+    
+    # take 10% of the vector to make the scale bar legible
+    
+    g <- geom(x) %>%
+      as_tibble()
+    
+    ymin <- min(g$y)
+    ymax <- max(g$y)
+    ynew <- ymin + (ymax - ymin) * .1
+    
+    scale_box <- g %>%
+      mutate(y = ifelse(y == ymax, ynew, y)) %>%
+      as.matrix() %>%
+      vect(crs = "epsg:3005", type = "polygons")
+  
+    
+    hf_cropped <- ggplot() +
+      geom_spatraster(data = hfc) +
+      geom_spatvector(data = scale_box, col = "white", fill = "white", alpha = .75) +
+      geom_spatvector_text(data = subset_labels %>%
+                             filter(label == title), aes(label = label), col = "black", size = 6, fontface = "bold", hjust = 0, vjust = 1) +
+      map_theme +
+      theme(
+        legend.position = "none",
+        legend.title.position = "top",
+        plot.title = element_text(
+          hjust = 0.5,
+          size = 8,
+          vjust = 0.5
+        ),
+        panel.background = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text = element_blank(),
+        panel.grid = element_blank(),
+        plot.background = element_blank(),
+        panel.border = element_blank()) +
+      labs(title = subtitle,
+           x = NULL,
+           y = NULL) +
+      scale_fill_manual(guide = guide_legend(title = "Human Footprint", nrow = 2),
+                        labels = hf_tib_sub$labels,
+                        values = hf_tib_sub$values,
+                        na.value = "transparent",
+                        na.translate = F) +
+      ggspatial::annotation_scale(
+        height = unit(0.015, "npc"),
+        width_hint = 0.5,
+        text_cex = .8,
+        bar_cols = c("black", "black")
+      ) +
+      guides(fill = "none")
+      
+    
+    sigma_cropped <- map2(sigma_rasters, sigma_subtitles, \(r, st) {
+      # make a plot that does this for every raster
+      r_c <- crop(r, x)
+      
+      if (title != "A") {
+        st <- NULL
+      }
+      
+      ggplot() +
+        geom_spatraster(data = r_c) +
+        theme_void() +
+        theme(plot.title = element_text(
+          hjust = 0.5,
+          size = 8
+        ),
+        legend.title.position = "top") +
+        labs(title = st) +
+        scale_fill_viridis_c(
+          direction = -1,
+          na.value = "transparent",
+          limits = c(0, 2),
+          labels = c("0.0", "0.5", "1.0", "1.5", "2+"),
+          guide = guide_colourbar(direction = "horizontal"),
+          name = "Sigma Dissimilarity"
+        )
+    })
+    
+    sigma_cropped[[4]] <- hf_cropped
+    
+    return(sigma_cropped)
+    
+  }) %>%
+  unlist(recursive = F)
+
+bacon_wide <- ((hf_multi_inset_base + theme(legend.position = "bottom")) +
+                 panels[[4]] +
+                 panels[[1]] +
+                 panels[[2]] +
+                 panels[[3]] +
+                 panels[[8]] +
+                 panels[[5]] +
+                 panels[[6]] +
+                 panels[[7]] +
+                 panels[[12]] +
+                 panels[[9]] +
+                 panels[[10]] +
+                 panels[[11]] +
+                 #guide_area() +
+                 plot_layout(guides = "collect") &
+                 theme(legend.position = "bottom",
+                       plot.margin = margin(0, 0, 0, 0))
+) +
+  plot_layout(design = sigma_layout_wide)
+  
+ggsave(here::here(figure_loc, "multi_panel_inset_wide.png"), bacon_wide, height = 6, width = 10)
+
+
+
+```
+
+```{r}
+nn_mask <- sigmas$nn_dist < 2
+
+js <- sigmas %>% 
+  select(starts_with("sigma")) %>%
+  mask(nn_mask, maskvalues = F)
+
+names(js) <- c("Structural and Functional Dissimilarity",
+               "Functional Dissimilarity",
+               "Structural Dissimilarity")
+
+
+
+ggplot() +
+  geom_spatraster(data = js) + 
+  scale_fill_viridis_c(direction = -1, limits = c(0, 2), na.value = "transparent") +
+  facet_wrap(~lyr) +
+  theme_void()
+```
+
