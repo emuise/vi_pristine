@@ -39,7 +39,7 @@
 \makeatother
 \usepackage{xcolor}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\setcounter{secnumdepth}{5}
 % Make \paragraph and \subparagraph free-standing
 \makeatletter
 \ifx\paragraph\undefined\else
@@ -178,8 +178,8 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
-  pdftitle={Cumulative and individual impacts of the human footprint on biodiversity indicators using dissimilarity to high integrity reference states.},
-  pdfauthor={Evan Muise; Nicholas Coops; Txomin Hermosilla; Chris Mulverhill; Cole Burton; Stephen Ban},
+  pdftitle={Cumulative and component impacts of the human footprint on remotely sensed biodiversity indicators using dissimilarity to high integrity reference states.},
+  pdfauthor={Evan Muise; Nicholas Coops; Txomin Hermosilla; Christopher Mulverhill; Cole Burton; Stephen Ban},
   pdfkeywords={Protected areas, Coarsened exact matching, Reference
 states, Remote sensing, Ecosystem structure, Ecosystem
 function, Anthropogenic pressure, Human footprint},
@@ -195,12 +195,12 @@ function, Anthropogenic pressure, Human footprint},
 \draftfalse
 
 \begin{document}
-\title{Cumulative and individual impacts of the human footprint on
-biodiversity indicators using dissimilarity to high integrity reference
-states.}
+\title{Cumulative and component impacts of the human footprint on
+remotely sensed biodiversity indicators using dissimilarity to high
+integrity reference states.}
 
 \authors{Evan Muise\affil{1}, Nicholas Coops\affil{1}, Txomin
-Hermosilla\affil{2}, Chris Mulverhill\affil{1}, Cole
+Hermosilla\affil{2}, Christopher Mulverhill\affil{1}, Cole
 Burton\affil{1}, Stephen Ban\affil{3}}
 \affiliation{1}{Department of Forest Resource Management, University of
 British Columbia, Vancouver, British Columbia,
@@ -216,132 +216,133 @@ Victoria, British Columbia, Canada, }
 
 
 
-\section{Abstract}\label{abstract}
+\textbf{Abstract}
 
-Forests with high ecological integrity are incredibly important for
-biodiversity conservation, and provide integral ecosystem services.
-These forests have natural or near-natural ecosystem structure,
-function, and composition. Anthropogenic pressures such as habitat loss,
+Forests with high ecological integrity are fundamental for biodiversity
+conservation, and provide integral ecosystem services. These forests
+have natural or near-natural ecosystem structure, function, and
+composition. Anthropogenic pressures such as habitat loss,
 overexploitation of natural resources, and land use changes are leading
 to the degradation or loss of high-integrity forests. As a result,
 assessing forest integrity over large areas is increasingly important
-for a range of conservation initiatives. Recently, we have seen an
-increase in the application of remote sensing data to assess a range of
-forest structural and functional attributes, which can provide insights
-into forest integrity through space and time. In this study, we use
-satellite-derived forest structural attributes and forest functioning
-metrics alongside a high-quality reference state to calculate ecological
-dissimilarity as a proxy for ecological integrity. We further refine our
-reference states by using coarsened exact matching to ensure our
-comparisons are drawn from suitable protected analogs. We applied these
-methods onto Vancouver Island, Canada, where we assessed how far, in
-structural and functional space, forest stands were from reference,
-high-integrity forests found in the island's oldest and largest
-protected area. We further assess how individual and cumulative
-anthropogenic pressure are influencing the ecological integrity of
-forests on the island. We found that forest structural dissimilarity
-increased under high levels of anthropogenic pressures (ANOVA; p
-\textless{} 0.01), while functional dissimilarity was not impacted by
-any anthropogenic pressures (ANOVA; p \textgreater{} 0.05). For
-individual pressures, we found that built environments, harvesting, and
-population density influenced structural dissimilarity (ANOVA; p
-\textless{} 0.05), while roads did not influence structural
-dissimilarity (ANOVA; p \textgreater{} 0.05). These types of methods can
-be used to identify high-integrity forest ecosystems which should be
-prioritized for protection, or to identify areas with low levels of
-pressures which could benefit from restoration efforts, helping move
+for a range of conservation initiatives. In this study, we used remote
+sensing-derived forest structural and functioning metrics alongside a
+high-quality reference state to calculate ecological dissimilarity as a
+proxy for ecological integrity. We examined stand-level integrity and
+focused on forest structural attributes such as canopy height, cover,
+complexity, and biomass, as well as the Dynamic Habitat Indices, which
+summarize annual energy availability relevant for biodiversity. We
+further refined our reference states by using coarsened exact matching
+to ensure our comparisons were drawn from suitable protected analogs. We
+applied these methods to Vancouver Island, Canada, where we assessed the
+distance, in structural and functional space, to matched high-integrity
+forests found in the island's oldest and largest protected area. We also
+assessed how individual and cumulative anthropogenic pressure affect the
+ecological integrity of forests on the island. We found that mean forest
+structural dissimilarity increased from 0.11 to 0.24 under high levels
+of anthropogenic pressure (ANOVA; p \textless{} 0.01), while functional
+dissimilarity was not impacted by any anthropogenic pressure (ANOVA; p
+\textgreater{} 0.05). This indicates that anthropogenic pressures were
+observed to directly influence forest canopy characteristics, and less
+so energy availability. For individual pressures, we found that built
+environments, harvesting, and population density influenced structural
+dissimilarity (ANOVA; p \textless{} 0.05), while roads did not influence
+structural dissimilarity (ANOVA; p \textgreater{} 0.05). These methods
+for identifying high-integrity forests can be used to identify areas to
+be prioritized for protection or restoration, which in turn progresses
 towards the Kunming-Montreal Global Biodiversity Framework's goal of
-30\% of all ecosystems protected, with a focus on high-integrity
-ecosystems
+30\% of all ecosystems protected, while focusing on high-integrity
+ecosystems.
+
+\newpage
 
 \section{Introduction}\label{introduction}
 
-In the terrestrial environment, forests have been shown to possess
-larges amounts of biodiversity (Cardinale et al., 2012; Myers, 1988;
-Pimm and Raven, 2000) and provide key ecosystem services (Thompson et
-al., 2009). However, the ongoing impact of anthropogenic pressures such
-as climate change, overexploitation of natural resources, and invasive
-species are leading to forest degradation, reducing the ability of
-forested ecosystems to provide these services (Thomas et al., 2004;
-Urban, 2015). Therefore it is integral to maintain and conserve forests
-that are in good ecological condition, as defined by natural or
-near-natural levels of forest structure, function, and composition,
-often referred to as having high ecological integrity (Marín et al.,
-2021). The importance of high-integrity ecosystems has led to a general
-call to move beyond simple quantification of ecosystem or forest extent
-in conservation strategies to other metrics which additionally consider
-the integrity of the conserved ecosystem (Ferrier et al., 2024; Hansen
-et al., 2020; Muise et al., 2022; Pillay et al., 2024a). In December
-2022, the Kunming-Montreal Global Biodiversity Framework (GBF) was
-adopted with the goal of restoring and safeguarding global biodiversity
-(Convention on Biological Diversity, 2023). Targets within this
-framework include restoring 30\% of all degraded ecosystems, protecting
-30\% of the Earth's terrestrial, inland water, and marine areas by 2030,
-and achieving no loss of high biodiversity importance areas, especially
-high ecological integrity ecosystems (Convention on Biological
-Diversity, 2023). However, there are currently no spatially explicitly
-assessments of ecological integrity available at the regional or larger
-scale, making progress towards these goals difficult to quantify.
+Forests contain large amounts of biodiversity (Cardinale et al., 2012;
+Myers, 1988) and provide important ecosystem services, including
+nutrient cycling, carbon sequestration, timber, recreation areas, among
+others (Thompson et al., 2009). However, the ongoing impact of
+anthropogenic pressures such as climate change, overexploitation of
+natural resources, and invasive species are leading to forest
+degradation and reducing the ability of forested ecosystems to provide
+these services (Grantham et al., 2020). Therefore it is imperative to
+maintain and conserve forests that have high ecological integrity, as
+defined by natural or near-natural levels of forest structure, function,
+and composition (Hansen et al., 2021). The importance of high-integrity
+ecosystems has led to a general call to move beyond simple
+quantification of ecosystem or forest extent in conservation strategies
+to other metrics which additionally consider the integrity of the
+conserved ecosystem (Ferrier et al., 2024; Hansen et al., 2020; Muise et
+al., 2022). In December 2022, the Kunming-Montreal Global Biodiversity
+Framework (GBF) was adopted with the goal of restoring and safeguarding
+global biodiversity (Convention on Biological Diversity, 2023). Targets
+within this framework include restoring 30\% of all degraded ecosystems,
+protecting 30\% of the Earth's terrestrial, inland water, and marine
+areas by 2030, and achieving no loss of high biodiversity importance
+areas, especially high ecological integrity ecosystems (Convention on
+Biological Diversity, 2023). However, there are currently no spatially
+explicitly assessments of ecological integrity available at broad
+spatial scales, making progress towards these goals difficult to
+quantify.
 
 Assessing ecological integrity requires a comprehensive evaluation of
 ecosystem structure, function, and composition, which can be effectively
 achieved using remote sensing-derived indicators (Pereira et al., 2013;
-Radeloff et al., 2024; Skidmore et al., 2021). Advances in remote
-sensing technologies such as light detection and ranging (lidar) allow
-for the accurate measurement of forest structural attributes, including
-canopy height, canopy cover, vertical complexity, and biomass (Bergen et
-al., 2009; Valbuena et al., 2020). These indicators of forest structure
-can provide critical insights into habitat quality and the capacity of
-ecosystems to support biodiversity (Gao et al., 2014; Guo et al., 2017;
-Macarthur and Macarthur, 1961), and are rapidly becoming available at
-the national scale through new modelling methods (Matasci et al., 2018a;
-Matasci et al., 2018b; Potapov et al., 2021). Additionally, remote
-sensing facilitates the monitoring of functional processes, such as
-photosynthetic activity and forest phenology, through the use of
-spectral indices such as the normalized difference vegetation index
-(NDVI) (Pettorelli et al., 2018, 2005), amongst others. By integrating
-these indices over the course of the year, it is possible to assess the
-energy availability, seasonality, and stress on an ecosystem (Radeloff
-et al., 2019; Razenkova, 2023), which have also been shown to be linked
-to biodiversity in a variety of taxa (Andrew et al., 2024, 2012; Coops
-et al., 2019, 2009b; Razenkova et al., 2022). Further, structural and
-functional indicators have been shown to have low information overlap
-(Muise et al., 2024), thereby making it suitable use satellite-derived
-structural and functional indicators to assess ecological integrity
-across regions, countries, or even continents by comparing them to a
-suitable reference state (Grantham et al., 2020; Hansen et al., 2020).
+Skidmore et al., 2021). Advances in remote sensing technologies such as
+light detection and ranging (lidar) allow accurate measurement of forest
+structural attributes, including canopy height, canopy cover, vertical
+complexity, and biomass (Bergen et al., 2009; Valbuena et al., 2020).
+These indicators of forest structure can provide critical insights into
+habitat quality and the ability of ecosystems to support biodiversity
+(Gao et al., 2014; Guo et al., 2017; Macarthur and Macarthur, 1961), and
+are rapidly becoming available at national scales through advanced
+modelling techniques (Matasci et al., 2018a; Matasci et al., 2018b).
+Additionally, optical remote sensing facilitates the monitoring of
+functional processes, such as photosynthetic activity and forest
+phenology, through the use of vegtetation indices (Pettorelli et al.,
+2018). By integrating these indices over the course of the year, it is
+possible to assess energy availability, seasonality, and stress on an
+ecosystem (Radeloff et al., 2019; Razenkova, 2023), which have also been
+shown to be linked to biodiversity across a range of taxa (Andrew et
+al., 2024; Coops et al., 2019, 2009; Razenkova et al., 2022).
+Furthermore, structural and functional indicators have been shown to
+have low information overlap (Muise et al., 2024), making the use of
+satellite-derived structural and functional indicators suitable for
+assessing ecological integrity across regions, countries, or even
+continents by comparing them to an appropriate reference state (Grantham
+et al., 2020; Hansen et al., 2020).
 
-Another key aspect of assessing ecological integrity is the reference
-state, typically defined as an example of an ecosystem that has not been
-subject major anthropogenic disturbance (Hansen et al., 2020; Nicholson
-et al., 2021). These reference states represent the baseline conditions
-of ecosystems and serve as a benchmark for assessing ecological health
-and guiding protection and restoration efforts (Nielsen et al., 2007). A
-number of methods have been proposed for identifying reference states,
-including protected areas (Arcese and Sinclair, 1997), historical
-(McNellie et al., 2020), and empirical reference states (Ferraro, 2009;
-Nielsen et al., 2007). Protected area reference states are commonly used
-because conservation efforts aim to mitigate anthropogenic pressures
-within protected areas (Geldmann et al., 2019), and the bias for
-protected areas to be placed in areas with low amounts of anthropogenic
-pressures (Joppa and Pfaff, 2009) and less productive land covers (Muise
-et al., 2022). Due to the bias in protected area placement, it is
+Another key aspect of assessing ecological integrity are reference
+states, typically defined as examples of an ecosystem whichhas not
+experienced major anthropogenic disturbance (Hansen et al., 2020). These
+reference states represent the baseline conditions of ecosystems and
+serve as a benchmark for assessing ecological health and guiding
+protection and restoration efforts (Nielsen et al., 2007). Various
+methods have been proposed for identifying reference states, including
+protected areas (Arcese and Sinclair, 1997), historical (McNellie et
+al., 2020), and empirical reference states (Ferraro, 2009; Nielsen et
+al., 2007). Protected area reference states are commonly used because
+conservation efforts aim to mitigate anthropogenic pressures within
+protected areas (Geldmann et al., 2019), and the bias for protected
+areas to be placed in areas with low amounts of anthropogenic pressures
+(Joppa and Pfaff, 2009) and less productive land cover types (Muise et
+al., 2022). Due to these biases in protected area placement, it is
 necessary to account for differences in environmental conditions and
-land covers when using them as a reference state, which is typically
-accomplished using counterfactual methods (Ferraro, 2009), such as
-coarsened exact matching (Iacus et al., 2012). Using these methods it
-becomes possible to identify a suitable reference state for the entirety
-of a region, by comparing to protected areas without anthropogenic
-pressure under similar environmental conditions and land covers.
+land cover types when using them as a reference state. This is typically
+done using counterfactual methods (Ferraro, 2009), such as coarsened
+exact matching (Iacus et al., 2012). Using these methods, it becomes
+possible to identify an appropriate reference state for an entire region
+by comparing it to protected areas without anthropogenic pressure under
+similar environmental conditions.
 
-Building on this foundation, the objective of this study is to develop
+Building on this foundation, the objective of this study was to develop
 and implement a spatially explicit framework for assessing ecological
 integrity at regional to continental scales using remote sensing data.
-Specifically, we aim to (1) integrate satellite-derived indicators of
+Specifically, we aimed to (1) integrate satellite-derived indicators of
 forest structure and function with robust counterfactual methods to
 establish reference states, (2) quantify deviations from these reference
 states as a measure of ecological degradation, and (3) demonstrate the
-utility of this method across a regional study area. This work addresses
+utility of this method over a regional study area. This study addresses
 a critical gap in the operationalization of global biodiversity targets,
 such as those outlined in the GBF, by providing a scalable, reproducible
 approach to monitor and guide conservation and restoration efforts. By
@@ -352,67 +353,80 @@ conservation strategies.
 
 \section{Methods}\label{methods}
 
-To accomplish our objectives, we propose a novel, data-driven approach
-to identify high-integrity forests based on various satellite derived
-metrics of ecosystem condition. First, we account for differences in
-environmental conditions by implementing a coarsened exact matching
-approach (Iacus et al., 2012). This ensures that ecosystems must be
-similar to their protected counterparts (i.e.~a forest in a valley
-bottom and a mountain top would not be compared to one another), which
-accounts for biases in protected area placement (Joppa and Pfaff, 2009;
-Muise et al., 2022). We use the sigma dissimilarity metric (Mahony et
-al., 2017) to calculate the similarity to high-integrity, undisturbed,
-forests in both structural and functional space as a metric of
-ecological integrity. Finally, we validate our results by assessing the
-impact anthropogenic pressures (Hirsh-Pearson et al., 2022) on our
-similarity metric, with the assumption that increased anthropogenic
-pressures should increase ecological dissimilarity. We focus our study
-area on Vancouver Island, British Columbia, Canada, as a case study and
-demonstration of the method.
+We propose a novel, data-driven approach to identify high-integrity
+forests based on various satellite derived metrics of ecosystem
+condition. First, we account for differences in environmental conditions
+by implementing a coarsened exact matching approach (Iacus et al.,
+2012). This ensures that ecosystems must be similar to their protected
+counterparts (i.e., a forest in a valley bottom and a mountain top would
+not be compared to one another), which accounts for biases in protected
+area placement (Joppa and Pfaff, 2009; Muise et al., 2022). We use the
+sigma dissimilarity metric (Mahony et al., 2017) to calculate the
+similarity to high-integrity, undisturbed, forests in both structural
+and functional space as a metric of ecological integrity
+(Figure~\ref{fig-flow}). Finally, we validate our results by assessing
+the impact anthropogenic pressures (Hirsh-Pearson et al., 2022) on our
+similarity metric, with the hypothesis that increased anthropogenic
+pressures should increase ecological dissimilarity.
+
+\phantomsection\label{cell-fig-flow}
+\begin{figure}[H]
+
+\centering{
+
+\includegraphics[width=4.05in,height=\textheight]{figures/flow.drawio.png}
+
+}
+
+\caption{\label{fig-flow}Conceptual flow diagram of the study.}
+
+\end{figure}%
 
 \subsection{Study Area}\label{sec-study}
 
 We focus on the forested areas of Vancouver Island, British Columbia,
-Canada. Vancouver Island has approximately 31,285 km\textsuperscript{2}
-of land area, of which 79.5\% is forested. The dominant forest species
-on Vancouver Island are Douglas-fir (\emph{Pseudotsuga menziesii}),
-western red cedar (\emph{Thuja plicata}), western hemlock (\emph{Tsuga
-heterophylla}), yellow cedar (\emph{Chamaecyparis nootkatensis}), and
-Sitka spruce (\emph{Picea sitchensis}) (Burns, 1990). Vancouver Island
-generally has a temperate maritime climate, with mild, wet winters, and
-cool, dry summers. There are four ecosystems on Vancouver Island as
-defined by British Columbia's biogeoclimatic ecosystem classification
-(BEC) framework (Pojar et al., 1987), Coastal Western Hemlock (CWH),
-Mountain Hemlock (MH), Coastal Douglas Fir (CDF), and Coastal
-Mountain-heather Alpine (CMA), which are broadly delineated based on
-soil, climate, and elevation. Forestry is an important industry on
-Vancouver Island, with the majority of the land base being managed for
-timber production under various tenures, including private ownership
-(Ministry of Water, Land and Resource Stewardship (WLRS), 2023). These
-harvesting practices have led to a need to protect remaining
-high-integrity forests, and restore degraded forests. Fires on Vancouver
-Island have historically been infrequently and of low severity (Daniels
-and Gray, 2006).
+Canada (Figure~\ref{fig-study}). Vancouver Island has approximately
+31,285 km\textsuperscript{2} of land area, of which 79.5\% is forested.
+Climate is temperate maritime, with mild, wet winters, and cool, dry
+summers. Vancouver Island is divided in four zones as defined by British
+Columbia's biogeoclimatic ecosystem classification (BEC) framework
+(Pojar et al., 1987), Coastal Western Hemlock, Mountain Hemlock, Coastal
+Douglas-fir, and Coastal Mountain-heather Alpine, which are broadly
+delineated based on climax vegetation species, soil, climate, and
+elevation. We limit our analyses to Coastal Western Hemlock, Mountain
+Hemlock, and Coastal Mountain-heather Alpine, as the Coastal Douglas-fir
+ecosystem is not present within our reference state. The dominant tree
+species on Vancouver Island are Douglas-fir (\emph{Pseudotsuga
+menziesii}), western red cedar (\emph{Thuja plicata}), western hemlock
+(\emph{Tsuga heterophylla}), yellow cedar (\emph{Chamaecyparis
+nootkatensis}), and Sitka spruce (\emph{Picea sitchensis}) (Burns,
+1990). Fires on Vancouver Island have historically been infrequent and
+of low severity (Daniels and Gray, 2006). Forestry is an important
+industry on Vancouver Island, with the majority of the land base being
+managed for timber production under various tenures (Ministry of Water,
+Land and Resource Stewardship (WLRS), 2023). These harvesting practices
+have led to a need to protect remaining high-integrity forests, and
+restore degraded forests.
 
 \subsubsection{Reference State}\label{reference-state}
 
-Strathcona Park provided an exceptional reference state for the
-undisturbed forest ecosystems on Vancouver Island due to its
-long-standing protection and large size. Established in 1911 as the
-oldest and largest provincial park in British Columbia, it encompasses
-2,480 km², with approximately 80\% designated as wilderness and Nature
-Conservancy Areas under the Park Act ({``Park {Act},''} 1996). These
-designations have ensured the preservation of natural ecological
-processes, leaving the park relatively free from anthropogenic
-disturbances over more than a century. Strathcona Park includes three of
-the island's BEC zones: CWH, MH, and CMA. However, the CDF zone, limited
-to the southern part of Vancouver Island and subject to extensive
-anthropogenic alteration, is not represented within the park. As such,
-we do not include CDF in our analysis. By focusing on undisturbed
-forests within Strathcona Park as a reference state, our analysis
-prioritizes areas of minimal human impact and ecological continuity,
-providing a robust benchmark for assessing forest ecosystems in their
-natural state.
+Strathcona Park was used as reference state to prioritize areas of
+minimal human impact and ecological continuity, and in order to provide
+a robust benchmark for assessing forest ecosystems in their natural
+state. It was established in 1911, and is the oldest and largest
+protected area in British Columbia, encompassing
+2,480\textsuperscript{2} km, with approximately 80\% designated as
+wilderness and Nature Conservancy Areas under the Park Act ({``Park
+{Act},''} 1996). These designations have ensured the preservation of
+natural ecological processes, leaving the park relatively free from
+anthropogenic disturbances over more than a century, with the exception
+of relatively small areas of concentrated impacts, such as Mount
+Washington Alpine Resort for recreational skiing and Myra Falls Mine.
+Strathcona Park includes three of the island's BEC zones, Coastal
+Western Hemlock, Mountain Hemlock, and Coastal Mountain-heather Alpine.
+Recreational activity such as skiing and hiking are permitted within
+Strathcona Park, and there are small unprotected regions within the park
+boundaries in which mining is permitted.
 
 \phantomsection\label{cell-fig-study}
 \begin{figure}[H]
@@ -424,7 +438,9 @@ natural state.
 }
 
 \caption{\label{fig-study}Study area on Vancouver Island, British
-Columbia, Canada, including the location of Strathcona Provincial Park.}
+Columbia, Canada, including the location of Strathcona Park. In the
+analysis we only include ecosystems found within Strathcona Park on the
+primary land mass of Vancouver Island.}
 
 \end{figure}%
 
@@ -432,113 +448,98 @@ Columbia, Canada, including the location of Strathcona Provincial Park.}
 
 \subsubsection{Forest Structure}\label{forest-structure}
 
-We utilize four forest structural attributes; canopy height, canopy
-cover, structural complexity, and aboveground biomass. Canopy height,
-canopy cover, structural complexity are standardized lidar-derived
-metrics suitable for biodiversity monitoring at the ecosystem scale
-(Valbuena et al., 2020). These are commonly used to assess patterns of
-structure in the vertical and horizontal directions within a single
-stand, rather than across a landscape, with these stand level metrics
-being linked to habitat, and thus, biodiversity (Bergen et al., 2009;
-Gao et al., 2014; Macarthur and Macarthur, 1961). The fourth attribute,
-aboveground biomass, represents the key ecosystem service of carbon
-sequestration (Duncanson et al., 2023; Naidoo and Ricketts, 2006), and
-is likely moderated by the three lidar-derived variables (Ali, 2019).
-
-These four forest structural attributes were generated in a wall-to-wall
-fashion at a 30 m spatial resolution by Matasci et al. (2018a) for the
-year 2015 using a random forest-kNN approach, that imputes lidar-derived
-forest structural attributes across Canada's forested ecosystems using
-Landsat-derived best-available-pixel (BAP) composites (Hermosilla et
-al., 2016; White et al., 2014) and topographic information (Matasci et
-al., 2018a; Matasci et al., 2018b). The BAP composites were generated by
-selecting surface reflectance observations from the Landsat archive over
-the course of Canada's growing season (August 1\textsuperscript{st} ± 30
-days), avoiding atmospheric effects including haze, clouds, and cloud
-shadows These composites were further refined by using a spectral trend
-analysis remove noise and infill data gaps (Hermosilla et al., 2015).
-Accuracy metrics for the forest structural attributes ranged from an
-RMSE of 29.7\% (structural complexity) to 65.8\% (aboveground biomass)
-and R\textsuperscript{2} values of 0.70 (aboveground biomass) to 0.13
-(structural complexity).
+Forest structure data were derived from the 30-m spatial resolution,
+wall-to-wall layers generated by Matasci et al. (2018a; 2018b) for the
+year 2015 using a random forest-kNN approach that imputed lidar-derived
+forest structural attributes across Canada's forested ecosystems. We
+chose the year 2015 as this data is freely available at
+\url{https://opendata.nfis.org/mapserver/nfis-change_eng.html}. This
+methodology used Landsat-derived best-available-pixel composites
+representing growing season conditions (Hermosilla et al., 2016; White
+et al., 2014), forest change information (Hermosilla et al., 2015a), and
+topographic and positional information as predictors to impute forest
+structural attributes by finding the most similar lidar plot within the
+set of random forest trees. All forest structural attributes were
+assigned at once, preserving the covariance in the response variables
+and prohibiting overextrapolation. Accuracy metrics for the forest
+structural attributes ranged from an RMSE of 29.7\% (structural
+complexity) to 65.8\% (aboveground biomass) and R\textsuperscript{2}
+values of 0.70 (aboveground biomass) to 0.13 (structural complexity)
+(Matasci et al., 2018a; Matasci et al., 2018b).
 
 \subsubsection{Forest Function}\label{forest-function}
 
-To represent forest ecosystem function, we use the Dynamic Habitat
-Indices (DHIs) dataset, a suite of intra-annual summaries of energy (as
-represented by a vegetation index or estimate of gross/net primary
-productivity) availability (Radeloff et al., 2019). Single time points
-of energy availability have commonly been used as indicators of
-ecosystem functioning (Pettorelli et al., 2018, 2005), and the DHIs
-advance upon these snapshots by generating yearly summaries of energy
-availability, thus more strongly linking these metrics to ecosystem
-functioning. The DHIs are composed of the total available energy over
-the course of a year (Cumulative DHI), the minimum amount of energy
-available over the course of a year (Minimum DHI), and the variation in
-energy available over the course of a year (Variation DHI). The DHIs
-have been shown to be indicative of ecosystem functioning, as they
-represent energy availability and seasonality (Berry et al., 2007), and
-biodiversity over a range of scales (Radeloff et al., 2019; Razenkova et
-al., 2022), extents (Coops et al., 2019, 2009a) and taxa (Michaud et
-al., 2014; Suttidate et al., 2021).
-
-We calculated the DHIs at a 30 m spatial resolution using Landsat data,
-following the methodology of Razenkova (2023). The DHIs were computed on
-Google Earth Engine (Gorelick et al., 2017) by creating a synthetic year
-of monthly NDVI composites using all available Landsat imagery from
-2011-2020 (centred on 2015). We used the Landsat QA band (Zhu and
-Woodcock, 2012) to filter pixels with clouds and cloud shadows. Monthly
-NDVI values were calculated by taking the median of each month's NDVI
-observations, ignoring the year the image was acquired. This resulted in
-DHIs at 30 m spatial resolution (Razenkova, 2023). The DHIs are
+To represent forest ecosystem function, we used the Dynamic Habitat
+Indices (DHIs) dataset, which comprise a suite of intra-annual summaries
+of energy availability (as represented by a vegetation index or estimate
+of gross/net primary productivity) (Radeloff et al., 2019). The DHIs are
+composed of the total available energy over the course of a year
+(Cumulative DHI), the minimum amount of energy available over the course
+of a year (Minimum DHI), and the variation in energy available over the
+course of a year (Variation DHI). The DHIs were calculated at a 30-m
+spatial resolution using Landsat data, following the methodology of
+Razenkova (2023). The DHIs were computed on Google Earth Engine
+(Gorelick et al., 2017) by creating a synthetic year of monthly NDVI
+composites using all available Landsat imagery from 2011-2020 (centred
+on 2015 to match the forest structural attribute data). We used the
+Landsat QA band (Zhu and Woodcock, 2012) to filter pixels with clouds
+and cloud shadows. Monthly NDVI values were calculated by taking the
+median of each month's NDVI observations, ignoring the year the image
+was acquired to increase the number of available images. The DHIs are
 calculated as the sum (Cumulative DHI), minimum (Minimum DHI), and
 coefficient of variation (Variation DHI) of these monthly observations.
-In this study, we focus on the Cumulative and Variation DHIs, as the
-minimum DHI is consistently 0 due to the presence of snow during winter
-in our study area.
 
 \subsubsection{Anthropogenic Pressures}\label{anthropogenic-pressures}
 
 We used the Canadian Human Footprint as developed by Hirsh-Pearson et
-al. (2022) to indicate anthropogenic pressures on the environment. The
+al. (2022) to inform on anthropogenic pressures on the environment. The
 Canadian Human Footprint is an additive pressure map generated by
 summing the 12 different anthropogenic pressures (built environments,
 crop land, pasture land, population density, nighttime lights, railways,
 roads, navigable waterways, dams and associated reservoirs, mining
-activity, oil and gas, and forestry), which ranges from zero to 55 for
-any cell across Canada. This cumulative dataset is also distributed with
-Canada-wide individual pressure values (Hirsh-Pearson et al., n.d.). We
-use the anthropogenic pressure layers to define our reference state by
-excluding pixels with any amount of anthropogenic pressure in Strathcona
-Park, and also assess the impact of anthropogenic pressures on
-ecological integrity. Here, we focus on the overall cumulative pressure
-map and four individual pressures: population density, built
-environments, roads, and forestry. We selected these four as other
-pressures (oil and gas; railroads) are not present on Vancouver Island,
-while pasture land and crop land do not coincide with currently forested
-areas. We reclassify the Canadian Human Footprint (Hirsh-Pearson et al.,
-n.d.; Hirsh-Pearson et al., 2022) into categorical data following
-Hirsh-Pearson et al. (2022) and Arias-Patino et al. (2024): a value of
-zero is considered intact, zero to four has low anthropogenic pressure,
-four to eight has medium anthropogenic pressure, and above eight has
-high anthropogenic pressure.
+activity, oil and gas, and forestry), which ranges from zero (lowest
+pressure) to 55 (highest pressure) across Canada. This cumulative
+dataset is also distributed with Canada-wide individual pressure values
+(Hirsh-Pearson et al., 2022).
 
-\subsubsection{Covariates}\label{covariates}
+\subsubsection{Disturbance Mask}\label{disturbance-mask}
 
-In order to ensure that we were identifying suitable reference states,
-we matched undisturbed forest areas within Strathcona Park with forested
-areas outside the park based on topographic and climatic features. We
-use a 30 m digital elevation model and derived slope dataset from the
+We use a forest disturbance mask to remove recently disturbed (since
+1984) pixels from our reference states, developed by Hermosilla et al.
+(2016), by using breakpoint analysis on normalized burn ratio values
+derived from annual summer season growing condition best-available-pixel
+composites (Hermosilla et al., 2015b; White et al., 2014). Detected
+changes were attributed to a disturbance agent (harvest, wildfire,
+non-stand replacing disturbances) using a random forest approach,
+resulting in an overall accuracy of 92\% ± 1.4\% (Hermosilla et al.,
+2016).
+
+\subsubsection{Forest Cover Mask}\label{forest-cover-mask}
+
+We used a land cover mask developed by Hermosilla et al. (2022; 2018) to
+mask out non-forested areas from our analysis. This land cover mask was
+developed by applying regional random forest models with an
+inverse-distance-weighted approach and refined and calibrated predictor
+data to identify 12 land cover classes, of which four are forested:
+coniferous, broadleaf, mixed wood, and wetland-treed (Hermosilla et al.,
+2022). Overall accuracy was 77.9\% ± 1.4\% across Canada (Hermosilla et
+al., 2022).
+
+\subsubsection{Topographic and climate
+data}\label{topographic-and-climate-data}
+
+We use a 30-m digital elevation model and derived slope dataset from the
 Advanced Spaceborne Thermal Emission and Reflection Radiometer (ASTER)
-Version 3 GDEM product (Abrams et al., 2020). We also used four climate
-variables; mean annual precipitation (MAP), mean annual temperature
-(MAT), mean warmest month temperature (MWMT), and mean coldest month
-temperature (MCMT) calculated from 1990-2020 climate normals using the
-ClimateNA software package at a 1 km spatial resolution, and downsampled
-to 30 m using cubic spline resampling in the \textbf{terra} (version
-1.7-71) R package (Hijmans, 2024) in R (R Core Team, 2024 version
-4.4.1). A visualization of one of each input dataset can be found in
-Figure~\ref{fig-data}.
+Version 3 GDEM product (Abrams et al., 2020).
+
+Climate variables: mean annual precipitation (MAP), mean annual
+temperature (MAT), mean warmest month temperature (MWMT), and mean
+coldest month temperature (MCMT) were calculated from 1990-2020 climate
+normals using the ClimateNA software package at a 1 km spatial
+resolution, and downsampled to 30-m using cubic spline resampling in the
+\textbf{terra} (version 1.7-71) R package (Hijmans, 2024) in R (R Core
+Team, 2024 version 4.4.1). A visualization of one of each input dataset
+can be found in Figure~\ref{fig-data}.
 
 \phantomsection\label{cell-fig-data}
 \begin{figure}[H]
@@ -557,103 +558,131 @@ exact matching procedure.}
 
 \end{figure}%
 
+\subsection{Metrics}\label{metrics}
+
+We utilized four forest structural attributes generated by Matasci et
+al. (2018a; 2018b): canopy height (95th percentile of elevation
+returns), canopy cover (percentage of first returns above 2m),
+structural complexity (coefficient of variation of elevation returns),
+and aboveground biomass. Canopy height, canopy cover, structural
+complexity are standardized lidar-derived metrics suitable for
+biodiversity monitoring at the ecosystem scale (Valbuena et al., 2020).
+The fourth attribute, aboveground biomass, represents the key ecosystem
+service of carbon sequestration (Naidoo and Ricketts, 2006), and is
+likely moderated by the three lidar-derived variables (Ali, 2019).
+
+For the forest function metrics, we used the Cumulative and Variation
+DHIs. We did not use the minimum DHI, which was consistently 0, due to
+the presence of snow during winter in our study area. The DHIs have been
+shown to be indicative of ecosystem functioning, as they represent
+energy availability and seasonality (Berry et al., 2007), which is
+correlated with biodiversity over a range of scales (Radeloff et al.,
+2019; Razenkova et al., 2022), extents (Coops et al., 2019, 2009) and
+taxa (Andrew et al., 2024; Coops et al., 2019).
+
 \subsection{Calculating Ecological Dissimilarity}\label{sec-sim}
 
 We calculated the sigma dissimilarity (Mahony et al., 2017) of forested
-pixels across our study area by using an expanded coarsened exact
-matching (CEM) technique (Iacus et al., 2012) (Figure~\ref{fig-flow})
-for each forest type (broadleaf, coniferous, mixed wood, and
-wetland-treed) (Hermosilla et al., 2018). The CEM technique creates
-comparable groups of observations across covariates by initially
-coarsening the covariates. In this instance, all six covariates
-(elevation, slope, mean annual precipitation, mean annual temperature,
-mean coldest month temperature, and mean warmest month temperature) were
-coarsened into five quintiles, hereafter referred to as bins. CEM then
-performs exact matching on the bins, with each pixel matched to a
-climatically and topographically similar group of pixels within the
-reference state (i.e.~Strathcona Park), hereafter referred to as
-stratum. If inusfficient numbers of matched pixels were found in the
-reference state, we calculated the stratum's nearest neighbour across
-covariate bins, and sampled up to 100 pixels, while minimizing the
-nearest neighbour distance. If the average nearest neighbour distance
-was greater than two, that stratum was excluded from the analysis.
+pixels across our study area using an expanded coarsened exact matching
+(CEM) technique (Iacus et al., 2012) for each forest type: broadleaf,
+coniferous, mixedwood, and wetland-treed (Hermosilla et al., 2022;
+Hermosilla et al., 2018). The CEM technique creates comparable groups of
+observations by first coarsening covariates into bins. In this study,
+all six covariates---elevation, slope, mean annual precipitation (MAP),
+mean annual temperature (MAT), mean coldest month temperature (MCMT),
+and mean warmest month temperature (MWMT)---were coarsened into five
+equally sized quintiles (bins). CEM then performs exact matching on
+these bins, with each pixel matched to a climatically and
+topographically similar group of pixels within the reference state
+(Strathcona Park). We use the anthropogenic pressure layers to further
+refine our reference state by excluding pixels with any amount of
+anthropogenic pressure in Strathcona Park, and also removed pixels
+disturbed since 1984 from the reference state. These matched groups are
+referred to as strata. If insufficient reference state pixels were
+identified within a stratum, we sampled up to 100 pixels from the
+nearest neighbours across climate and topographic bins, minimizing the
+nearest neighbour distance. Strata with average nearest neighbour
+distances greater than or equal to two were excluded from the analysis
+as they did not have an environmentally similar reference state to
+compare to.
 
-\phantomsection\label{cell-fig-flow}
-\begin{figure}[H]
+We then calculated the sigma dissimilarity metric to assess the
+dissimilarity of all pixels---based on structural, functional, and
+combined structural and functional attributes---relative to the
+reference states. We first transformed the variables into principal
+components, and calculated the euclidean distance from the reference
+states mean centroid for all pixels, by stratum. This is also called the
+Mahalanobis distance, and accounts for covariations in the data
+(Mahalanobis, 1936). We then convert the Mahalanobis distance into sigma
+dissimilarity by rescaling it into percentiles of the chi distribution
+with one degree of freedom, accounting for the effect of dimensionality
+in creating a multivariate dissimilarity metric (Mahony et al., 2017).
+This metric serves as a proxy for ecological integrity, with higher
+values indicating greater deviation from near-natural conditions
+observed in the reference state.
 
-\centering{
+\subsection{Impact of Anthropogenic Pressure on Ecological
+Dissimilarity}\label{impact-of-anthropogenic-pressure-on-ecological-dissimilarity}
 
-\includegraphics[width=4.2in,height=\textheight]{figures/flow.drawio.png}
-
-}
-
-\caption{\label{fig-flow}Conceptual flow diagram of the study.}
-
-\end{figure}%
-
-Following the matching procedure, we identified reference states as
-undisturbed (human footprint = 0; no fire or harvesting disturbance)
-(Hermosilla et al., 2015; Hirsh-Pearson et al., 2022) pixels by stratum
-within Strathcona Park. We then determine the dissimilarity of all
-pixels, in structural, functional, and structural + functional
-attributes, to the reference states by calculating the sigma
-dissimilarity metric. Sigma dissimilarity standardizes the Mahalanobian
-distance (Mahalanobis, 1936) by rescaling it into percentiles of the chi
-distribution to account for the effect of dimensionality when creating a
-multivariate dissimilarity metric (Mahony et al., 2017). We calculated
-sigma dissimilarity for every stratum with a suitable reference state as
-generated by our matching procedure. This dissimilarity metric
-effectively functions as a multivariate proxy for ecological integrity,
-with higher values indicating a larger difference from near natural
-conditions found within the reference state.
-
-\subsection{Impacts of anthropogenic pressure on ecological
-dissimilarity}\label{impacts-of-anthropogenic-pressure-on-ecological-dissimilarity}
+Here, we assessed the impact of the cumulative pressure map and four
+individual pressures: population density, built environments, roads, and
+forestry. We selected these four as other pressures (oil and gas;
+railroads) are not present on Vancouver Island, while pasture land and
+crop land do not coincide with currently forested areas. We reclassify
+the overall Canadian Human Footprint (Hirsh-Pearson et al., 2022) and
+individual pressures into categorical data following Hirsh-Pearson et
+al. (2022) and Arias-Patino et al. (2024): a value of zero is considered
+intact, zero to four has low anthropogenic pressure, four to eight has
+medium anthropogenic pressure, and above eight has high anthropogenic
+pressure.
 
 To assess the cumulative impact of anthropogenic pressure on ecological
-dissimilarity, we implement stratified sampling on all suitable stratum,
-sampling 100 samples from each anthropogenic pressure class. For our
-individual pressures, we sampled an additional 100 samples for each
-pressure class. Sampling was performed using the \textbf{sgsR} (version
-1.4.5) R package (Goodbody et al., 2023) with the Quiennec method
-(Queinnec et al., 2021). Geospatial data processing was performed using
-the \textbf{terra} (version 1.7-78) (Hijmans, 2024), \textbf{sf}
-(version 1.0-16) (Pebesma, 2018; Pebesma and Bivand, 2023), and
-\textbf{tidyterra} (version 0.6.1) (Hernangómez, 2023) R packages.
+dissimilarity, we implemented stratified sampling on all suitable
+stratum, sampling 100 pixels from each anthropogenic pressure class with
+a minimum distance between samples of 1000 m. For our individual
+pressures, we sampled an additional 100 pixels for each pressure class
+with a minimum distance between samples of 1000 m. Sampling was
+performed using the \textbf{sgsR} (version 1.4.5) R package (Goodbody et
+al., 2023) with the Quiennec method. The Quiennec method ensures that
+samples are drawn from regions surrounded by identical values, meaning
+no edge pixels are selected (Queinnec et al., 2021). Geospatial data
+processing was performed using the \textbf{terra} (version 1.7-78)
+(Hijmans, 2024) and \textbf{sf} (version 1.0-16) (Pebesma, 2018) R
+packages.
 
-We used a one-way analysis of variance (ANOVA) with a critical p value
+We used a one-way analysis of variance (ANOVA) with a critical p-value
 of 0.05 to identify statistically significant differences in the mean
 similarity values across cumulative anthropogenic pressure classes. We
-account for family-wise error rate in our ANOVAs using the
+accounted for family-wise error rate in our ANOVAs using the
 Holm-Bonferroni method (Holm, 1979), only continuing the analysis for
 similarity variables with significant ANOVAs at the adjusted critical
 value. We used a Tukey HSD post-hoc test to identify which means are
 different from the control group (intact pixels), which also controls
 for the family-wise error rate.
 
-We follow the same protocol to identify the difference in means for each
-anthropogenic pressure of interest (roads, population density, forestry,
-and built environment). We compare each pressure to the same `no
-pressure' values sampled in the cumulative pressure analysis. All
-statistical analysis were conducted using the \textbf{rstatix} (version
-0.7.2) R package (Kassambara, 2023).
+The difference in means for each anthropogenic pressure of interest
+(roads, population density, forestry, and built environment) were
+identified following the same protocol. We compared each pressure to the
+same `no pressure' values sampled in the cumulative pressure analysis.
+All statistical analysis were conducted using the \textbf{rstatix}
+(version 0.7.2) R package (Kassambara, 2023).
 
 \section{Results}\label{results}
 
 We generated maps of sigma dissimilarity for ecosystem structure,
-function, and structure + function across Vancouver Island as a measure
-of ecological integrity (Figure~\ref{fig-regional}). We show three
-representative examples within Vancouver Island to display the impact of
-anthropogenic pressures on ecosystem similarity, displaying a region
-near Lake Cowichan where harvesting is a common pressure
+function, and combined structure and function over the study area in
+Vancouver Island as a measure of ecological integrity
+(Figure~\ref{fig-regional}). Three representative examples to display
+the impact of anthropogenic pressures on ecosystem similarity are shown:
+a region near Lake Cowichan where harvesting is a common pressure
 (Figure~\ref{fig-regional} A), a protected area (Elk Falls Provincial
 Park) near Campbell River with high population density
 (Figure~\ref{fig-regional} B), and a region with lower anthropogenic
 pressures (Figure~\ref{fig-regional} C). Functional dissimilarity shows
-higher variation across all three sites than functional or structural
-and functional dissimilarity. The protected region near Campbell River
-(Figure~\ref{fig-regional} B) has lower dissimilarity metrics for all
-three metrics.
+higher variation across all three sites than functional or combined
+structural and functional dissimilarity. The protected region near
+Campbell River (Figure~\ref{fig-regional} B) has lower dissimilarity
+metrics for all three metrics.
 
 \phantomsection\label{cell-fig-regional}
 \begin{figure}[H]
@@ -665,26 +694,28 @@ three metrics.
 }
 
 \caption{\label{fig-regional}Regional details of the human footprint and
-sigma dissimilarity across the sites on Vancouver Island. Subset A show
-Cowichan Lake, a heavily harvested region. Subset B shows Elk Falls
-Provincial Park, just outside Campbell River, a region with high
-population density. Subset C shows a region with generally low
-anthropogenic pressure.}
+sigma dissimilarity across the sites on Vancouver Island. Note that
+non-forested pixels and forested pixels without suitable matches (nn
+\textgreater{} 2) are not shown. Subset A show Cowichan Lake, a heavily
+harvested region. Subset B shows Elk Falls Provincial Park, just outside
+Campbell River, a region with high population density. Subset C shows a
+region with generally low anthropogenic pressure.}
 
 \end{figure}%
 
-We used ANOVAs and post-hoc Tukey HSD tests to assess the influence of
-the cumulative human footprint on ecological dissimilarity
-(Figure~\ref{fig-boxplot-overall}) . Results indicate that structural
-(ANOVA; p = 0.014) and structural + functional (ANOVA; p = 0.006)
-dissimilarity was significantly different under varying anthropogenic
-pressures. The functional dissimilarity metric did not significantly
-vary with anthropogenic pressures. The Tukey HSD test revealed that high
-levels of anthropogenic pressures significantly influence dissimilarity
-to the structural (ANOVA; p \textless{} 0.01) and structural +
-functional (ANOVA; p \textless{} 0.05) reference state. Medium and low
+Results on the influence of the cumulative human footprint on ecological
+dissimilarity indicate that mean structural (ANOVA; p = 0.014) and
+combined structural and functional (ANOVA; p = 0.006) dissimilarity was
+significantly different under varying anthropogenic pressures
+(Figure~\ref{fig-boxplot-overall}). We found no evidence that the
+functional dissimilarity metric significantly varied with anthropogenic
+pressures. The Tukey HSD test revealed that high levels of anthropogenic
+pressures significantly influenced dissimilarity to the structural
+reference state, increasing from 0.11 to 0.24 (ANOVA; p \textless{}
+0.01), and to the combined structural and functional reference state,
+increasing from 0.02 to 0.07 (ANOVA; p \textless{} 0.05). Medium and low
 levels of anthropogenic pressures did not significantly influence any
-dissimilarity metrics.
+dissimilarity
 
 \phantomsection\label{cell-fig-boxplot-overall}
 \begin{figure}[H]
@@ -696,24 +727,24 @@ dissimilarity metrics.
 }
 
 \caption{\label{fig-boxplot-overall}Boxplots of sigma similarity to the
-reference state in Strathcona Provincial Park by cumulative human
-footprint category. ANOVA p-values corrected using the Holm-Bonferroni
-method. * indicates a Tukey HSD p-value \textless{} 0.05. ** indicates a
-Tukey HSD p-value \textless{} 0.01.}
+reference state in Strathcona Park by cumulative human footprint
+category. ANOVA p-values corrected using the Holm-Bonferroni method. *
+indicates a Tukey HSD p-value \textless{} 0.05. ** indicates a Tukey HSD
+p-value \textless{} 0.01.}
 
 \end{figure}%
 
-Further we assessed the impact of individual pressures on ecological
+The assessment of the impact of individual pressures on ecological
 dissimilarity to the reference state
-(Figure~\ref{fig-boxplot-individual}). We found that functional
+(Figure~\ref{fig-boxplot-individual}) indicated that functional
 dissimilarity was not significantly influenced by any anthropogenic
 pressures, and that roads did not influence any type of ecological
 dissimilarity (ANOVAs; all p \textgreater{} 0.05). Population density,
 forestry and harvesting, and built environments did significantly
-increase both structural and structural + functional dissimilarity
-(ANOVAs; all p \textless{} 0.01). Only the highest levels of pressures
-for each anthropogenic pressure category significantly influenced
-ecological dissimilarity (ANOVAs; all p \textless{} 0.01).
+increase both structural and combined structural and functional
+dissimilarity (ANOVAs; all p \textless{} 0.01). Only the highest levels
+of pressures for each anthropogenic pressure category significantly
+influenced ecological dissimilarity (ANOVAs; all p \textless{} 0.01).
 
 \phantomsection\label{cell-fig-boxplot-individual}
 \begin{figure}[H]
@@ -725,149 +756,227 @@ ecological dissimilarity (ANOVAs; all p \textless{} 0.01).
 }
 
 \caption{\label{fig-boxplot-individual}Boxplots of sigma similarity to
-the reference state in Strathcona Provincial Park by individual
-anthropogenic pressures. ANOVA p-values corrected using the
-Holm-Bonferroni method. ** indicates a Tukey HSD p-value \textless{}
-0.01. *** indicates a Tukey HSD p-value \textless{} 0.001.}
+the reference state in Strathcona Park by individual anthropogenic
+pressures. ANOVA p-values corrected using the Holm-Bonferroni method. **
+indicates a Tukey HSD p-value \textless{} 0.01. *** indicates a Tukey
+HSD p-value \textless{} 0.001.}
 
 \end{figure}%
 
 \section{Discussion}\label{discussion}
 
-Here, we propose a novel approach to assess ecological integrity across
-forested ecosystems. Our method incorporates an expanded coarsened exact
-matching technique (Iacus et al., 2012) and a multidimensional
-dissimilarity metric (Mahony et al., 2017). This method integrates a
-robust method for generating suitable reference states through the use
-of a large, long-term protected area, and excluding any pressures and
-disturbances, and estimates ecological integrity as dissimilarity to the
-reference state by using the sigma dissimilarity metric, which accounts
-for covariations in the data and varying dimensionality in input
-datasets. The methodology is demonstrated on the forested areas of
-Vancouver Island, which are environmentally similar to the reference
-state, Strathcona Park. Furthermore, the influence of anthropogenic
-pressure on ecological integrity is assessed. It was found that high
-levels of anthropogenic pressure increase structural and structural +
-functional dissimilarity, thus showing a reduction in ecological
-integrity (Figure~\ref{fig-boxplot-overall};
-Figure~\ref{fig-boxplot-individual}). However, functional dissimilarity
-was never influenced by anthropogenic pressures.
+There is a growing need to move beyond area-based approaches to
+conservation. The GBF proposes to protected 30\% of all ecosystems by
+2030, emphasizing the preservation of high-integrity ecosystems
+(Convention on Biological Diversity, 2023; Ferrier et al., 2024).
+However, data and approaches for delineating high-integrity ecosystems
+are currently lacking. In this study, we developed a novel, data-driven
+framework to assess ecological integrity in forested landscapes, using
+coarsened exact matching (Iacus et al., 2012) to establish robust
+reference states and sigma dissimilarity metrics (Mahony et al., 2017)
+to quantify structural and functional deviations from these
+high-integrity conditions. The approach was demonstrated using forested
+areas on Vancouver Island, with Strathcona Park serving as the reference
+state due to its environmental similarity to the study area. Results
+indicate that high levels of anthropogenic pressure significantly
+increase structural and combined structural and functional
+dissimilarity, highlighting a reduction in ecological integrity
+(Figure~\ref{fig-boxplot-overall}). In contrast, functional
+dissimilarity remained unaffected by anthropogenic pressures,
+potentially indicating a decoupling between forest structure and annual
+energy availability (Muise et al., 2024), even under varying levels of
+anthropogenic pressure. Our results provide a scalable method for
+mapping forest ecological integrity, offering valuable insights for
+conservation planning, protected area management, and impact assessments
+beyond the study area.
 
-Our structural dissimilarity metric is similar to other metrics of
-forest condition, such as the forest structural condition index (Hansen
-et al., 2019), however, it is not reliant on expert-set thresholds. This
-potentially allows our metric to be transferable to new ecosystems and
-environments, even allowing for the assessment of dissimilarity for
-other ecosystems or a species' core ranges by changing the reference
-state. This could be important for conservation efforts of rare and
-threatened species. Further, we found that high cumulative anthropogenic
-pressures increases structural dissimilarity
-(Figure~\ref{fig-boxplot-overall}), and that high individual pressures,
-except roads, also increase structural dissimilarty
-(Figure~\ref{fig-boxplot-individual}). Prior research has generally
-focused on tropical forests, where Bourgoin et al. (2024) found that
-anthropogenic forest degradation influenced aboveground biomass and
-canopy height, however, they focus on edge effects, fire, and selective
-logging, rather than cumulative and individual anthropogenic pressures.
-Li et al. (2023) also found a global impact of anthropogenic pressures
-on forest structural density; however, they do not explore which facets
-of anthropogenic pressure are the strongest driver of forest
-degradation. Hansen et al. (2020) integrate forest structure and
-anthropogenic pressure into the forest structural integrity index to
-identify forest stands of high ecological value (high structural
-quality; low anthropogenic footprint). We further this body of research
-by assessing individual pressures on a multivariate metric of structural
-similarity to a high-quality reference state
-(Figure~\ref{fig-boxplot-individual}). While we assess impacts of
-pressures on structural dissimilarity, integrating them together,
-similar to Hansen et al. (2020), could help with protected area
-prioritization efforts outside of moist tropical forests.
+\subsection{Strengths and Limitations for a Data-Driven Approach to
+Assessing Forest
+Integrity}\label{strengths-and-limitations-for-a-data-driven-approach-to-assessing-forest-integrity}
 
-We also assess functional dissimilarity to high-integrity forests. We
-found that functional dissimilarity more strongly varies than structural
-dissimilarity (Figure~\ref{fig-regional}). However, we did not find any
-significant influence of cumulative or individual anthropogenic
-pressures on our forest functioning metrics
-(Figure~\ref{fig-boxplot-overall}; Figure~\ref{fig-boxplot-individual}).
-This may in part be due to the DHIs reliance on vegetation indices or
-productivity estimates, in our case NDVI. Vegetation indices have been
-shown to saturate at high levels of canopy cover and leaf area index
-(Huete et al., 2002; Huete et al., 1997), which are common in our study
-area. Recent research has shown that seasonality, here represented as
-the Variation DHI, drives functional diversity in avian assemblages,
-however, these results also strongly varied by region (Keyser et al.,
-2024). It is possible that examining anthropogenic pressure impacts in
-regions with more variation in canopy cover and stronger seasonality may
-lead to differing results, as Vancouver Island has a moderate climate,
-and is primarily dominated by conifer species Section~\ref{sec-study}.
+Our methodology offers several advantages in assessing ecological
+integrity at regional and national scales, including a lack of
+information on high quality reference states, the ability to incorporate
+and compare across multiple indicators of ecological integrity, and the
+transferability of the methods. By leveraging a robust, data-driven
+reference state derived from a large, long-established protected area,
+we ensure that comparisons are made against ecologically intact
+ecosystems that are both attainable and environmentally consistent with
+areas being evaluated (McNellie et al., 2020). The use of the sigma
+dissimilarity metric allows for a more nuanced evaluation of ecological
+integrity by accounting for covariations in the data and adapting to
+varying dimensionality in input datasets (Mahony et al., 2017), reducing
+biases associated with univariate assessments. Additionally, our
+approach enhances environmental consistency by employing an expanded
+coarsened exact matching technique (Iacus et al., 2012), which preserves
+environmental comparability between reference states and assessed
+forests. These methodological advancements improve the transferability
+of ecological integrity assessments across different forested
+ecosystems, providing a scalable and adaptable framework for
+conservation planning.
 
-We identified high-integrity forest reference states across a large
-region using a data-driven approach. Often, it is common for suitable
-reference states to be unavailable due to a lack of data on regions of
-high ecological integrity, especially across large regions (McNellie et
-al., 2020). We attempt to circumvent this by using a large,
-long-established protected area (Strathcona Provincial Park;
-Figure~\ref{fig-study}), and a matching technique that preserves
-environmental similarity between reference states and their
-counterparts. The long-established, large protected area ensures that
-little anthropogenic pressures or modification have been made to the
-landscape, while also guaranteeing that the reference state is
-attainable for a given topography and climate (Corlett, 2016; Hobbs et
-al., 2014) due to contemporary nature of the reference state. Our
-matching technique (coarsened exact matching, combined with a nearest
-neighbour approach when no exact match is available) allows us to
-generate reference states in a near wall-to-wall fashion, which ensures
-environmental consistency between reference state and compared pixels.
+Our structural dissimilarity metric offers a flexible, data-driven
+alternative to traditional forest integrity assessments, enhancing its
+applicability across diverse ecosystems. Unlike threshold-based
+approaches, which often require predefined benchmarks for structural
+integrity (Hansen et al., 2019), our method uses sigma dissimilarity to
+the reference state to quantify ecological integrity in a multivariate
+and context-specific manner. This adaptability makes our framework more
+transferable to different forested ecosystems, as it does not assume a
+fixed structural composition but instead evaluates integrity based on
+the relative similarity to a high-integrity reference state, following
+the definition of ecological integrity (Hansen et al., 2021). By
+integrating both structural and functional dimensions, our methodology
+allows for a broader applicability beyond temperate or tropical forests,
+making it a valuable tool for conservation planning across diverse
+forested regions.
 
-Our techniques move beyond traditional impact evaluation techniques
-(Ferraro, 2009) commonly used in protected area effectiveness
-assessments by generating spatially explicit maps of ecological
-dissimilarity, and generating a multivariate, rather than univariate,
-assessment of similarity to high ecological integrity forests. While our
-methods use a data-driven approach to derive reference states using a
-high-quality protected area, the method is inherently reference state
-agnostic. Dissimilarity metrics could be generated for a specific
-ecosystem, species, or community at landscape scales, identifying areas
-with similar structural and functional conditions. This could be
-especially relevant for species with known habitat requirements, such as
-the marbled murrelet (\emph{Brachyramphus marmoratus}) needing tall,
-complex forests as nesting habitat (Cosgrove et al., 2024)
+Often, impact evaluation methods applied to conservation systems seek to
+determine the system wide differences between protected and unprotected
+areas, which are often reported as a single value (Ferraro, 2009;
+Geldmann et al., 2019). Here, by integrating matching techniques with a
+multidimensional dissimilarity metric, we can generate
+spatially-explicit maps of ecological dissimilarity, providing insight
+beyond the overall difference between protected and unprotected areas.
+This gives a more comprehensive understanding of protected area
+effectiveness, and can allow for improved prioritization of conservation
+resources and allows for the analysis of ecological integrity with other
+datasets, such as the human footprint (Arias-Patino et al., 2024;
+Hirsh-Pearson et al., 2022).
 
-Assessing individual pressure influences on the environment is also
-relevant to questions of how cumulative anthropogenic pressure maps are
-calculated. There is an ongoing debate surrounding anthropogenic
-pressure mapping methods, as there is little information on mechanistic
-interactions between pressures (Arias-Patino et al., 2024). We assess
-individual pressures on ecological dissimilarity in forests across
-Vancouver Island, Canada, an advancement upon the current standard of
-using a single value of cumulative anthropogenic pressure (Bourgoin et
-al., 2024; Li et al., 2023). Similar methods could be used to examine
-mechanistic pressure interactions across large scales by examining
-combinations of pressures rather than individual or overall impacts.
+Our methodology provides a versatile framework for conservation and
+habitat assessments, with applications extending beyond Vancouver
+Island's forested ecosystems. For example, this framework can be applied
+to identify high-quality habitat for species with specific structural
+requirements, such as the marbled murrelet (\emph{Brachyramphus
+marmoratus}), which relies on old-growth forests with tall, complex
+canopies for nesting (Cosgrove et al., 2024). Additionally, the ability
+to quantify ecological dissimilarity across landscapes enables its use
+in protected area prioritization, landscape connectivity analysis, and
+ecological restoration planning. As global conservation efforts, such as
+the 30x30 goal, emphasize the need for protecting high-integrity
+ecosystems (Convention on Biological Diversity, 2023), our approach
+offers a scalable and transferable tool for identifying and managing
+critical conservation areas.
+
+A key challenge in applying our methodology lies in selecting an
+appropriate reference state, which is integral for accurately measuring
+ecological integrity. The selection of an appropriate reference state is
+critical, as the ecological integrity of assessed forests is measured
+relative to this benchmark (McNellie et al., 2020). While our use of a
+large, long-established protected area ensures minimal anthropogenic
+influence, differences in environmental conditions between the reference
+and assessed areas could introduce variability, especially in cases
+where no perfect match is found. We could potentially include additional
+areas as reference states to reduce the number of imperfect or
+unavailable matches, however, nearly all of the protected areas on
+Vancouver Island do not meet our large and long-established criterion.
+Thus, there are tradeoffs to be considered when expanding the reference
+state to additional newer or smaller parks.
+
+\subsection{Ecological Integrity and Anthropogenic Pressures on
+Vancouver
+Island}\label{ecological-integrity-and-anthropogenic-pressures-on-vancouver-island}
+
+Our results indicate that high levels of cumulative anthropogenic
+pressure led to increased structural dissimilarity, demonstrating a
+small but significant decline in forest ecological integrity
+(Figure~\ref{fig-boxplot-overall}). This aligns with previous studies
+that have identified structural degradation under anthropogenic
+influence (Bourgoin et al., 2024; Li et al., 2023), though our approach
+extends these findings by applying a multivariate dissimilarity metric
+rather than relying on singular structural indicators such as canopy
+height or biomass. The observed structural dissimilarity suggests that
+human activities are altering forest structure, reducing its resemblance
+to high-integrity reference states. These results highlight the need for
+conservation strategies that mitigate structural degradation,
+particularly in regions experiencing increasing human pressures.
+
+Examining the impact of individual anthropogenic pressures on forest
+structure revealed varying effects, with most pressures contributing to
+increased structural dissimilarity
+(Figure~\ref{fig-boxplot-individual}). However, roads did not
+significantly impact structural dissimilarity, contrasting with other
+pressures such as built environments, harvesting, and population
+density, which all led to measurable increases in structural
+dissimilarity. These results suggests that while roads can fragment
+landscapes and alter connectivity, their direct influence on stand-level
+forest structure may be less pronounced compared to land-uses that
+actively modify vegetation composition and density (Bourgoin et al.,
+2024; Wulder et al., 2011). Our findings emphasize the importance of
+considering individual pressure types rather than relying solely on
+cumulative impact metrics, as different pressures may drive ecological
+degradation through distinct mechanisms. These individual component
+results also contribute to discussions around anthropogenic pressure
+mapping methods, as there is little information on the mechanistic
+interactions between anthropogenic pressures (Arias-Patino et al.,
+2024).
+
+In contrast to structural dissimilarity, functional dissimilarity
+exhibited stronger spatial variation (Figure~\ref{fig-regional}) but was
+not significantly influenced by cumulative or individual anthropogenic
+pressures (Figure~\ref{fig-boxplot-overall} ;
+Figure~\ref{fig-boxplot-individual}). This suggests that functional
+attributes of forests, such as productivity and seasonal dynamics, may
+be more resilient to direct human pressures than structural
+characteristics. While prior research has linked anthropogenic forest
+degradation to changes in canopy function (Bourgoin et al., 2024), our
+findings indicate that in temperate ecosystems with consistently high
+canopy cover, such as Vancouver Island, functional metrics may not be
+strongly linked to anthropogenic pressures. These results highlight the
+complexity of ecosystem functioning and suggest that factors beyond
+anthropogenic pressure, such as climate variability and natural
+disturbance regimes, may play a dominant role in shaping functional
+integrity.
+
+Several factors may explain the lack of a significant anthropogenic
+influence on functional dissimilarity. NDVI-based functional metrics,
+such as the DHIs, are known to saturate in forests with high canopy
+cover and leaf area index (Huete et al., 2002), which are prevalent in
+our study area (Muise et al., 2024). Additionally, Vancouver Island's
+temperate climate and dominance of coniferous forests may result in
+relatively stable seasonal energy availability compared to ecosystems
+with stronger seasonality, such as tropical or deciduous forests. The
+low functional response to anthropogenic pressures observed in our study
+suggests that alternative functional indicators, such as phenospectral
+metrics (Osei Darko et al., 2024) or multi-spectral indices beyond NDVI,
+may be needed to better capture human-induced functional changes in
+forested landscapes. Future research should explore alternative
+functional metrics that are less prone to saturation, particularly in
+ecosystems with dense, evergreen canopies like those on Vancouver
+Island.
 
 \section{Conclusion}\label{conclusion}
 
-Identifying the location of high-integrity forests is integral to
-conservation efforts, especially when considering protected area
-management (Hansen et al., 2021; Pillay et al., 2024a). Until recently,
-area based conservation has dominated management strategies, which does
-not ensure that high-integrity ecosystems, typically having high
-biodiversity and ecosystem services present, are protected (Ferrier et
-al., 2024; Pillay et al., 2024a). Recent efforts to identify
-high-integrity forests have been primarily focused on moist tropical
-forests (Hansen et al., 2019), which contain large numbers of threatened
-species reliant on intact forest structures (Pillay et al., 2024b). Due
-to their focus on moist tropical forests, their methodology cannot
-easily be transferred to other forested ecosystems, particularly due to
-their focus on tall, complex trees (Hansen et al., 2019) without
-considering local environmental conditions. Here, we use matching
-techniques to circumvent this, and use sigma dissimilarity to consider
-additional structural and functional information, allowing us to
-identify high-integrity forests without relying on expert defined
-thresholds which may not be suitable or available in all biomes. This
-advance can be used to conservation planning strategies, as we work
-towards the 30x30 goal outlined in the GBF (Convention on Biological
-Diversity, 2023).
+As the international community moves toward the goal of protecting 30\%
+of high-integrity ecosystems by 2030, it is critical to identify the
+location of such ecosystems. However, identifying high-integrity forests
+at the national or regional scales is difficult due to a lack of
+comprehensive spatial data on high-integrity ecosystems and varying
+definitions of what constitutes a high-integrity forest. In this study,
+we propose a novel, data-driven framework to assess ecological integrity
+in forested ecosystems. The methodology integrates a robust technique
+for generating suitable reference states through the use of a large,
+long-term protected area, and by excluding any pressures and
+disturbances. Ecological integrity is estimated as dissimilarity to the
+reference state by using the sigma dissimilarity metric, which accounts
+for covariations in the data and varying dimensionality in input
+datasets. We demonstrate our methodology on forested areas of Vancouver
+Island which are environmentally similar to the reference state,
+Strathcona Park. Furthermore, we assess the impact of anthropogenic
+pressures on our metric, revealing that high levels of anthropogenic
+pressures increase structural and combined structural and functional
+dissimilarity, indicating a decline in ecological integrity. However, it
+is notable that functional dissimilarity remained unaffected by
+anthropogenic pressures. The findings from this study offer significant
+insights that can be leveraged to enhance conservation planning efforts
+by providing a scalable, data-driven approach to identifying
+high-integrity forests. The potential of this framework to support
+evidence-based decision-making in conservation science is considerable
+Additionally, this methodology can be adapted for use in other regions,
+aiding global efforts to meet the 30x30 conservation targets and address
+complex environmental challenges in the face of increasing human
+pressures (Convention on Biological Diversity, 2023).
 
 \section{Acknowledgements}\label{acknowledgements}
 
@@ -877,9 +986,7 @@ available for download at \url{https://ca.nfis.org/maps_eng.html}. The
 authors thank Dr.~Michael A. Wulder and Dr.~Joanne C. White for
 development and early access to these National Terrestrial Ecosystem
 Mapping System (NTEMS) products. They thank Dr.~Elena Razenkova for
-early access to the Landsat-derived Dynamic Habitat Indices. ERM would
-like to thank the members of the IRSS for many helpful conversations
-throughout the preparation of this manuscript.
+early access to the Landsat-derived Dynamic Habitat Indices.
 
 \section{Ethics}\label{ethics}
 
@@ -909,12 +1016,6 @@ Andrew, M.E., Bolton, D.K., Rickbeil, G.J.M., Coops, N.C., 2024. Facets
 of functional diversity support niche-based explanations for Australian
 biodiversity gradients. Journal of Biogeography 51, 467--482.
 \url{https://doi.org/10.1111/jbi.14770}
-
-\bibitem[\citeproctext]{ref-andrew2012a}
-Andrew, M.E., Wulder, M.A., Coops, N.C., Baillargeon, G., 2012.
-Beta-diversity gradients of butterflies along productivity axes. Global
-Ecology and Biogeography 21, 352--364.
-\url{https://doi.org/10.1111/j.1466-8238.2011.00676.x}
 
 \bibitem[\citeproctext]{ref-arcese1997}
 Arcese, P., Sinclair, A.R.E., 1997. The role of protected areas as
@@ -970,23 +1071,11 @@ multiple species richness hypothesis globally using remote sensing
 habitat indices. Ecological Indicators 107.
 \url{https://doi.org/10.1016/j.ecolind.2019.105567}
 
-\bibitem[\citeproctext]{ref-WOS:000265076300011}
-Coops, N.C., Waring, R.H., Wulder, M.A., Pidgeon, A.M., Radeloff, V.C.,
-2009a. Bird diversity: A predictable function of satellite-derived
-estimates of seasonal variation in canopy light absorbance across the
-{United States}. Journal of Biogeography 36, 905--918.
-\url{https://doi.org/10.1111/j.1365-2699.2008.02053.x}
-
 \bibitem[\citeproctext]{ref-coops2009ecoinfo}
-Coops, N.C., Wulder, M.A., Iwanicka, D., 2009b. Demonstration of a
+Coops, N.C., Wulder, M.A., Iwanicka, D., 2009. Demonstration of a
 satellite-based index to monitor habitat at continental-scales.
 Ecological Informatics 9, 948--958.
 \url{https://doi.org/10.1016/j.ecolind.2008.11.003}
-
-\bibitem[\citeproctext]{ref-corlett2016}
-Corlett, R.T., 2016. Restoration, reintroduction, and rewilding in a
-changing world. Trends in Ecology \& Evolution 31, 453--462.
-\url{https://doi.org/10.1016/j.tree.2016.02.017}
 
 \bibitem[\citeproctext]{ref-cosgrove2024}
 Cosgrove, C.F., Coops, N.C., Waterhouse, F.L., Goodbody, T.R.H., 2024.
@@ -999,14 +1088,6 @@ Conservation and Ecology 19.
 Daniels, L.D., Gray, R.W., 2006. Disturbance regimes in coastal British
 Columbia. Journal of Ecosystems and Management 7.
 \url{https://doi.org/10.22230/jem.2006v7n2a542}
-
-\bibitem[\citeproctext]{ref-duncanson2023}
-Duncanson, L., Liang, M., Leitold, V., Armston, J., Krishna Moorthy,
-S.M., Dubayah, R., Costedoat, S., Enquist, B.J., Fatoyinbo, L., Goetz,
-S.J., Gonzalez-Roglich, M., Merow, C., Roehrdanz, P.R., Tabor, K.,
-Zvoleff, A., 2023. The effectiveness of global protected areas for
-climate change mitigation. Nature Communications 14, 2908.
-\url{https://doi.org/10.1038/s41467-023-38073-9}
 
 \bibitem[\citeproctext]{ref-ferraro2009}
 Ferraro, P.J., 2009. Counterfactual thinking and impact evaluation in
@@ -1057,8 +1138,7 @@ Linkie, M., Malhi, Y., Maxwell, S., Mendez, M., Mittermeier, R., Murray,
 N.J., Possingham, H., Radachowsky, J., Saatchi, S., Samper, C.,
 Silverman, J., Shapiro, A., Strassburg, B., Stevens, T., Stokes, E.,
 Taylor, R., Tear, T., Tizard, R., Venter, O., Visconti, P., Wang, S.,
-Watson, J.E.M., 2020. Anthropogenic modification of forests means only
-40. Nature Communications 11, 5978.
+Watson, J.E.M., 2020. Nature Communications 11, 5978.
 \url{https://doi.org/10.1038/s41467-020-19493-3}
 
 \bibitem[\citeproctext]{ref-guo2017}
@@ -1092,6 +1172,13 @@ Grantham, H.S., Evans, T.D., Ervin, J., Venter, O., Virnig, A.L.S.,
 Global Biodiversity Framework. Conservation Letters 14, e12822.
 \url{https://doi.org/10.1111/conl.12822}
 
+\bibitem[\citeproctext]{ref-hermosilla2022a}
+Hermosilla, T., Wulder, M.A., White, J.C., Coops, N.C., 2022. Land cover
+classification in an era of big and open data: Optimizing localized
+implementation and training data selection to improve mapping outcomes.
+Remote Sensing of Environment 268, 112780.
+\url{https://doi.org/10.1016/j.rse.2021.112780}
+
 \bibitem[\citeproctext]{ref-hermosilla2018}
 Hermosilla, T., Wulder, M.A., White, J.C., Coops, N.C., Hobart, G.W.,
 2018. Disturbance-informed annual land cover classification maps of
@@ -1101,10 +1188,17 @@ Journal of Remote Sensing 44, 6787.
 
 \bibitem[\citeproctext]{ref-hermosilla2015}
 Hermosilla, T., Wulder, M.A., White, J.C., Coops, N.C., Hobart, G.W.,
-2015. An integrated landsat time series protocol for change detection
+2015a. An integrated landsat time series protocol for change detection
 and generation of annual gap-free surface reflectance composites. Remote
 Sensing of Environment 158, 220234.
 \url{https://doi.org/10.1016/j.rse.2014.11.005}
+
+\bibitem[\citeproctext]{ref-hermosilla2015a}
+Hermosilla, T., Wulder, M.A., White, J.C., Coops, N.C., Hobart, G.W.,
+2015b. Regional detection, characterization, and attribution of annual
+forest change from 1984 to 2012 using landsat-derived time-series
+metrics. Remote Sensing of Environment 170, 121132.
+\url{https://doi.org/10.1016/j.rse.2015.09.004}
 
 \bibitem[\citeproctext]{ref-hermosilla2016}
 Hermosilla, T., Wulder, M.A., White, J.C., Coops, N.C., Hobart, G.W.,
@@ -1112,11 +1206,6 @@ Campbell, L.B., 2016. Mass data processing of time series landsat
 imagery: Pixels to data products for forest monitoring. International
 Journal of Digital Earth 9, 10351054.
 \url{https://doi.org/10.1080/17538947.2016.1187673}
-
-\bibitem[\citeproctext]{ref-R-tidyterra}
-Hernangómez, D., 2023. Using the {tidyverse} with {terra} objects: The
-{tidyterra} package. Journal of Open Source Software 8, 5751.
-\url{https://doi.org/10.21105/joss.05751}
 
 \bibitem[\citeproctext]{ref-R-terra}
 Hijmans, R.J., 2024. \href{https://rspatial.org/}{Terra: Spatial data
@@ -1128,22 +1217,6 @@ O., 2022. Canada{'}s human footprint reveals large intact areas
 juxtaposed against areas under immense anthropogenic pressure. FACETS 7,
 398--419. \url{https://doi.org/10.1139/facets-2021-0063}
 
-\bibitem[\citeproctext]{ref-hirsh-pearson}
-Hirsh-Pearson, K., Johnson, C., Schuster, R., Wheate, R., Venter, O.,
-n.d. The Canadian Human Footprint.
-\url{https://doi.org/10.5683/SP2/EVKAVL}
-
-\bibitem[\citeproctext]{ref-hobbs2014}
-Hobbs, R.J., Higgs, E., Hall, C.M., Bridgewater, P., Chapin III, F.S.,
-Ellis, E.C., Ewel, J.J., Hallett, L.M., Harris, J., Hulvey, K.B.,
-Jackson, S.T., Kennedy, P.L., Kueffer, C., Lach, L., Lantz, T.C., Lugo,
-A.E., Mascaro, J., Murphy, S.D., Nelson, C.R., Perring, M.P.,
-Richardson, D.M., Seastedt, T.R., Standish, R.J., Starzomski, B.M.,
-Suding, K.N., Tognetti, P.M., Yakob, L., Yung, L., 2014. Managing the
-whole landscape: historical, hybrid, and novel ecosystems. Frontiers in
-Ecology and the Environment 12, 557--564.
-\url{https://doi.org/10.1890/130300}
-
 \bibitem[\citeproctext]{ref-holm1979}
 Holm, S., 1979. \href{https://www.jstor.org/stable/4615733}{A simple
 sequentially rejective multiple test procedure}. Scandinavian Journal of
@@ -1154,12 +1227,6 @@ Huete, A., Didan, K., Miura, T., Rodriguez, E.P., Gao, X., Ferreira,
 L.G., 2002. Overview of the radiometric and biophysical performance of
 the MODIS vegetation indices. Remote Sensing of Environment 83,
 195--213. \url{https://doi.org/10.1016/S0034-4257(02)00096-2}
-
-\bibitem[\citeproctext]{ref-huete1997}
-Huete, A.R., Liu, H., Leeuwen, W.J.D. van, 1997. IGARSS'97. 1997 IEEE
-international geoscience and remote sensing symposium proceedings.
-Remote sensing - a scientific vision for sustainable development. pp.
-1966--1968 vol.4. \url{https://doi.org/10.1109/IGARSS.1997.609169}
 
 \bibitem[\citeproctext]{ref-iacus2012}
 Iacus, S.M., King, G., Porro, G., 2012. Causal Inference without Balance
@@ -1175,12 +1242,6 @@ Protected Areas. PLOS ONE 4, e8273.
 Kassambara, A., 2023.
 \href{https://rpkgs.datanovia.com/rstatix/}{Rstatix: Pipe-friendly
 framework for basic statistical tests}.
-
-\bibitem[\citeproctext]{ref-keyser2024}
-Keyser, S.R., Pauli, J.N., Fink, D., Radeloff, V.C., Pigot, A.L.,
-Zuckerberg, B., 2024. Seasonality Structures Avian Functional Diversity
-and Niche Packing Across North America. Ecology Letters 27, e14521.
-\url{https://doi.org/10.1111/ele.14521}
 
 \bibitem[\citeproctext]{ref-li2023}
 Li, W., Guo, W.-Y., Pasgaard, M., Niu, Z., Wang, L., Chen, F., Qin, Y.,
@@ -1202,13 +1263,6 @@ at novel climates: new methods and insights at continental to landscape
 scales. Global Change Biology 23, 3934--3955.
 \url{https://doi.org/10.1111/gcb.13645}
 
-\bibitem[\citeproctext]{ref-maruxedn2021}
-Marín, A.I., Abdul Malak, D., Bastrup-Birk, A., Chirici, G., Barbati,
-A., Kleeschulte, S., 2021. Mapping forest condition in europe:
-Methodological developments in support to forest biodiversity
-assessments. Ecological Indicators 128, 107839.
-\url{https://doi.org/10.1016/j.ecolind.2021.107839}
-
 \bibitem[\citeproctext]{ref-matasci2018}
 Matasci, G., Hermosilla, T., Wulder, M.A., White, J.C., Coops, N.C.,
 Hobart, G.W., Bolton, D.K., Tompalski, P., Bater, C.W., 2018a. Three
@@ -1228,13 +1282,6 @@ McNellie, M.J., Oliver, I., Dorrough, J., Ferrier, S., Newell, G.,
 Gibbons, P., 2020. Reference state and benchmark concepts for better
 biodiversity conservation in contemporary ecosystems. Global Change
 Biology 26, 6702--6714. \url{https://doi.org/10.1111/gcb.15383}
-
-\bibitem[\citeproctext]{ref-razenkovaMoose}
-Michaud, J.-S., Coops, N.C., Andrew, M.E., Wulder, M.A., Brown, G.S.,
-Rickbeil, G.J.M., 2014. Estimating moose (alces alces) occurrence and
-abundance from remotely derived environmental indicators. Remote Sensing
-of Environment 152, 190--201.
-\url{https://doi.org/10.1016/j.rse.2014.06.005}
 
 \bibitem[\citeproctext]{ref-ministry2023}
 Ministry of Water, Land and Resource Stewardship (WLRS), 2023. Current
@@ -1263,21 +1310,17 @@ Naidoo, R., Ricketts, T.H., 2006. Mapping the economic costs and
 benefits of conservation. PLoS Biology 4, 2153--2164.
 \url{https://doi.org/10.1371/journal.pbio.0040360}
 
-\bibitem[\citeproctext]{ref-nicholson2021}
-Nicholson, E., Watermeyer, K.E., Rowland, J.A., Sato, C.F., Stevenson,
-S.L., Andrade, A., Brooks, T.M., Burgess, N.D., Cheng, S.-T., Grantham,
-H.S., Hill, S.L., Keith, D.A., Maron, M., Metzke, D., Murray, N.J.,
-Nelson, C.R., Obura, D., Plumptre, A., Skowno, A.L., Watson, J.E.M.,
-2021. Scientific foundations for an ecosystem goal, milestones and
-indicators for the post-2020 global biodiversity framework. Nature
-Ecology \& Evolution 5, 1338--1349.
-\url{https://doi.org/10.1038/s41559-021-01538-5}
-
 \bibitem[\citeproctext]{ref-nielsen2007}
 Nielsen, S.E., Bayne, E.M., Schieck, J., Herbers, J., Boutin, S., 2007.
 A new method to estimate species and biodiversity intactness using
 empirically derived reference conditions. Biological Conservation 137,
 403--414. \url{https://doi.org/10.1016/j.biocon.2007.02.024}
+
+\bibitem[\citeproctext]{ref-oseidarko2024}
+Osei Darko, P., Laliberté, E., Kalacska, M., Arroyo-Mora, J.P.,
+Gonzalez, A., Zuloaga, J., 2024. Phenospectral similarity as an index of
+ecological integrity. Frontiers in Environmental Science 12.
+\url{https://doi.org/10.3389/fenvs.2024.1333762}
 
 \bibitem[\citeproctext]{ref-parkact}
 \href{https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/96344_01}{Park
@@ -1287,11 +1330,6 @@ empirically derived reference conditions. Biological Conservation 137,
 Pebesma, E., 2018. {Simple Features for R: Standardized Support for
 Spatial Vector Data}. {The R Journal} 10, 439--446.
 \url{https://doi.org/10.32614/RJ-2018-009}
-
-\bibitem[\citeproctext]{ref-sf2023}
-Pebesma, E., Bivand, R., 2023. {Spatial Data Science: With applications
-in R}. {Chapman and Hall/CRC}.
-\url{https://doi.org/10.1201/9780429459016}
 
 \bibitem[\citeproctext]{ref-pereira2013}
 Pereira, H.M., Ferrier, S., Walters, M., Geller, G.N., Jongman, R.H.G.,
@@ -1314,44 +1352,10 @@ remote sensing of ecosystem functions: opportunities, challenges and way
 forward. Remote Sensing in Ecology and Conservation 4, 71--93.
 \url{https://doi.org/10.1002/rse2.59}
 
-\bibitem[\citeproctext]{ref-pettorelli2005}
-Pettorelli, N., Vik, J.O., Mysterud, A., Gaillard, J.-M., Tucker, C.J.,
-Stenseth, N.Chr., 2005. Using the satellite-derived NDVI to assess
-ecological responses to environmental change. Trends in Ecology \&
-Evolution 20, 503--510. \url{https://doi.org/10.1016/j.tree.2005.05.011}
-
-\bibitem[\citeproctext]{ref-pillay2024}
-Pillay, R., Watson, J.E.M., Goetz, S.J., Hansen, A.J., Jantz, P.A.,
-Ramírez-Delgado, J.P., Grantham, H.S., Ferrier, S., Venter, O., 2024a.
-The Kunming-Montreal Global Biodiversity Framework needs headline
-indicators that can actually monitor forest integrity. Environmental
-Research: Ecology 3, 043001.
-\url{https://doi.org/10.1088/2752-664X/ad7961}
-
-\bibitem[\citeproctext]{ref-pillay2024a}
-Pillay, R., Watson, J.E.M., Hansen, A.J., Burns, P., Virnig, A.L.S.,
-Supples, C., Armenteras, D., González-del-Pliego, P., Aragon-Osejo, J.,
-A. Jantz, P., Ervin, J., Goetz, S.J., Venter, O., 2024b. Global rarity
-of high-integrity tropical rainforests for threatened and declining
-terrestrial vertebrates. Proceedings of the National Academy of Sciences
-121, e2413325121. \url{https://doi.org/10.1073/pnas.2413325121}
-
-\bibitem[\citeproctext]{ref-pimm2000}
-Pimm, S.L., Raven, P., 2000. Extinction by numbers. Nature 403,
-843--845. \url{https://doi.org/10.1038/35002708}
-
 \bibitem[\citeproctext]{ref-pojar1987}
 Pojar, J., Klinka, K., Meidinger, D.V., 1987. Biogeoclimatic ecosystem
 classification in British Columbia. Forest Ecology and Management 22,
 119--154. \url{https://doi.org/10.1016/0378-1127(87)90100-9}
-
-\bibitem[\citeproctext]{ref-potapov2021}
-Potapov, P., Li, X., Hernandez-Serna, A., Tyukavina, A., Hansen, M.C.,
-Kommareddy, A., Pickens, A., Turubanova, S., Tang, H., Silva, C.E.,
-Armston, J., Dubayah, R., Blair, J.B., Hofton, M., 2021. Mapping global
-forest canopy height through integration of GEDI and Landsat data.
-Remote Sensing of Environment 253, 112165.
-\url{https://doi.org/10.1016/j.rse.2020.112165}
 
 \bibitem[\citeproctext]{ref-queinnec2021}
 Queinnec, M., White, J.C., Coops, N.C., 2021. Comparing airborne and
@@ -1371,16 +1375,6 @@ Kolesov, D., Pidgeon, A.M., Rapacciuolo, G., Razenkova, E., Suttidate,
 N., Young, B.E., Zhu, L., Hobi, M.L., 2019. The Dynamic Habitat Indices
 (DHIs) from MODIS and global biodiversity. Remote Sensing of Environment
 222, 204--214. \url{https://doi.org/10.1016/j.rse.2018.12.009}
-
-\bibitem[\citeproctext]{ref-radeloff2024}
-Radeloff, V.C., Roy, D.P., Wulder, M.A., Anderson, M., Cook, B.,
-Crawford, C.J., Friedl, M., Gao, F., Gorelick, N., Hansen, M., Healey,
-S., Hostert, P., Hulley, G., Huntington, J.L., Johnson, D.M., Neigh, C.,
-Lyapustin, A., Lymburner, L., Pahlevan, N., Pekel, J.-F., Scambos, T.A.,
-Schaaf, C., Strobl, P., Woodcock, C.E., Zhang, H.K., Zhu, Z., 2024. Need
-and vision for global medium-resolution landsat and sentinel-2 data
-products. Remote Sensing of Environment 300, 113918.
-\url{https://doi.org/10.1016/j.rse.2023.113918}
 
 \bibitem[\citeproctext]{ref-razenkova2023}
 Razenkova, E., 2023.
@@ -1406,31 +1400,12 @@ J.K., Wang, T., Wegmann, M., Wingate, V., 2021. Priority list of
 biodiversity metrics to observe from space. Nature Ecology \& Evolution.
 \url{https://doi.org/10.1038/s41559-021-01451-x}
 
-\bibitem[\citeproctext]{ref-suttidateConn}
-Suttidate, N., Steinmetz, R., Lynam, A.J., Sukmasuang, R., Ngoprasert,
-D., Chutipong, W., Bateman, B.L., Jenks, K.E., Baker-Whatton, M.,
-Kitamura, S., Ziolkowska, E., Radeloff, V.C., 2021. Habitat connectivity
-for endangered indochinese tigers in thailand. Global Ecology and
-Conservation 29. \url{https://doi.org/10.1016/j.gecco.2021.e01718}
-
-\bibitem[\citeproctext]{ref-thomas2004}
-Thomas, C.D., Cameron, A., Green, R.E., Bakkenes, M., Beaumont, L.J.,
-Collingham, Y.C., Erasmus, B.F.N., Siqueira, M.F. de, Grainger, A.,
-Hannah, L., Hughes, L., Huntley, B., Jaarsveld, A.S. van, Midgley, G.F.,
-Miles, L., Ortega-Huerta, M.A., Peterson, A.T., Phillips, O.L.,
-Williams, S.E., 2004. Extinction risk from climate change. Nature 427,
-5.
-
 \bibitem[\citeproctext]{ref-thompson2009}
 Thompson, I.D., Mackey, B., McNulty, S., Mosseler, A., 2009. Forest
 resilience, biodiversity, and climate change: a synthesis of the
-biodiversity / resiliende / stability relationship in forest ecosystems,
+biodiversity / resilience / stability relationship in forest ecosystems,
 CBD technical series. Secretariat of the Convention on Biological
 Diversity, Montreal.
-
-\bibitem[\citeproctext]{ref-urban2015}
-Urban, M.C., 2015. Accelerating extinction risk from climate change.
-Science 348, 571--573. \url{https://doi.org/10.1126/science.aaa4984}
 
 \bibitem[\citeproctext]{ref-valbuena2020}
 Valbuena, R., O'Connor, B., Zellweger, F., Simonson, W., Vihervaara, P.,
@@ -1446,6 +1421,11 @@ T., Griffiths, P., Coops, N.C., Hall, R.J., Hostert, P., Dyk, A.,
 Guindon, L., 2014. Pixel-based image compositing for large-area dense
 time series applications and science. Canadian Journal of Remote Sensing
 40, 192212. \url{https://doi.org/10.1080/07038992.2014.945827}
+
+\bibitem[\citeproctext]{ref-wulder2011}
+Wulder, M.A., White, J.C., Coops, N.C., 2011. Fragmentation regimes of
+Canada's forests. Canadian Geographies / Géographies canadiennes 55,
+288--300. \url{https://doi.org/10.1111/j.1541-0064.2010.00335.x}
 
 \bibitem[\citeproctext]{ref-zhu2012}
 Zhu, Z., Woodcock, C.E., 2012. Object-based cloud and cloud shadow
