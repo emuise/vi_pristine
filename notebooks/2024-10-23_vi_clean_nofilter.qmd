@@ -110,6 +110,10 @@ bec <- bcmaps::bec() %>%
 
 bec_vi <- crop(bec, vi_mainland) %>%
   aggregate(by = "ZONE")
+
+vi_nocdf <- bec_vi %>%
+  filter(ZONE != "CDF") %>%
+  aggregate()
 ```
 
 Forest type raster and VI raster
@@ -1193,8 +1197,7 @@ boxplot_sig <- tukey_splits %>%
   bind_rows() %>%
   ggplot(aes(x = fct_reorder(labels, strata), y = value)) +
   geom_boxplot(aes(
-    fill = fct_reorder(labels, strata),
-    alpha = paste0(restriction, "_", facet_label) %in% sig_holms
+    fill = fct_reorder(labels, strata)
   )) +
   facet_wrap( ~ facet_label) +
   stat_pvalue_manual(tukey_sigs %>%
@@ -1203,7 +1206,7 @@ boxplot_sig <- tukey_splits %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position = "bottom") +
   scale_fill_manual(values = hf_tibble$values) +
-  scale_alpha_manual(values = c(0.4, 1), guide = "none") +
+  #scale_alpha_manual(values = c(0.4, 1), guide = "none") +
   labs(x = "Human Footprint Class", 
        y = "Sigma Dissimilarity",
        fill = NULL) +
@@ -1362,9 +1365,7 @@ ypos_anova <- left_join(indiv_anova, ypos)
 indiv_boxplots <- indiv_all %>%
   left_join(strata_join) %>%
   ggplot(aes(x = fct_reorder(labels, strata), y = value)) +
-  geom_boxplot(aes(fill = fct_reorder(labels, strata),
-                   alpha = glue::glue("{variable}_{facet_label}") %in% indiv_alphas)
-  ) +
+  geom_boxplot(aes(fill = fct_reorder(labels, strata))) +
   facet_grid(
     rows = vars(facet_label),
     cols = vars(variable %>%
@@ -1379,7 +1380,6 @@ indiv_boxplots <- indiv_all %>%
        y = "Sigma Dissimilarity",
        fill = NULL) +
   scale_fill_manual(values = hf_tibble$values) +
-  scale_alpha_manual(values = c(0.4, 1), guide = "none") +
   geom_text(data = indiv_tukey_plot, 
             aes(x = xmax, y = y.position, 
                 label = as.character(p.adj.signif)), 
@@ -1427,7 +1427,8 @@ great_lakes <- list.files(unzip_dir, pattern = "hydro.*\\.shp$", recursive = T, 
 Make the study area map Caption: Location of Vancouver Island's protected areas that meet the inclusion criteria (IUCN categories Ia, Ib, II, and IV; \> 100 ha in size) for our study.
 
 ```{r}
-dem <- all[["dem"]]
+dem <- all[["dem"]] %>%
+  crop(vi_nocdf, mask = T)
 
 slope <- terrain(dem, "slope", unit = "radians")
 aspect <- terrain(dem, "aspect", unit = "radians")
@@ -1459,7 +1460,7 @@ main <- ggplot() +
                   col = "#00000000") +
   # geom_spatvector(data = vi_mainland) +
   
-  geom_spatraster(data = dem) +
+  geom_spatraster(data = dem ) +
   scale_fill_hypso_c(palette = "dem_screen", name = "Elevation (m)", 
                      guide = guide_colourbar(direction = "horizontal", 
                                              order = 2,
@@ -1476,7 +1477,7 @@ main <- ggplot() +
     fill = "#00000000",
     size = 3
   ) +
-  geom_spatvector(data = vi_mainland, fill = "#00000000") +
+  geom_spatvector(data = vi_nocdf, fill = "#00000000") +
   scale_colour_manual(name = NULL,
                       values = "red",
                       labels = "Strathcona\nProvincial Park",
@@ -1945,14 +1946,13 @@ vp <- all[[1:13]] %>%
     dir.create(dirname(savename), showWarnings = F)
 
     metric <- x %>%
-      crop(nn_mask) %>%
-      mask(nn_mask, maskvalues = 0)
+      crop(vi_nocdf, mask = T)
 
     metric = metric / divby
 
     out <- ggplot() +
       geom_spatraster(data = metric) +
-      geom_spatvector(data = vi_mainland, fill = "transparent") +
+      geom_spatvector(data = vi_nocdf, fill = "transparent") +
       scico::scale_fill_scico(palette = pal, na.value = NA) +
       labs(fill = legend_label)  +
       theme_void() +
@@ -2145,12 +2145,26 @@ sigma_rasters <- sigma_files %>%
 
 set.cats(hf_classed_masked, value = hf_tibble)
 
+nn_mask_fm <- (mask(nn_mask, nn_mask, maskvalues = 1) + 1) %>%
+  crop(vi_nocdf, mask = T)
+
 # legend_theme <- theme(legend.background = element_blank(),
 #                       legend.)
 
 hf_multi_inset_base <- ggplot() +
   geom_spatvector(data = bcb_hres, col = "#e5e5e5") +
-  geom_spatraster(data = hf_classed_masked) +
+  # geom_spatraster(data = nn_mask_fm %>%
+  #                   as.factor()) +
+  # scale_fill_manual(guide = guide_legend(title = ""),
+  #                   labels = "No Match",
+  #                   values = c("grey50"),
+  #                   na.value = "transparent",
+  #                   na.translate = F) +
+  # ggnewscale::new_scale_fill() +
+  geom_spatraster(data = hf_classed_masked %>%
+                    crop(nn_mask) %>%
+                    mask(nn_mask, maskvalues = 0) %>%
+                    crop(vi_nocdf, mask = T)) +
   scale_fill_manual(
     guide = guide_legend(title = "Human Footprint", nrow = 2),
     labels = hf_tibble$labels,
@@ -2158,7 +2172,7 @@ hf_multi_inset_base <- ggplot() +
     na.value = "transparent",
     na.translate = F
   ) +
-  geom_spatvector(data = vi_mainland, fill = "#00000000") +
+  geom_spatvector(data = vi_nocdf, fill = "#00000000") +
   geom_spatvector(
     data = subsets,
     col = "black",
@@ -2349,5 +2363,103 @@ ggplot() +
   scale_fill_viridis_c(direction = -1, limits = c(0, 2), na.value = "transparent") +
   facet_wrap(~lyr) +
   theme_void()
+```
+
+## stacked maps
+for flow diagram
+
+```{r}
+clims <- list.files(
+  "E:/Sync/Masters/04_vi_pristine/data/inputs/covariates",
+  pattern = "clim",
+  full.names = T
+) %>%
+  str_subset(pattern = ".dat$") %>%
+  map(rast)
+
+dem <- "E:/Sync/Masters/04_vi_pristine/data/inputs/covariates/dem.dat" %>%
+  rast()
+
+slope <- "E:/Sync/Masters/04_vi_pristine/data/inputs/covariates/slope.dat" %>%
+  rast()
+
+f <- c(rast(clims), dem, slope) %>%
+  crop(vi_nocdf, mask = T) %>%
+  as.list()
+
+names(f) <- c("clim_MAP", "clim_MAT", "clim_MCMT", "clim_MWMT", "DEM", "slope")
+
+f <- rev(f)
+
+p <- map2(f, LETTERS[1:length(f)], \(x, pal) {
+  ggplot() +
+    geom_spatraster(data = x) +
+    scale_fill_viridis_c(option = pal, na.value = "transparent") +
+    geom_spatvector(data = vi_nocdf, fill = "transparent", col = "black") +
+    theme_void() +
+    theme(legend.position = "none")
+})
+
+layout_um <- map(1:2, \(x) {
+  area(t = x,
+       l = 1,
+       b = 9 + x,
+       r = 2)
+})
+
+layout <- c(layout_um[[2]],
+            layout_um[[1]])
+
+
+stack <- p[[1]] + p[[2]]  + plot_layout(design = layout)
+
+ggsave(here::here("figures", "stack_two.png"), plot = stack, height = 4, width = 4)
+
+layout_um <- map(1:4, \(x) {
+  area(t = x,
+       l = 1,
+       b = 9 + x,
+       r = 2)
+})
+
+
+layout2 <- c(layout_um[[4]],
+             layout_um[[3]],
+             layout_um[[2]],
+             layout_um[[1]])
+
+
+stack4 <- p[[3]] + p[[4]] + p[[5]] + p[[6]] + plot_layout(design = layout2)
+
+
+ggsave(here::here("figures", "stack_four.png"), plot = stack4, height = 4, width = 4)
+
+```
+
+```{r}
+# this is an old version where the quantiled data is included in the plot
+
+quant <- read_csv("E:/Sync/Masters/analysis_03_decay/data/csv/quantiles.csv")
+
+quantiled <- map2(f, names(f), \(layer, name) {
+  quants <- global(layer, fun = quantile, probs = seq(0, 1, .2), na.rm = T)
+  
+  classify(layer, as.numeric(quants))
+})
+
+
+pq <- map2(quantiled, LETTERS[1:length(f)], \(x, pal) {
+  ggplot() +
+    geom_spatraster(data = x) +
+    scale_fill_viridis_d(option = pal, na.value = "transparent") +
+    theme_void() +
+    theme(legend.position = "none")
+})
+
+stackq <- pq[[1]] + pq[[2]] + pq[[3]] + pq[[4]] + pq[[5]] + pq[[6]] + plot_layout(design = layout) +
+  plot_annotation(theme = theme(plot.background = element_rect(color  = '#00000000')))
+
+ggsave(here::here("figures", "test_stackq.png"), plot = stackq, height = 6, width = 4, bg = "transparent")
+
 ```
 
