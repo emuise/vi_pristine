@@ -1,5 +1,4 @@
 ---
-ibrary---
 title: Cumulative and component impacts of the human footprint on remotely sensed biodiversity indicators using dissimilarity to high integrity reference states.
 author:   
   - name: Evan Muise     
