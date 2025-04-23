@@ -696,7 +696,8 @@ calc_sigma <- function(split_file, treat_file, sigma_loc, nn_df) {
         
         # calc standardized euclidean distance
         # the sqrt is following equation 5 of mahony et al 2017
-        (x - mn) ^ 2 / sd
+        #(x - mn) ^ 2 / sd
+        (x - mn) ^ 2 / sd ^ 2
       }
     )) %>%
     mutate(
@@ -714,10 +715,12 @@ calc_sigma <- function(split_file, treat_file, sigma_loc, nn_df) {
       
       # percentile of the nearest neighbour distance on the chi distribution
       #with degrees of freedom equaling the dimensionality of the distance measurement (PCs)
-      perc <- pchisq(x, df = n_df)
+      #perc <- pchisq(x, df = n_df) THIS IS CHI2
+      perc <- pchisq(x^2, df = n_df)
       # values of the chi percentiles on a standard half-normal distribution
       # (chi distribution with one degree of freedom)
-      qchisq(perc, df = 1)
+      #qchisq(perc, df = 1) THIS IS CHI2
+      sqrt(qchisq(perc, df = 1))
     }))
   
   names(out) <- glue("sigma_{names(out)}")
